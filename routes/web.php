@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/content', [App\Http\Controllers\HomeController::class, 'content'])->name('content');
+Route::get('/content1', [App\Http\Controllers\HomeController::class, 'content1'])->name('content1');
+Route::get('/content2', [App\Http\Controllers\HomeController::class, 'content2'])->name('content2');
+Route::get('/calendar', [App\Http\Controllers\HomeController::class, 'calendar'])->name('calendar');
+Route::get('/gallery', [App\Http\Controllers\HomeController::class, 'gallery'])->name('gallery');
