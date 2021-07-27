@@ -72,7 +72,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -166,8 +166,8 @@
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
+          </li> --}}
+          {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
               <p>
@@ -260,7 +260,7 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li>--}}
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
@@ -289,7 +289,7 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li> 
           <li class="nav-header">EXAMPLES</li>
           <li class="nav-item">
             <a href="{{route ('Calendar')}}" class="nav-link">
@@ -308,14 +308,14 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="pages/kanban.html" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                 Kanban Board
               </p>
             </a>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
@@ -345,7 +345,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
@@ -665,7 +665,7 @@
               <p>Informational</p>
             </a>
           </li>
-        </ul>
+        </ul> --}}
       </nav>
       <!-- /.sidebar-menu -->
     </div>
