@@ -7,7 +7,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>User List</h1>
+                            <h1>Roles List</h1>
                         </div>
                         <div class="col-sm-6">
                         </div>
@@ -17,8 +17,8 @@
             <div class="card">
                 
                 <div class="card-header">
-                    <h3 class="card-title">List of Users</h3>
-                    @can('create_content', App\Models\User::class)
+                    <h3 class="card-title">List of Roles</h3>
+                    @can('is-admin', App\Models\User::class)
                         <div class="float-right col-1">
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add">
                                 Add
@@ -31,42 +31,37 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>User name</th>
-                                <th>Email</th>
-                                <th>Department</th>
-                                <th>Role</th>
+                                <th>Role name</th>
+                                <th>Permission</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
+                            @foreach ($roles as $role)
                                 <tr>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->department->name }}</td>
+                                    <td>{{ $role->name }}</td>
                                     <td>
-                                        @foreach ($user->roles as $role)
-                                           @if ($role->name == 'admin')
-                                           <small class="badge badge-danger">{{ $role->name }}</small>
+                                        @foreach ($role->permissions as $permission)
+                                        @if ($permission->id >= 1 && $permission->id <= 5)
+                                           <small class="badge badge-primary"> {{$permission ->name}}</small>
                                            
-                                           @elseif ($role->name == 'user')
-                                            <small class="badge badge-primary">{{ $role->name }}</small>
-                                            @else
-                                            <small class="badge badge-info">{{ $role->name }}</small>
-                                           @endif
-                                            
+                                        @elseif ($permission->id >= 6 && $permission->id <= 10)
+                                        <small class="badge badge-danger"> {{$permission ->name}}</small>
+                                        @else
+                                        <small class="badge badge-info"> {{$permission ->name}}</small>
+                                        @endif
                                         @endforeach
                                     </td>
                                     <td>
                                         <div class="btn-group">
-                                            @can('update_user', App\Models\User::class)
-                                                <button type="button" class="btn btn-warning btn-block btn-flat"
-                                                    data-toggle="modal" data-target="#modal-edit{{ $user->id }}">
-                                                    <i class="fa fa-pencil-alt"></i>
-                                                </button>
-                                            @endcan
-                                            @can('delete_user', App\Models\User::class)
-                                                <form method="POST" action={{ route('user.destroy', ['user' => $user->id]) }}>
+                                        @can('is-admin', App\Models\User::class)
+                                        <button type="button" class="btn btn-warning btn-block btn-flat"
+                                            data-toggle="modal" data-target="#modal-edit{{ $role->id }}">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </button>
+                                        @endcan
+                                        @can('is-admin', App\Models\User::class)
+                                                <form method="POST" action={{ route('role.destroy', ['role' => $role->id]) }}>
                                                     @method('delete')
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger btn-block btn-flat"><i
@@ -77,11 +72,11 @@
                                     </td>
                                 </tr>
 
-                                <div class="modal fade" id="modal-edit{{ $user->id }}">
+                                <div class="modal fade" id="modal-edit{{ $role->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Add New User</h4>
+                                                <h4 class="modal-title">Add New Role</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -98,59 +93,25 @@
                                                                 <!-- /.card-header -->
                                                                 <!-- form start -->
                                                                 <form method="POST"
-                                                                    action="{{ route('user.update', ['user' => $user->id]) }}">
+                                                                    action="{{ route('role.update', ['role' => $role->id]) }}">
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <div class="card-body">
                                                                         <div class="form-group">
-                                                                            <label for="name">User name</label>
+                                                                            <label for="name">Role name</label>
                                                                             <input type="name" name="name"
                                                                                 class="form-control" id="name"
-                                                                                placeholder="Enter name..." value="{{$user->name}}">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="email">Email address</label>
-                                                                            <input type="email" name="email"
-                                                                                class="form-control" id="email"
-                                                                                placeholder="Enter email" value="{{$user->email}}">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="password">Password</label>
-                                                                            <input type="password" name="password"
-                                                                                class="form-control" id="password"
-                                                                               
-                                                                                placeholder="Enter Password...">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="password_confirmation">Confirm
-                                                                                Password</label>
-                                                                            <input type="password"
-                                                                                name="password_confirmation"
-                                                                                class="form-control"
-                                                                                id="password_confirmation"
-                                                                                
-                                                                                placeholder="Enter Password...">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="department_id">Department</label>
-                                                                            <select class="custom-select" id="department_id"
-                                                                                name="department_id">
-                                                                                @foreach ($departments as $department)
-                                                                                    <option value={{ $department->id }}  
-                                                                                        {{ $department->id == $user->department_id ? 'selected' : '' }}>
-                                                                                        {{ $department->name }}</option>
-                                                                                @endforeach
-                                                                            </select>
+                                                                                placeholder="Enter name..." value="{{$role->name}}">
                                                                         </div>
                                                                         <div class="form-group row">
-                                                                            @foreach ($roles as $role)
-                                                                            <div class="form-check col-md-3">
-                                                                                <input class="form-check-input" type="checkbox" value="{{ $role->id }}" name="role_id[]"
-                                                                                @foreach ($user->roles as $u_role)
-                                                                                    {{$u_role->id==$role->id? "checked":""}}
+                                                                            @foreach ($permissions as $permission)
+                                                                            <div class="form-check col-md-6">
+                                                                                <input class="form-check-input" type="checkbox" value="{{ $permission->id }}" name="permission_id[]"
+                                                                                @foreach ($role->permissions as $r_per)
+                                                                                    {{$r_per->id==$permission->id ? "checked":""}}
                                                                                 @endforeach
                                                                                 >
-                                                                                <label class="form-check-label">{{$role->name}}</label>
+                                                                                <label class="form-check-label">{{$permission->name}}</label>
                                                                               </div>
                                                                         @endforeach
                                                                         </div>
@@ -187,10 +148,8 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Department Code</th>
-                                <th>Name</th>
-                                <th>Note</th>
-                                <th>Number of employee</th>
+                                <th>Role name</th>
+                                <th>Permission</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>
@@ -203,7 +162,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add New User</h4>
+                        <h4 class="modal-title">Add New Role</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -219,50 +178,25 @@
 
                                         <!-- /.card-header -->
                                         <!-- form start -->
-                                        <form method="POST" action="{{ route('user.store') }}">
+                                        <form method="POST" action="{{ route('role.store') }}">
                                             @csrf
                                             <div class="card-body">
                                                 <div class="form-group">
-                                                    <label for="name">User name</label>
+                                                    <label for="name">Role name</label>
                                                     <input type="name" name="name" class="form-control" id="name"
                                                         placeholder="Enter name...">
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="email">Email address</label>
-                                                    <input type="email" name="email" class="form-control" id="email"
-                                                        placeholder="Enter email">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="password">Password</label>
-                                                    <input type="password" name="password" class="form-control"
-                                                        id="password" placeholder="Enter Password...">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="password_confirmation">Confirm Password</label>
-                                                    <input type="password" name="password_confirmation" class="form-control"
-                                                        id="password_confirmation" placeholder="Enter Password...">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="department_id">Department</label>
-                                                    <select class="custom-select" id="department_id" name="department_id">
-                                                        @foreach ($departments as $department)
-                                                            <option value={{ $department->id }}>
-                                                                {{ $department->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
                                                 <div class="form-group row">
-                                                    @foreach ($roles as $role)
-                                                        <div class="col-md-3 custom-control custom-checkbox">
+                                                    @foreach ($permissions as $permission)
+                                                        <div class="col-md-6 custom-control custom-checkbox">
                                                             <input class="custom-control-input custom-control-input-danger"
-                                                                type="checkbox" id="role_id{{ $role->id }}"
-                                                                name="role_id[]" value="{{ $role->id }}">
-                                                            <label for="role_id{{ $role->id }}"
-                                                                class="custom-control-label">{{ $role->name }}</label>
+                                                                type="checkbox" id="permission_id{{ $permission->id }}"
+                                                                name="permission_id[]" value="{{ $permission->id }}">
+                                                            <label for="permission_id{{ $permission->id }}"
+                                                                class="custom-control-label">{{ $permission->name }}</label>
                                                         </div>
                                                     @endforeach
                                                 </div>
-
                                             </div>
                                             <!-- /.card-body -->
                                             <!-- /.card -->

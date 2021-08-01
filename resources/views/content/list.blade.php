@@ -7,15 +7,16 @@
     <div class="card">
         <div class="card-header">
           <h3 class="card-title">DataTable with default features</h3>
-          @can('create_content', App\Models\User::class)
-            <div class="float-right col-1">
-            <a href="{{route('content.create')}}"><button type="button" class="btn btn-block btn-success">Add</button></a>
-            </div>
-            @endcan
         </div>
         <!-- /.card-header -->
         <div class="card-body">
+          @can('create_content', App\Models\User::class)
+          <div class="col-1">
+          <a href="{{route('content.create')}}"><button type="button" class="btn btn-block btn-success">Add</button></a>
+          </div>
+          @endcan
           <table id="example1" class="table table-bordered table-striped">
+           
             <thead>
             <tr>
               <th>Titile</th>
@@ -80,8 +81,7 @@
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      "responsive": true, "lengthChange": false, "autoWidth": false
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,

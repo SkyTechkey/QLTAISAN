@@ -41,4 +41,8 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name', $roleName)->count() == 1;
     }
+    public function department()
+    {
+        return $this->belongsTo('App\Models\Department');
+    }
 }

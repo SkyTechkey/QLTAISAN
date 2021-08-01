@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/toastr/toastr.min.css">
     @stack('third_party_stylesheets')
 
     @stack('page_css')
@@ -66,6 +67,7 @@
 <script src="/dist/js/adminlte.js"></script>
 @stack('dashboard')
 @stack('content')
+@stack('user')
 </body>
 
 </html>

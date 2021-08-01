@@ -39,3 +39,27 @@
     </a>
   </li>
 @endcan
+@can('is-admin', App\Models\User::class)
+  <li class="nav-item">
+    <a href="{{route('role.index')}}" class="nav-link  {{ Request::is('role*') ? 'active' : '' }}">
+      <i class="nav-icon fas fa-th"></i>
+      <p>
+        Role
+        <span class="right badge badge-danger">New</span>
+      </p>
+    </a>
+  </li>
+@endcan
+@can('is-admin', App\Models\User::class)
+  <li class="nav-item">
+    <a href="{{route('permission.index')}}" class="nav-link  {{ Request::is('permission*') ? 'active' : '' }}">
+      <i class="nav-icon fas fa-th"></i>
+      <p>
+        Permission
+        <span class="right badge badge-danger">New</span>
+      </p>
+    </a>
+  </li>
+@endcan
+
+
