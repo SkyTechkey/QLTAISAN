@@ -15,10 +15,10 @@ class CreateContentDetailsTable extends Migration
     {
         Schema::create('content_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('file_name');
+            $table->text('name');
             $table->text('link');
-            $table->text('type_of_file');
-            $table->text('size_of_file');
+            $table->text('type');
+            $table->text('size');
             $table->text('note')->nullable();
             $table->unsignedInteger('content_id');
             $table->string('department_code');

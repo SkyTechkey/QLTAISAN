@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
+use App\Models\ContentDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,17 +55,25 @@ class ContentController extends Controller
 
     public function store(Request $request)
     {
-        //
+        // dd($request->user()->id);
+        $request->validate([
+            'folderName' => 'required',
+        ]);
+
+        $folder = new Content();
+        $folder->title = $request->folderName;
+        $folder->user_id = $request->user()->id;
+        $folder->department_id = $request->user()->department_id;
+        $folder->save();
+        return back()->with('success', 'Folder has successfully created!');
     }
     public function update(Request $request, $id)
     {
-        $content = Content::find($id);
-        $content->title = $request->title;
-        $content->content = $request->content;
-        $content->note = $request->note;
-        $content->updated_at = now();
-        $content -> save();
-        return redirect()->route('content.index');
+
+        $folder = Content::find($id);
+        $folder->title =  $request->input('name');
+        $folder->save();
+        return back();
     }
 
     public function destroy(Request $request, $id)
@@ -72,7 +81,8 @@ class ContentController extends Controller
         if($request->user()->can('delete_content')){
             $content = Content::find($id);
             $content->delete();
-            return view('content.list');
+            $content_detail = ContentDetail::where('content_id', $id)->delete();
+            return back();
         }
         else{
             abort(403);

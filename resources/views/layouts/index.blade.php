@@ -35,6 +35,112 @@
     @stack('third_party_stylesheets')
 
     @stack('page_css')
+
+    <style>
+      .upload-area {
+          max-width: 500px;
+          margin: 0 auto;
+      }
+
+      .imgPreview img {
+          padding: 8px;
+          max-width: 100px;
+      }
+
+      .media .file-name {
+          color: #000;
+      }
+
+      .media .media-item-hover:hover {
+          background-color: #ccc;
+          cursor: pointer;
+      }
+
+      .media>div {
+          display: flex;
+          flex-wrap: wrap;
+          width: 100%;
+      }
+
+      .media .file-img {
+          position: relative;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          min-height: 250px;
+      }
+
+      .media .file-img img {
+          width: 100%;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          left: 0;
+      }
+
+      .box-shadow {
+          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) !important;
+      }
+
+      .hidden {
+          display: none !important;
+      }
+
+      /* .media .media-item > i{
+
+      } */
+
+      .app-file-list {
+          position: relative;
+      }
+      
+      .app-file-list .app-file-icon {
+          background-color: #f5f5f5;
+          padding: 2rem;
+          height: 250px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          border-bottom: 1px solid #ccc;
+          border-top-right-radius: 8px;
+          border-top-left-radius: 8px;
+      }
+
+      .position-absolute {
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin-right: 3px;
+      }
+
+      .btn-hover {
+          background-color: #fff;
+          font-size: 14px;
+          width: auto;
+          display: inline-flex;
+          font-weight: 600;
+          align-items: center;
+          padding: 2px 6px;
+          line-height: 10px;
+          margin-bottom: 3px;
+          border-radius: 0.3rem;
+      }
+
+      .btn-hover:hover {
+          background-color: #ccc;
+      }
+
+      .inline-block {
+          display: inline-block !important;
+      }
+
+      .dropdown .dropdown-item:hover {
+          background-color: #ccc;
+      }
+
+  </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -68,6 +174,8 @@
 @stack('dashboard')
 @stack('content')
 @stack('user')
+{{-- @stack('files') --}}
+
 </body>
 
 </html>

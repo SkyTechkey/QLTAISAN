@@ -1,98 +1,266 @@
-
-
 @extends('layouts.index')
-
 @section('content')
-<div class="container">
-    <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">DataTable with default features</h3>
+    {{-- <div class="content-wrapper"> --}}
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-body">
+                <div>
+                    <div class="mb-2">
+                        <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal" data-target="#newFolder">
+                            New Folder </a>
+
+                        <div class="modal fade" id="newFolder">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">New Folder</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="/content" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            @if ($message = Session::get('success'))
+                                                <div class="alert alert-success">
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
+                                            @endif
+                                            <div class="form-group">
+                                                <label>Folder Name</label>
+                                                <input type="text" class="form-control" name="folderName"
+                                                    placeholder="Folder name">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Create</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                        <div class="float-right">
+                            <div class="btn-group">
+                                <a id="list" class="btn btn-default" href="javascript:void(0)"> View by
+                                    list </a>
+                                <a id="icons" class="btn btn-default" href="javascript:void(0)"> View by
+                                    icons </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media">
+                    <div class="p-0 row">
+                        {{-- @foreach ($contents as $folder)
+                            <div class="media-item mt-5 col-sm-2">
+                                <div class="file-img">
+                                    <i class="fas fa-file-image mr-2 file-icon" style="display: none"></i>
+                                    <span class="file-name" style="display: none">{{ $folder->name }}</span>
+                                    <img src={{ $folder->image_path }} class="img-fluid box-shadow" alt="file" />
+                                </div>
+                                <div class="p-2 large file-name-grid box-shadow">
+                                    <div>{{ $folder->name }}</div>
+                                    <div class="text-muted">{{ $folder->size }}</div>
+                                </div>
+
+                                <div class="dropdown position-absolute top-0 right-0 mr-3">
+                                    <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <form action="/content/{{ $folder->id }}" method="POST">
+                                            <div class="row">
+                                                <div class="col text-end">
+                                                    <button type="button" class="dropdown-item">Details</button>
+                                                    <button type="button" class="dropdown-item" data-toggle="modal"
+                                                        data-target="#file{{ $folder->id }}">
+                                                        Rename
+                                                    </button>
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item">Delete</button>
+                                                </div>
+                                                <!-- end col -->
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="modal fade" id="file{{ $folder->id }}">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Rename</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                                <form action="/content/{{ $folder->id }}" method="post"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label>New name</label>
+                                                            <input type="text" class="form-control" name="name"
+                                                                placeholder="New name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                    <!-- /.modal -->
+                                </div>
+                            </div>
+                        @endforeach --}}
+                        @foreach ($contents as $folder)
+                            <a href="/content-detail/{{ $folder->id }}">
+                                <div class="media-item mt-5 col-sm-2">
+                                    <i class="fas fa-folder text-danger mr-2 file-icon" style="display: none"></i>
+                                    <span class="file-name" style="display: none">{{ $folder->title }}</span>
+                                    <div class="card app-file-list box-shadow">
+                                        <div class="app-file-icon">
+                                            <i class="fas fa-folder text-danger"></i>
+                                        </div>
+                                        <div class="p-2 large">
+                                            <div style="color: #000">{{ $folder->title }}</div>
+                                            {{-- <div class="text-muted">1.2mb</div> --}}
+                                        </div>
+                                    </div>
+                                    <div class="dropdown position-absolute top-0 right-0 mr-3">
+                                        <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <form action="/content/{{ $folder->id }}" method="POST">
+                                                <div class="row">
+                                                    <div class="col text-end">
+                                                        <button type="button" class="dropdown-item">Details</button>
+                                                        <button type="button" class="dropdown-item" data-toggle="modal"
+                                                            data-target="#folder{{ $folder->id }}">
+                                                            Rename
+                                                        </button>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item">Delete</button>
+                                                    </div>
+                                                    <!-- end col -->
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="modal fade" id="folder{{ $folder->id }}">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Rename</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="/content/{{ $folder->id }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>New name</label>
+                                                    <input type="text" class="form-control" name="name"
+                                                        placeholder="New name">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                        @endforeach
+                        {{-- contextmenu start --}}
+                        {{-- contextmenu end --}}
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-          @can('create_content', App\Models\User::class)
-          <div class="col-1">
-          <a href="{{route('content.create')}}"><button type="button" class="btn btn-block btn-success">Add</button></a>
-          </div>
-          @endcan
-          <table id="example1" class="table table-bordered table-striped">
-           
-            <thead>
-            <tr>
-              <th>Titile</th>
-              <th>Content</th>
-              <th>Note</th>
-              <th>Creator</th>
-              <th>Created at</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-                @foreach ($contents as $content)
-                <tr>
-                    <td>{{$content->title}}</td>
-                    <td>{{$content->content}}</td>
-                    <td>{{$content->note}}</td>
-                    <td>{{$content->user->name}}</td>
-                    <td>{{$content->create_at}}</td>
-                    <td class="row">
-                        @can('update_content', App\Models\User::class)
-                        <a href="{{route('content.edit',['content'=>$content->id])}}"><button type="button" class="btn btn-block btn-primary">Edit</button></a>
-                        @endcan
-                        @can('delete_content', App\Models\User::class)
-                        <a href="{{route('content.destroy',['content'=>1])}}"><button type="button" class="btn btn-block btn-danger">Delete</button></a>
-                        @endcan
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-            <tr>
-                <th>Titile</th>
-                <th>Content</th>
-                <th>Note</th>
-                <th>Creator</th>
-                <th>Created at</th>
-                <th>Action</th>
-            </tr>
-            </tfoot>
-          </table>
-        </div>
-        <!-- /.card-body -->
-      </div>
-</div>
+    </div>
+    {{-- </div> --}}
 @endsection
 @push('content')
-<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="/plugins/jszip/jszip.min.js"></script>
-<script src="/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script src="/dist/js/demo.js"></script>
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
+    <script src={{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}></script>
 
+    <script>
+        $(document).ready(function() {
+            $(function() {
+                // Multiple images preview with JavaScript
+                var multiImgPreview = function(input, imgPreviewPlaceholder) {
+                    if (input.files) {
+                        var filesAmount = input.files;
+                        for (i = 0; i < filesAmount.length; i++) {
+                            var reader = new FileReader();
+
+                            reader.onload = function(e) {
+                                $($.parseHTML('<img>')).attr('src', e.target.result).appendTo(
+                                    imgPreviewPlaceholder);
+                            }
+                            reader.readAsDataURL(input.files[i]);
+                        }
+                    }
+                };
+
+                $('#images').on('change', function() {
+                    multiImgPreview(this, 'div.imgPreview');
+                });
+            });
+
+            $("#list").click(() => {
+                $(".media-item").removeClass("col-sm-2");
+                $(".media-item").removeClass("mt-5");
+                $(".media-item .file-img").css("min-height", "0px");
+                $(".media-item").addClass("col-sm-6");
+                $(".media-item").addClass("mt-2");
+                $(".media-item").addClass("media-item-hover");
+                $(".app-file-list").addClass("hidden");
+                $(".file-name").css("display", "inline-block");
+                $(".media-item img").css("display", "none");
+                $(".file-name-grid").css("display", "none");
+                $(".media-item .file-icon").css("display", "inline-block");
+            });
+
+            $("#icons").click(() => {
+                $(".media-item").removeClass("col-sm-6");
+                $(".media-item").removeClass("mt-2");
+                $(".media-item").removeClass("media-item-hover");
+                $(".app-file-list").removeClass("hidden");
+                $(".media-item").addClass("col-sm-2");
+                $(".media-item").addClass("mt-5");
+                $(".media-item .file-img").css("min-height", "250px");
+                $(".file-name").css("display", "none");
+                $(".media-item img").css("display", "block");
+                $(".file-name-grid").css("display", "block");
+                $(".media-item .file-icon").css("display", "none");
+            });
+        });
+    </script>
 @endpush

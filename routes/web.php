@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\ContentDetailController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -38,6 +39,7 @@ Route::get('/admin', function () {
 require __DIR__.'/auth.php';
 
 Route::resource('content',ContentController::class);
+Route::resource('content-detail',ContentDetailController::class);
 Route::resource('user',UserController::class);
 Route::resource('department',DepartmentController::class);
 Route::resource('role',RoleController::class);

@@ -23,7 +23,6 @@
       <i class="nav-icon fas fa-th"></i>
       <p>
         Content
-        <span class="right badge badge-danger">New</span>
       </p>
     </a>
   </li>
@@ -34,7 +33,6 @@
       <i class="nav-icon fas fa-th"></i>
       <p>
         Users
-        <span class="right badge badge-danger">New</span>
       </p>
     </a>
   </li>
@@ -45,7 +43,6 @@
       <i class="nav-icon fas fa-th"></i>
       <p>
         Role
-        <span class="right badge badge-danger">New</span>
       </p>
     </a>
   </li>
@@ -56,7 +53,6 @@
       <i class="nav-icon fas fa-th"></i>
       <p>
         Permission
-        <span class="right badge badge-danger">New</span>
       </p>
     </a>
   </li>
