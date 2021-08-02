@@ -1,0 +1,13 @@
+**************************
+Upload multiple file, Role, Permission
+- Design by: Nguyễn Hồng Quân
+- Ngày tạo: 9h30 ngày 02/08/2021
+- Mô tả nội dung: 
+    + Đăng nhập
+    + Thêm, sửa, xóa tài khoản
+    + Cấp quyền cho tài khoản
+    + Tổ chức file theo folder
+    + Upload multiple file
+    + Sửa tên và xóa file
+    + Hiển thị nội dung theo Department
+**************************

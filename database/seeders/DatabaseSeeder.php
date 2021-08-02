@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
             ['permission_id' => 1, 'role_id' => 2],
         ]);
         DB::table('contents')->insert([
-            "title" => "Quan",
+            "title" => "Dev",
             "content" => null,
             "note" => null,
             "user_id" => 1,

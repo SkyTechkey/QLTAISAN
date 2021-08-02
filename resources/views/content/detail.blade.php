@@ -207,37 +207,6 @@
                             <!-- /.modal-dialog -->
                         </div>
                     @endforeach
-                    {{-- @foreach ($contents as $file)
-                            <a href="/d">
-                                <div class="media-item mt-5 col-sm-2">
-                                    <div class="card app-file-list box-shadow">
-                                        <div class="app-file-icon">
-                                            <i class="fas fa-folder text-danger"></i>
-                                            <div class="dropdown position-absolute top-0 right-0 mr-3">
-                                                <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
-                                                    <i class="fas fa-ellipsis-h"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a href="#" class="dropdown-item">View Details</a>
-                                                    <a href="#" class="dropdown-item">Share</a>
-                                                    <a href="#" class="dropdown-item">Download</a>
-                                                    <a href="#" class="dropdown-item">Copy to</a>
-                                                    <a href="#" class="dropdown-item">Move to</a>
-                                                    <a href="#" class="dropdown-item">Rename</a>
-                                                    <a href="#" class="dropdown-item">Delete</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-2 large">
-                                            <div>{{ $file->title }}</div>
-                                            <div class="text-muted">1.2mb</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        @endforeach --}}
-                    {{-- contextmenu start --}}
-                    {{-- contextmenu end --}}
                 </div>
             </div>
         </div>
