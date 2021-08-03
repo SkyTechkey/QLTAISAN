@@ -11,3 +11,17 @@ Upload multiple file, Role, Permission
     + Sửa tên và xóa file
     + Hiển thị nội dung theo Department
 **************************
+
+update Upload multiple file
+- Design by: Nguyễn Đình Kha
+- Ngày tạo: 03/08/2021
+- Mô tả nội dung:
+    + lưu file ảnh kèm tạo file thumbnail
+    + Hiển thị file thumbnail
+    + Đổi tên file lúc upload theo yêu cầu
+- Package / library:
+    + Image Intervention Package
+- Reference:
+    + https://www.positronx.io/laravel-image-resize-upload-with-intervention-image-package/
+
+**************************

@@ -38,11 +38,11 @@ Route::get('/admin', function () {
 
 require __DIR__.'/auth.php';
 
-Route::resource('content',ContentController::class);
-Route::resource('content-detail',ContentDetailController::class);
-Route::resource('user',UserController::class);
-Route::resource('department',DepartmentController::class);
-Route::resource('role',RoleController::class);
-Route::resource('permission',PermissionController::class);
-Route::put('user/changerole',[UserController::class,'change_role'])->name('user.change_role');
+Route::resource('content',ContentController::class)->middleware('auth');
+Route::resource('content-detail',ContentDetailController::class)->middleware('auth');
+Route::resource('user',UserController::class)->middleware('auth');
+Route::resource('department',DepartmentController::class)->middleware('auth');
+Route::resource('role',RoleController::class)->middleware('auth');
+Route::resource('permission',PermissionController::class)->middleware('auth');
+Route::put('user/changerole',[UserController::class,'change_role'])->name('user.change_role')->middleware('auth');
 

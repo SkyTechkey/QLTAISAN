@@ -6,6 +6,8 @@ use App\Models\ContentDetail;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Image;
 
 class ContentDetailController extends Controller
 {
@@ -52,16 +54,23 @@ class ContentDetailController extends Controller
     {
         $req->validate([
             'imageFile' => 'required',
-            'imageFile.*' => 'mimes:jpeg,jpg,png,csv,txt,pdf,xlsx,pptx,docx,jfif'
+            'imageFile.*' => 'mimes:jpg,png,csv,txt,pdf,xlsx,pptx,docx',
+            'name'=> 'required'
         ]);
-      
+        
         if($req->hasfile('imageFile')) {
+            $date = now();
+            $date = $date->format('d-m-Y-H-i-s');
+            $destinationPath = public_path().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'thumbnail';
+            if (!file_exists($destinationPath)) {
+                File::makeDirectory($destinationPath, 0775, true);
+            }
             foreach($req->file('imageFile') as $file) {
                 $name = $file->getClientOriginalName();
                 $newImageName = Str::of($file->getClientOriginalName())->explode('.');
-                $endpoint = $newImageName[count($newImageName) - 1];
+                $endpoint = $file->getClientOriginalExtension();
                 $newImageName = $newImageName[0];
-                $newImageName = time().'-'.Str::slug($newImageName, '-').'.'.$endpoint;
+                $newImageName = Str::slug($req->name, '-').'_'.$date.'.'.$endpoint;
                 $size = $file->getSize();
                 if ($size >= 1073741824) {
                     $size = number_format($size / 1073741824, 2) . ' GB';
@@ -81,16 +90,25 @@ class ContentDetailController extends Controller
                 else {
                     $size = '0 bytes';
                 }
+                
+                $link_thumbnail = NULL;
+                if(in_array($endpoint, ["jpg", "png"])) {
+                    $imgFile = Image::make($file->getRealPath());
+                    $imgFile->resize(150, 100, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })->save($destinationPath.'/'.$newImageName);
+                    $link_thumbnail = $req->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'thumbnail'.DIRECTORY_SEPARATOR.$newImageName;
+                }
 
                 $department = Department::find($req->user()->department_id);
-
                 $file->move($path = public_path(). DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR, $newImageName);
                 $fileModal = new ContentDetail();
-                $fileModal->name = $name;
+                $fileModal->name = $newImageName;
                 $fileModal->type = $endpoint;
                 $fileModal->size = $size;
                 $fileModal->content_id = $req->content_id;
                 $fileModal->department_code = $department->department_code;
+                $fileModal->link_thumbnail = $link_thumbnail;
                 $fileModal->link = $req->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.$newImageName;
                 $fileModal->save();
             }
@@ -101,7 +119,9 @@ class ContentDetailController extends Controller
     public function update(Request $request, $id)
     {
         $file = ContentDetail::find($id);
-        $file->name =  $request->input('name').'.'.$file->type;
+        $date = now();
+        $date = $date->format('d-m-Y-H-i-s');
+        $file->name = Str::slug($request->name, '-').'_'.$date.'.'.$file->type;
         $file->save();
         return back();
     }

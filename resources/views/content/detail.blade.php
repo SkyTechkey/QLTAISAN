@@ -40,6 +40,11 @@
                                             @endif
 
                                             <input name="content_id" value="{{ $content_id }}" hidden>
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control" name="name"
+                                                    placeholder="Name">
+                                            </div>
                                             <div class="custom-file">
                                                 <input type="file" name="imageFile[]" class="custom-file-input" id="images"
                                                     multiple="multiple">
@@ -80,7 +85,7 @@
                                     <div class="file-img">
                                         <i class="fas fa-file-image mr-2 file-icon text-indigo" style="display: none"></i>
                                         <span class="file-name" style="display: none">{{ $file->name }}</span>
-                                        <img src={{ $file->link }} class="img-fluid box-shadow" alt="file" />
+                                        <img src={{ $file->link_thumbnail }} class="img-fluid box-shadow" alt="file" />
                                     </div>
                                     <div class="p-2 large file-name-grid box-shadow">
                                         <div>{{ $file->name }}</div>

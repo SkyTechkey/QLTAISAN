@@ -17,6 +17,7 @@ class CreateContentDetailsTable extends Migration
             $table->increments('id');
             $table->text('name');
             $table->text('link');
+            $table->text('link_thumbnail')->nullable();
             $table->text('type');
             $table->text('size');
             $table->text('note')->nullable();

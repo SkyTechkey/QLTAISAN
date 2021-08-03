@@ -6,6 +6,7 @@ use App\Models\Content;
 use App\Models\ContentDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ContentController extends Controller
 {
