@@ -62,23 +62,6 @@
           width: 100%;
       }
 
-      .media .file-img {
-          position: relative;
-          top: 0;
-          right: 0;
-          left: 0;
-          bottom: 0;
-          min-height: 250px;
-      }
-
-      .media .file-img img {
-          width: 100%;
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          left: 0;
-      }
-
       .box-shadow {
           box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5) !important;
       }
@@ -98,7 +81,7 @@
       .app-file-list .app-file-icon {
           background-color: #f5f5f5;
           padding: 2rem;
-          height: 250px;
+          height: 200px;
           display: flex;
           align-items: center;
           justify-content: center;
