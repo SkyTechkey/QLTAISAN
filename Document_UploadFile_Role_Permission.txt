@@ -12,13 +12,15 @@ Upload multiple file, Role, Permission
     + Hiển thị nội dung theo Department
 **************************
 
-update Upload multiple file
+Update Upload multiple file
 - Design by: Nguyễn Đình Kha
-- Ngày tạo: 03/08/2021
+- Ngày tạo: 05/08/2021
 - Mô tả nội dung:
-    + lưu file ảnh kèm tạo file thumbnail
+    + Lưu file ảnh kèm tạo file thumbnail
     + Hiển thị file thumbnail
     + Đổi tên file lúc upload theo yêu cầu
+    + Xem trước các file ảnh và pdf
+    + Download file
 - Package / library:
     + Image Intervention Package
 - Reference:
