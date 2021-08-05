@@ -1,6 +1,5 @@
 @extends('layouts.index')
 @section('content')
-    {{-- <div class="content-wrapper"> --}}
     <div class="col-12">
         <div class="card card-primary">
             <div class="card-body">
@@ -8,8 +7,6 @@
                     <div class="mb-2">
                         <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal" data-target="#newFiles">
                             New Files </a>
-
-
                         <div class="modal fade" id="newFiles">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
@@ -42,8 +39,7 @@
                                             <input name="content_id" value="{{ $content_id }}" hidden>
                                             <div class="form-group">
                                                 <label>Name</label>
-                                                <input type="text" class="form-control" name="name"
-                                                    placeholder="Name">
+                                                <input type="text" class="form-control" name="name" placeholder="Name">
                                             </div>
                                             <div class="custom-file">
                                                 <input type="file" name="imageFile[]" class="custom-file-input" id="images"
@@ -61,11 +57,8 @@
                                     </div>
                                     </form>
                                 </div>
-                                <!-- /.modal-content -->
                             </div>
-                            <!-- /.modal-dialog -->
                         </div>
-                        <!-- /.modal -->
                         <div class="float-right">
                             <div class="btn-group">
                                 <a id="list" class="btn btn-default" href="javascript:void(0)"> View by
@@ -80,16 +73,26 @@
                 <div class="media">
                     <div class="p-0 row">
                         @foreach ($contents as $file)
+                            @if (!in_array($file->type, ['pptx', 'xlsx', 'docx']))
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#view{{ $file->id }}">
+                                @else
+                                    <a href="/content-detail/download/{{ $file->id }}">
+                            @endif
                             <div class="media-item mt-5 col-sm-2">
                                 @if (in_array($file->type, ['jpeg', 'jpg', 'png', 'jfif']))
-                                    <div class="file-img">
+                                    <div class="file-img" style="display: none">
                                         <i class="fas fa-file-image mr-2 file-icon text-indigo" style="display: none"></i>
                                         <span class="file-name" style="display: none">{{ $file->name }}</span>
-                                        <img src={{ $file->link_thumbnail }} class="img-fluid box-shadow" alt="file" />
                                     </div>
-                                    <div class="p-2 large file-name-grid box-shadow">
-                                        <div>{{ $file->name }}</div>
-                                        <div class="text-muted">{{ $file->size }}</div>
+                                    <div class="card app-file-list box-shadow">
+                                        <div class="app-file-icon">
+                                            <img src={{ $file->link_thumbnail }} class="img-fluid" width="80%"
+                                                alt="file" />
+                                        </div>
+                                        <div class="p-2 large file-name-grid">
+                                            <div style="color: #000">{{ $file->name }}</div>
+                                            <div class="text-muted">{{ $file->size }}</div>
+                                        </div>
                                     </div>
                                     <div class="dropdown position-absolute top-0 right-0 mr-3">
                                         <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
@@ -99,34 +102,31 @@
                                             <form action="/content-detail/{{ $file->id }}" method="POST">
                                                 <div class="row">
                                                     <div class="col text-end">
-                                                        <button type="button" class="dropdown-item">Details</button>
+                                                        {{-- <button type="button" class="dropdown-item">Details</button> --}}
                                                         <button type="button" class="dropdown-item" data-toggle="modal"
                                                             data-target="#file{{ $file->id }}">
                                                             Rename
                                                         </button>
+                                                        <a href="/content-detail/download/{{ $file->id }}"
+                                                            class="dropdown-item">Download</a>
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="dropdown-item">Delete</button>
                                                     </div>
-                                                    <!-- end col -->
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                                    @elseif(in_array($file->type, ["csv", "xlsx"]))
-                                        <i class="fas fa-file-excel text-success mr-2 file-icon" style="display: none"></i>
-                                    @elseif($file->type=="txt")
-                                        <i class="fas fa-file-alt text-secondary mr-2 file-icon" style="display: none"></i>
-
-                                    @elseif($file->type=="pdf")
-                                        <i class="fas fa-file-pdf text-danger mr-2 file-icon" style="display: none"></i>
-
-                                    @elseif($file->type=="pptx")
-                                        <i class="fas fa-file-powerpoint text-warning mr-2 file-icon"
-                                            style="display: none"></i>
-
-                                    @elseif($file->type=="docx")
-                                        <i class="fas fa-file-word text-primary mr-2 file-icon" style="display: none"></i>
+                                @elseif(in_array($file->type, ["csv", "xlsx"]))
+                                    <i class="fas fa-file-excel text-success mr-2 file-icon" style="display: none"></i>
+                                @elseif($file->type=="txt")
+                                    <i class="fas fa-file-alt text-secondary mr-2 file-icon" style="display: none"></i>
+                                @elseif($file->type=="pdf")
+                                    <i class="fas fa-file-pdf text-danger mr-2 file-icon" style="display: none"></i>
+                                @elseif($file->type=="pptx")
+                                    <i class="fas fa-file-powerpoint text-warning mr-2 file-icon" style="display: none"></i>
+                                @elseif($file->type=="docx")
+                                    <i class="fas fa-file-word text-primary mr-2 file-icon" style="display: none"></i>
                                 @endif
                                 @if (!in_array($file->type, ['jpeg', 'jpg', 'png', 'jfif']))
                                     <span class="file-name" style="display: none">{{ $file->name }}</span>
@@ -136,17 +136,13 @@
                                                 <i class="fas fa-file-excel text-success"></i>
                                             @elseif($file->type=="txt")
                                                 <i class="fas fa-file-alt text-secondary"></i>
-
                                             @elseif($file->type=="pdf")
                                                 <i class="fas fa-file-pdf text-danger"></i>
-
                                             @elseif($file->type=="pptx")
                                                 <i class="fas fa-file-powerpoint text-warning"></i>
-
                                             @elseif($file->type=="docx")
                                                 <i class="fas fa-file-word text-primary"></i>
                                             @endif
-                                            {{-- <i class="fas fa-folder text-danger"></i> --}}
                                         </div>
                                         <div class="p-2 large">
                                             <div style="color: #000">{{ $file->name }}</div>
@@ -161,63 +157,79 @@
                                             <form action="/content-detail/{{ $file->id }}" method="POST">
                                                 <div class="row">
                                                     <div class="col text-end">
-                                                        <button type="button" class="dropdown-item">Details</button>
+                                                        {{-- <button type="button" class="dropdown-item">Details</button> --}}
                                                         <button type="button" class="dropdown-item" data-toggle="modal"
                                                             data-target="#file{{ $file->id }}">
                                                             Rename
                                                         </button>
+                                                        <a href="/content-detail/download/{{ $file->id }}"
+                                                            class="dropdown-item">Download</a>
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="dropdown-item">Delete</button>
                                                     </div>
-                                                    <!-- end col -->
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 @endif
-                            
-                        </div>
+                            </div>
 
-                        <div class="modal fade" id="file{{ $file->id }}">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Rename</h4>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                            <div class="modal fade" id="file{{ $file->id }}">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Rename</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="/content-detail/{{ $file->id }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>New name</label>
+                                                    <input type="text" class="form-control" name="name"
+                                                        placeholder="New name">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <form action="/content-detail/{{ $file->id }}" method="post"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label>New name</label>
-                                                <input type="text" class="form-control" name="name"
-                                                    placeholder="New name">
+                                </div>
+                            </div>
+                            </a>
+
+
+                            @if (!in_array($file->type, ['pptx', 'xlsx', 'docx']))
+                                <div class="modal fade" id="view{{ $file->id }}">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <iframe src="{{ $file->link }}" width="100%" height="800px"></iframe>
                                             </div>
                                         </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn btn-default"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save</button>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                    @endforeach
+                            @endif
+
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    {{-- </div> --}}
 @endsection
 @push('content')
     <script src={{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}></script>
@@ -247,28 +259,24 @@
             });
 
             $("#list").click(() => {
-                $(".media-item").removeClass("col-sm-2");
-                $(".media-item").removeClass("mt-5");
+                $(".media-item").removeClass("col-sm-2 mt-5");
                 $(".media-item .file-img").css("min-height", "0px");
-                $(".media-item").addClass("col-sm-6");
-                $(".media-item").addClass("mt-2");
-                $(".media-item").addClass("media-item-hover");
+                $(".media-item").addClass("col-sm-6 mt-2 media-item-hover");
                 $(".app-file-list").addClass("hidden");
                 $(".file-name").css("display", "inline-block");
+                $(".file-img").css("display", "inline-block");
                 $(".media-item img").css("display", "none");
                 $(".file-name-grid").css("display", "none");
                 $(".media-item .file-icon").css("display", "inline-block");
             });
 
             $("#icons").click(() => {
-                $(".media-item").removeClass("col-sm-6");
-                $(".media-item").removeClass("mt-2");
-                $(".media-item").removeClass("media-item-hover");
+                $(".media-item").removeClass("col-sm-6 mt-2 media-item-hover");
                 $(".app-file-list").removeClass("hidden");
-                $(".media-item").addClass("col-sm-2");
-                $(".media-item").addClass("mt-5");
+                $(".media-item").addClass("col-sm-2 mt-5");
                 $(".media-item .file-img").css("min-height", "250px");
                 $(".file-name").css("display", "none");
+                $(".file-img").css("display", "none");
                 $(".media-item img").css("display", "block");
                 $(".file-name-grid").css("display", "block");
                 $(".media-item .file-icon").css("display", "none");

@@ -68,7 +68,8 @@ class ContentDetailController extends Controller
             foreach($req->file('imageFile') as $file) {
                 $name = $file->getClientOriginalName();
                 $newImageName = Str::of($file->getClientOriginalName())->explode('.');
-                $endpoint = $file->getClientOriginalExtension();
+                
+                $endpoint = Str::lower($file->getClientOriginalExtension());
                 $newImageName = $newImageName[0];
                 $newImageName = Str::slug($req->name, '-').'_'.$date.'.'.$endpoint;
                 $size = $file->getSize();
@@ -116,6 +117,7 @@ class ContentDetailController extends Controller
         }
 
     }
+
     public function update(Request $request, $id)
     {
         $file = ContentDetail::find($id);
@@ -124,6 +126,13 @@ class ContentDetailController extends Controller
         $file->name = Str::slug($request->name, '-').'_'.$date.'.'.$file->type;
         $file->save();
         return back();
+    }
+
+    public function download(Request $request, $id) {
+        $file = ContentDetail::find($id);
+        $path = Str::of($file->link)->explode(DIRECTORY_SEPARATOR);
+        $path = $path[count($path) - 2].DIRECTORY_SEPARATOR.$path[count($path) - 1];
+        return response()->download($path);
     }
 
     public function destroy(Request $request, $id)

@@ -40,6 +40,7 @@ require __DIR__.'/auth.php';
 
 Route::resource('content',ContentController::class)->middleware('auth');
 Route::resource('content-detail',ContentDetailController::class)->middleware('auth');
+Route::get('content-detail/download/{id}', [ContentDetailController::class, 'download'])->middleware('auth');
 Route::resource('user',UserController::class)->middleware('auth');
 Route::resource('department',DepartmentController::class)->middleware('auth');
 Route::resource('role',RoleController::class)->middleware('auth');
