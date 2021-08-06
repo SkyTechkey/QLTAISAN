@@ -41,12 +41,23 @@ class DatabaseSeeder extends Seeder
             ['permission_id' => 14, 'role_id' => 1],
             ['permission_id' => 1, 'role_id' => 2],
         ]);
+
+        DB::table('content_types')->insert(
+            [
+                ["name" => "image","created_at" => now(),"updated_at" => now()],
+                ["name" => "music","created_at" => now(),"updated_at" => now()],
+                ["name" => "video","created_at" => now(),"updated_at" => now()],
+            ]
+           
+        );
+
         DB::table('contents')->insert([
             "title" => "Dev",
             "content" => null,
             "note" => null,
             "user_id" => 1,
             "department_id" => 1,
+            "type_id" => 1,
             "deleted_at" => null,
             "created_at" => now(),
             "updated_at" => now()

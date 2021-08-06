@@ -27,3 +27,11 @@ Update Upload multiple file
     + https://www.positronx.io/laravel-image-resize-upload-with-intervention-image-package/
 
 **************************
+
+Update task 1: chỉnh sửa menu left
+- Design by: Nguyễn Hồng Quân
+- Ngày tạo: 06/08/2021
+- Mô tả nội dung:
+    + Tạo bảng content_types trong database
+    + Thêm các kiểu content
+    + Hiển thị các type content ở menu left ngay khi đăng nhập

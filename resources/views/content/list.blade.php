@@ -31,6 +31,8 @@
                                                 <input type="text" class="form-control" name="folderName"
                                                     placeholder="Folder name">
                                             </div>
+                                            <input type="hidden" class="form-control" name="type_id"
+                                                    placeholder="Folder name" value={{$type_id}}>
                                         </div>
                                         <div class="modal-footer justify-content-between">
                                             <button type="button" class="btn btn-default"
