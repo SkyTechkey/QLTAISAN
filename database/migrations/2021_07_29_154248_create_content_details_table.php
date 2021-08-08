@@ -23,8 +23,8 @@ class CreateContentDetailsTable extends Migration
             $table->text('note')->nullable();
             $table->unsignedInteger('content_id');
             $table->string('department_code');
+            $table->string('privacy')->nullable();
             $table->date('deleted_at')->nullable();
-        
             $table->foreign('content_id')
             ->references('id')
             ->on('contents')

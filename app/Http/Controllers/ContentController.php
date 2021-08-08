@@ -25,13 +25,13 @@ class ContentController extends Controller
         return view('index');
     }
     
-    public function show (Request $request,$id){
-        $contents = Content::where('type_id',$id)->get();
+    public function show(Request $request, $id) {
+        $contents = Content::where('type_id', $id)->get();
         $type_id = $id;
         // $content = Content::find($id);
         // gọi hàm view ở policy để check
         if($request->user()->can('view_content',$contents)){
-            return view('content.list',compact('contents','type_id'));
+            return view('content.list', compact('contents', 'type_id'));
         }
         else{
             abort(403);
@@ -39,7 +39,7 @@ class ContentController extends Controller
         
     }
   
-    public function create(Request $request){
+    public function create(Request $request) {
         if($request->user()->can('create_content')){
             return view('content.create');
         }
@@ -50,7 +50,7 @@ class ContentController extends Controller
     }
     public function edit(Request $request,$id)
     {
-        if($request->user()->can('update_content')){
+        if($request->user()->can('update_content')) {
             $content = Content::find($id);
             return view('content.edit', compact('content'));
         }
@@ -94,5 +94,35 @@ class ContentController extends Controller
         else{
             abort(403);
         }
+    }
+
+    public function searchFolder(Request $req) {
+        $type_id = $req->type_id;
+
+        if($req->fdate && $req->ldate) {
+            if($req->searchInfo) {
+                $contents = Content::where('type_id', $type_id)
+                                    ->where('title', 'LIKE', "%".$req->searchInfo."%")
+                                    ->whereBetween('created_at', [$req->fdate, $req->ldate])
+                                    ->get();
+            }
+            else {
+                $contents = Content::where('type_id', $type_id)
+                                    ->whereBetween('created_at', [$req->fdate, $req->ldate])
+                                    ->where('type_id', $type_id)
+                                    ->get();
+            }
+        }
+        else {
+            if($req->searchInfo) {
+                $contents = Content::where('type_id', $type_id)
+                                    ->where('title', 'LIKE', "%".$req->searchInfo."%")
+                                    ->get();
+            }
+            else {
+                $contents = Content::where('type_id', $type_id)->get();
+            }
+        }
+        return view('content.list', compact('contents', "type_id"));
     }
 }

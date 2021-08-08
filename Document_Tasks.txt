@@ -35,3 +35,14 @@ Update task 1: chỉnh sửa menu left
     + Tạo bảng content_types trong database
     + Thêm các kiểu content
     + Hiển thị các type content ở menu left ngay khi đăng nhập
+Task 2:
+    - Hoàn thành: Bố cục, tìm kiếm
+    - Chưa hoàn thành: chưa xóa được file khi đã xóa ở database, chưa áp dụng load more on scroll
+Task 3: 
+    - Hoàn thành: Bố cục, form thêm file với trường desc và privacy, tìm kiếm
+    - Chưa hoàn thành: Truy cập link file, chưa áp dụng load more on scroll
+Task 4: 
+    - Hoàn thành: Bố cục, xem được thông tin và nghe được nhạc khi click vào file và có hiển thị thông tin chi tiết file nhạc
+    - Chưa hoàn thành: Chưa áp dụng load more on scroll
+Task 5: Như task 4 nhưng chưa xem được video và thông tin chi tiết video
+Task 6: Chưa hoàn thành

@@ -1,57 +1,75 @@
 @extends('layouts.index')
+@push('page_css')
+    <link rel="stylesheet" href={{ URL::asset('css/media-folder.css') }}>
+@endpush
 @section('content')
     {{-- <div class="content-wrapper"> --}}
     <div class="col-12">
         <div class="card card-primary">
             <div class="card-body">
                 <div>
-                    <div class="mb-2">
-                        <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal" data-target="#newFolder">
-                            New Folder </a>
 
-                        <div class="modal fade" id="newFolder">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">New Folder</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form action="/content" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="modal-body">
-                                            @if ($message = Session::get('success'))
-                                                <div class="alert alert-success">
-                                                    <strong>{{ $message }}</strong>
-                                                </div>
-                                            @endif
-                                            <div class="form-group">
-                                                <label>Folder Name</label>
-                                                <input type="text" class="form-control" name="folderName"
-                                                    placeholder="Folder name">
-                                            </div>
-                                            <input type="hidden" class="form-control" name="type_id"
-                                                    placeholder="Folder name" value={{$type_id}}>
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                            <button type="button" class="btn btn-default"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Create</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
+                    <div class="mb-2">
+                        <div class="float-left">
+                            <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal"
+                                data-target="#newFolder">
+                                New Folder </a>
                         </div>
-                        <!-- /.modal -->
-                        <div class="float-right">
-                            <div class="btn-group">
-                                <a id="list" class="btn btn-default" href="javascript:void(0)"> View by
-                                    list </a>
-                                <a id="icons" class="btn btn-default" href="javascript:void(0)"> View by
-                                    icons </a>
+                        <div>
+                            <form action="/search-folder" method="GET" enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <label for="searchInfo" class="col-form-label">Content</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="searchInfo" name="searchInfo" placeholder="Search...">
+                                    </div>
+                                    <label for="fdate" class="col-form-label">From</label>
+                                    <div class="col-sm-2">
+                                        <input type="date" class="form-control" name="fdate" id="fdate">
+                                    </div>
+                                    <label for="ldate" class="col-form-label">To</label>
+                                    <div class="col-sm-2">
+                                        <input type="date" class="form-control" name="ldate" id="ldate">
+                                    </div>
+                                    <input hidden class="form-control" name="type_id" value={{ $type_id }}>
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                    <div class="btn-group ml-2">
+                                        <a id="list" class="btn btn-default" href="javascript:void(0)"> List view </a>
+                                        <a id="icons" class="btn btn-default" href="javascript:void(0)"> Grid view </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="newFolder">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">New Folder</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="/content" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        @if ($message = Session::get('success'))
+                                            <div class="alert alert-success">
+                                                <strong>{{ $message }}</strong>
+                                            </div>
+                                        @endif
+                                        <div class="form-group">
+                                            <label>Folder Name</label>
+                                            <input type="text" class="form-control" name="folderName"
+                                                placeholder="Folder name">
+                                        </div>
+                                        <input type="hidden" class="form-control" name="type_id" placeholder="Folder name"
+                                            value={{ $type_id }}>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Create</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -61,19 +79,20 @@
                     <div class="p-0 row">
                         @foreach ($contents as $folder)
                             <a href="/content-detail/{{ $folder->id }}">
-                                <div class="media-item mt-5 col-sm-2">
-                                    <i class="fas fa-folder text-danger mr-2 file-icon" style="display: none"></i>
+                                <div class="media-item media-grid">
+                                    <i class="fas fa-folder mr-2 file-icon" style="display: none; color: #82c91e"></i>
                                     <span class="file-name" style="display: none">{{ $folder->title }}</span>
-                                    <div class="card app-file-list box-shadow">
-                                        <div class="app-file-icon">
-                                            <i class="fas fa-folder text-danger"></i>
+                                    <div class="media-content">
+                                        <div>
+                                            <i class="fas fa-folder"></i>
                                         </div>
                                         <div class="p-2 large">
                                             <div style="color: #000">{{ $folder->title }}</div>
-                                            {{-- <div class="text-muted">1.2mb</div> --}}
+                                            <div class="text-muted fs-12">11 items 04/11/2020</div>
+                                            <div class="text-muted fs-12">User: admin</div>
                                         </div>
                                     </div>
-                                    <div class="dropdown position-absolute top-0 right-0 mr-3">
+                                    <div class="dropdown dropdown-media">
                                         <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
                                             <i class="fas fa-ellipsis-h"></i>
                                         </a>
@@ -139,7 +158,8 @@
     {{-- </div> --}}
 @endsection
 @push('content')
-    <script src={{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}></script>
+    {{-- <script src={{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}></script> --}}
+
 
     <script>
         $(document).ready(function() {
@@ -166,13 +186,10 @@
             });
 
             $("#list").click(() => {
-                $(".media-item").removeClass("col-sm-2");
-                $(".media-item").removeClass("mt-5");
+                $(".media-item").removeClass("media-grid");
                 $(".media-item .file-img").css("min-height", "0px");
-                $(".media-item").addClass("col-sm-6");
-                $(".media-item").addClass("mt-2");
-                $(".media-item").addClass("media-item-hover");
-                $(".app-file-list").addClass("hidden");
+                $(".media-item").addClass("media-list");
+                $(".media-content").addClass("hidden");
                 $(".file-name").css("display", "inline-block");
                 $(".media-item img").css("display", "none");
                 $(".file-name-grid").css("display", "none");
@@ -180,12 +197,9 @@
             });
 
             $("#icons").click(() => {
-                $(".media-item").removeClass("col-sm-6");
-                $(".media-item").removeClass("mt-2");
-                $(".media-item").removeClass("media-item-hover");
-                $(".app-file-list").removeClass("hidden");
-                $(".media-item").addClass("col-sm-2");
-                $(".media-item").addClass("mt-5");
+                $(".media-item").removeClass("media-list");
+                $(".media-content").removeClass("hidden");
+                $(".media-item").addClass("media-grid");
                 $(".media-item .file-img").css("min-height", "250px");
                 $(".file-name").css("display", "none");
                 $(".media-item img").css("display", "block");

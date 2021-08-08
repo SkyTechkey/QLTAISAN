@@ -29,7 +29,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource('content',ContentController::class)->middleware('auth');
-Route::resource('content-detail',ContentDetailController::class)->middleware('auth');
+Route::get('search-folder', [ContentController::class, 'searchFolder'])->name('searchFolder')->middleware('auth');
+Route::resource('content-detail', ContentDetailController::class)->middleware('auth');
+Route::get('search-file', [ContentDetailController::class, 'searchFile'])->name('searchFile')->middleware('auth');
 Route::get('content-detail/download/{id}', [ContentDetailController::class, 'download'])->middleware('auth');
 Route::resource('user',UserController::class)->middleware('auth');
 Route::resource('department',DepartmentController::class)->middleware('auth');
