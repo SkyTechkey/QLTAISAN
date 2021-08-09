@@ -16,8 +16,9 @@
                                 New Folder </a>
                         </div>
                         <div>
-                            <form action="/search-folder" method="GET" enctype="multipart/form-data">
-                                <div class="form-group row">
+                            <form action="/search-folder" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group row pl-3">
                                     <label for="searchInfo" class="col-form-label">Content</label>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control" id="searchInfo" name="searchInfo" placeholder="Search...">
@@ -88,8 +89,8 @@
                                         </div>
                                         <div class="p-2 large">
                                             <div style="color: #000">{{ $folder->title }}</div>
-                                            <div class="text-muted fs-12">11 items 04/11/2020</div>
-                                            <div class="text-muted fs-12">User: admin</div>
+                                            <div class="text-muted fs-12">{{$folder->detail_content->count()}} item(s) {{ $folder->created_at->format('d-m-Y')}} </div>
+                                            <div class="text-muted fs-12">Author: {{$folder->user->name}}</div>
                                         </div>
                                     </div>
                                     <div class="dropdown dropdown-media">

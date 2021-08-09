@@ -15,15 +15,18 @@
                 <div>
                     <div class="mb-2">
                         <div class="float-left">
-
+                            @if($content_id)
                             <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal"
                                 data-target="#newFiles">
                                 New Files </a>
+                            @endif
                         </div>
 
+                        @if($content_id)
                         <div>
-                            <form action="/search-file" method="GET" enctype="multipart/form-data">
-                                <div class="form-group row">
+                            <form action="/search-file" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group row pl-3">
                                     <label for="searchInfo" class="col-form-label">Content</label>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control" id="searchInfo" name="searchInfo"
@@ -39,13 +42,16 @@
                                     </div>
                                     <input hidden class="form-control" name="content_id" value={{ $content_id }}>
                                     <button type="submit" class="btn btn-primary">Search</button>
+                                    @endif
                                     <div class="btn-group ml-2">
                                         <a id="list" class="btn btn-default" href="javascript:void(0)"> List view </a>
                                         <a id="icons" class="btn btn-default" href="javascript:void(0)"> Grid view </a>
                                     </div>
+                                    @if($content_id)
                                 </div>
                             </form>
                         </div>
+                        @endif
                         <div class="modal fade" id="newFiles">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
@@ -65,7 +71,7 @@
                                                 </div>
                                             @endif
 
-                                            {{-- @if (count($errors) > 0)
+                                            @if (count($errors) > 0)
                                                 <div class="alert alert-danger">
                                                     <ul>
                                                         @foreach ($errors->all() as $error)
@@ -73,7 +79,7 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                            @endif --}}
+                                            @endif
 
                                             <input name="content_id" value="{{ $content_id }}" hidden>
                                             <div class="form-group">
@@ -114,6 +120,10 @@
                 <div class="media">
                     <div class="p-0 row">
                         @foreach ($contents as $file)
+
+
+
+
                             @if (in_array($file->type, ['jpeg', 'jpg', 'png', 'jfif']))
                                 <div class="media-item media-grid">
                                     <a href={{ $file->link }} data-toggle="lightbox" data-title="Preview Image"
@@ -163,77 +173,154 @@
                                     </div>
                                 </div>
                             @else
-                                <a href="javascript:void(0)" data-toggle="modal"
-                                    data-target="#play-music{{ $file->id }}">
-                                    <div class="media-item-mp3 media-grid-mp3">
-                                        @if ($file->type == 'mp3')
-                                            <i class="fas fa-music mr-2 file-icon"
-                                                style="display: none; color: #15aabf"></i>
-                                        @else
-                                            <i class="fas fa-film mr-2 file-icon" style="display: none; color: #f783ac"></i>
-                                        @endif
-                                        <span class="file-name" style="display: none">{{ $file->name }}</span>
-                                        <div class="media-content-mp3">
-                                            <div>
-                                                @if ($file->type == 'mp3')
-                                                    <i class="fas fa-music"></i>
-                                                @else
-                                                    <i class="fas fa-film" style="color: #f783ac"></i>
-                                                @endif
-                                            </div>
-                                            <div class="p-2 large">
-                                                <div style="color: #000" class="media-name">{{ $file->name }}</div>
-                                                <div class="text-muted fs-12">{{ explode(' ', $file->created_at)[0] }}</div>
-                                                <div class="text-muted fs-12">User: admin</div>
-                                                @if ($file->privacy)
-                                                    <span class="media-privacy">{{ $file->privacy }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="dropdown dropdown-media-mp3">
-                                            <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-h"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <form action="/content-detail/{{ $file->id }}" method="POST">
-                                                    <div class="row">
-                                                        <div class="col text-end">
-                                                            {{-- <button type="button" class="dropdown-item">Details</button> --}}
-                                                            <button type="button" class="dropdown-item" data-toggle="modal"
-                                                                data-target="#file{{ $file->id }}">
-                                                                Rename
-                                                            </button>
-                                                            <a href="/content-detail/download/{{ $file->id }}"
-                                                                class="dropdown-item">Download</a>
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="dropdown-item">Delete</button>
-                                                        </div>
+                                @if (!$content_id)
+                                    <a href="javascript:void(0)" data-toggle="modal"
+                                        data-target="#play-music{{ $file->id }}">
+                                        <div class="media-item media-grid">
+                                                <div class="file-img" style="display: none">
+                                                    @if ($file->type == 'mp3')
+                                                        <i class="fas fa-music mr-2 file-icon"
+                                                            style="display: none; color: #15aabf;"></i>
+                                                    @else
+                                                        <i class="fas fa-film mr-2 file-icon"
+                                                            style="display: none; color: #f783ac"></i>
+                                                    @endif
+                                                    <span class="file-name"
+                                                        style="display: none">{{ $file->name }}</span>
+                                                </div>
+                                                <div class="card media-content box-shadow">
+                                                    <div class="media-image">
+                                                        @if ($file->type == 'mp3')
+                                                            <i class="fas fa-music mr-2 file-icon"
+                                                                style="color: #15aabf;"></i>
+                                                        @else
+                                                            <i class="fas fa-film mr-2 file-icon"
+                                                                style="color: #f783ac"></i>
+                                                        @endif
                                                     </div>
-                                                </form>
+                                                    <div class="p-2 large">
+                                                        <div style="color: #000" class="media-name">{{ $file->name }}
+                                                        </div>
+                                                        <div class="text-muted fs-12">{{ $file->size }}</div>
+                                                        <div class="text-muted fs-12">
+                                                            {{ explode(' ', $file->created_at)[0] }}
+                                                        </div>
+                                                        @if ($file->privacy)
+                                                            <span class="media-privacy">{{ $file->privacy }}</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            <div class="dropdown dropdown-media">
+                                                <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <form action="/content-detail/{{ $file->id }}" method="POST">
+                                                        <div class="row">
+                                                            <div class="col text-end">
+                                                                {{-- <button type="button" class="dropdown-item">Details</button> --}}
+                                                                <button type="button" class="dropdown-item"
+                                                                    data-toggle="modal"
+                                                                    data-target="#file{{ $file->id }}">
+                                                                    Rename
+                                                                </button>
+                                                                <a href="/content-detail/download/{{ $file->id }}"
+                                                                    class="dropdown-item">Download</a>
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="dropdown-item">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                @else
+                                    <a href="javascript:void(0)" data-toggle="modal"
+                                        data-target="#play-music{{ $file->id }}">
+                                        <div class="media-item-mp3 media-grid-mp3">
+                                            @if ($file->type == 'mp3')
+                                                <i class="fas fa-music mr-2 file-icon"
+                                                    style="display: none; color: #15aabf"></i>
+                                            @else
+                                                <i class="fas fa-film mr-2 file-icon"
+                                                    style="display: none; color: #f783ac"></i>
+                                            @endif
+                                            <span class="file-name" style="display: none">{{ $file->name }}</span>
+                                            <div class="media-content-mp3">
+                                                <div>
+                                                    @if ($file->type == 'mp3')
+                                                        <i class="fas fa-music"></i>
+                                                    @else
+                                                        <i class="fas fa-film" style="color: #f783ac"></i>
+                                                    @endif
+                                                </div>
+                                                <div class="p-2 large">
+                                                    <div style="color: #000" class="media-name">{{ $file->name }}</div>
+                                                    <div class="text-muted fs-12">
+                                                        {{ explode(' ', $file->created_at)[0] }}
+                                                    </div>
+                                                    <div class="text-muted fs-12">User: admin</div>
+                                                    @if ($file->privacy)
+                                                        <span class="media-privacy">{{ $file->privacy }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="dropdown dropdown-media-mp3">
+                                                <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <form action="/content-detail/{{ $file->id }}" method="POST">
+                                                        <div class="row">
+                                                            <div class="col text-end">
+                                                                {{-- <button type="button" class="dropdown-item">Details</button> --}}
+                                                                <button type="button" class="dropdown-item"
+                                                                    data-toggle="modal"
+                                                                    data-target="#file{{ $file->id }}">
+                                                                    Rename
+                                                                </button>
+                                                                <a href="/content-detail/download/{{ $file->id }}"
+                                                                    class="dropdown-item">Download</a>
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="dropdown-item">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endif
+
                                 {{-- Modal Music Player Start --}}
                                 <div class="modal fade" id="play-music{{ $file->id }}">
-                                    <div class="modal-dialog modal-lg modal-mp3">
-                                        <div class="modal-content">
+                                    <div class="modal-dialog ">
+                                        <div class="modal-content modal-mp3">
                                             <div class="wrapper-mp3">
-                                                <div class="icon-area">
-                                                    <i class="fas fa-music" style="color: #15aabf"></i>
-                                                </div>
+                                                @if ($file->type == 'mp4')
+                                                    <video class="icon-area icon-area-mp4"
+                                                        id="main-audio{{ $file->id }}"
+                                                        src={{ $file->link }}></video>
+                                                @else
+                                                    <div class="icon-area icon-area-mp3">
+                                                        <i class="fas fa-music" style="color: #15aabf"></i>
+                                                    </div>
+                                                @endif
                                                 <div class="song-details">
                                                     <p class="name">{{ $file->name }}</p>
                                                     <p class="artist"></p>
                                                 </div>
                                                 <div class="progress-area progress-area{{ $file->id }}">
                                                     <div class="progress-bar">
-                                                        @if($file->type == "mp3")
-                                                            <audio id="main-audio{{ $file->id }}" src={{ $file->link }}
-                                                                type="audio/mpeg"></audio>
+                                                        @if ($file->type == 'mp3')
+                                                            <audio id="main-audio{{ $file->id }}"
+                                                                src={{ $file->link }} type="audio/mpeg"></audio>
                                                         @else
-                                                            <video id="main-audio{{ $file->id }}" src=src={{ $file->link }} ></video> 
+                                                            {{-- <video id="main-audio{{ $file->id }}"
+                                                                src={{ $file->link }}></video> --}}
                                                         @endif
                                                     </div>
                                                     <div class="song-timer">
@@ -245,11 +332,11 @@
                                                     <a href="{{ $file->link }}" download>
                                                         <i class="fas fa-download"></i>
                                                     </a>
-                                                    <a onclick="playMp3({{$file->id}})"
+                                                    <a onclick="playMp3({{ $file->id }})"
                                                         class="main-audio{{ $file->id }}">
                                                         <i class="fas fa-play"></i>
                                                     </a>
-                                                        <i class="fas fa-ellipsis-h" id="music-info{{ $file->id }}"></i>
+                                                    <i class="fas fa-ellipsis-h" id="music-info{{ $file->id }}"></i>
                                                 </div>
                                                 <div class="music-info music-info{{ $file->id }}">
                                                     <div class="header">
@@ -261,23 +348,26 @@
                                                     </div>
                                                     <ul>
                                                         <li>
-                                                              <span><b> Name: </b></span> <span>{{ $file->name }}</span>
+                                                            <span><b> Name: </b></span> <span>{{ $file->name }}</span>
                                                         </li>
                                                         <li>
-                                                              <span><b> Type: </b></span> <span>{{ $file->type }}</span>
+                                                            <span><b> Type: </b></span> <span>{{ $file->type }}</span>
                                                         </li>
                                                         <li>
-                                                              <span><b> Size: </b></span> <span>{{ $file->size }}</span>
+                                                            <span><b> Size: </b></span> <span>{{ $file->size }}</span>
                                                         </li>
                                                         <li>
-                                                              <span><b> Privacy: </b></span> <span> @if ($file->privacy)
-                                                                {{ $file->privacy }}
-                                                              @else
-                                                                  Private
-                                                              @endif </span>
+                                                            <span><b> Privacy: </b></span> <span>
+                                                                @if ($file->privacy)
+                                                                    {{ $file->privacy }}
+                                                                @else
+                                                                    Private
+                                                                @endif
+                                                            </span>
                                                         </li>
                                                         <li>
-                                                              <span><b> Create At: </b></span> <span>{{ $file->created_at }}</span>
+                                                            <span><b> Create At: </b></span>
+                                                            <span>{{ $file->created_at }}</span>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -318,9 +408,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
                         @endforeach
                     </div>
                 </div>

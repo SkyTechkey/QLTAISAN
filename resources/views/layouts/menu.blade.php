@@ -1,3 +1,6 @@
+
+
+{{-- =====================Hiển thị trang dashboard và quản lý departments =================--}}
 @can('is-admin', App\Models\User::class)
     <li class="nav-item">
         <a href="{{ route('dashboard') }}" class="nav-link  {{ Request::is('dashboard*') ? 'active' : '' }}">
@@ -18,8 +21,9 @@
     </li>
 @endcan
 
+{{--======================== Hiển thị các content theo chủ đề =======================--}}
 @can('view_content', App\Models\User::class)
-    <li class="nav-item menu-open">
+    <li class="nav-item  {{ Request::is('content*') ? 'menu-open' : '' }}">
       <a href="{{route('content.index')}}" class="nav-link  {{ Request::is('content*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-folder-open"></i>
         <p>
@@ -31,8 +35,13 @@
         @foreach (Session::get('types') as $type)
             <li class="nav-item">
                 <a href="{{ route('content.show', ['content' => $type->id]) }}"
-                    class="nav-link  {{ Request::is('content/' . $type->id) ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-{{ $type->name }}"></i>
+                    class="nav-link  
+                    {{ Request::is('content/' . $type->id) ? 'active' : '' }}
+                    {{ Request::is('content-detail/*') && Session::get('type_id') == $type->id ? 'active' : '' }}
+                    ">
+                    <i class="nav-icon far"></i>
+                    <i class="nav-icon far fa-circle"></i>
+                    {{ Request::is('content/' . $type->id) ? Session::put('type_id',$type->id) : '' }}
                     <p>
                         {{ $type->name }}
                     </p>
@@ -42,7 +51,7 @@
       </ul>
     </li>
 @endcan
-
+{{-- ======================================Quản lý users========================== --}}
 @can('is-admin', App\Models\User::class)
     <li class="nav-item">
         <a href="{{ route('user.index') }}" class="nav-link  {{ Request::is('user*') ? 'active' : '' }}">
@@ -53,7 +62,7 @@
         </a>
     </li>
 @endcan
-
+{{-- ===================================Quản lý role================================= --}}
 @can('is-admin', App\Models\User::class)
     <li class="nav-item">
         <a href="{{ route('role.index') }}" class="nav-link  {{ Request::is('role*') ? 'active' : '' }}">
@@ -64,7 +73,7 @@
         </a>
     </li>
 @endcan
-
+{{--=================================== Quản lý permission============================ --}}
 @can('is-admin', App\Models\User::class)
     <li class="nav-item">
         <a href="{{ route('permission.index') }}" class="nav-link  {{ Request::is('permission*') ? 'active' : '' }}">

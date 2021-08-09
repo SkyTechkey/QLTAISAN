@@ -11,8 +11,7 @@ use Image;
 
 class ContentDetailController extends Controller
 {
-    protected $searchTerm;
-
+    protected $search;
     public function index (){
         $contentsDetail = ContentDetail::all();
         return view('content.detail', compact('contentsDetail'));
@@ -21,7 +20,6 @@ class ContentDetailController extends Controller
     public function show (Request $request, $id){
         $contents = ContentDetail::where('content_id', $id)->get();
         $content_id = $id;
-        // dd($contents);
         // gọi hàm view ở policy để check
         if($request->user()->can('view_content', $contents)) {
             return view('content.detail', compact('contents', 'content_id'));
@@ -53,7 +51,6 @@ class ContentDetailController extends Controller
 
     public function store(Request $req)
     {
-        // dd($req);
         $req->validate([
             'imageFile' => 'required',
             'imageFile.*' => 'mimes:jpg,png,mp3,mp4',
@@ -69,7 +66,6 @@ class ContentDetailController extends Controller
             }
             foreach($req->file('imageFile') as $file) {
                 $index = array_search($file, $req->file('imageFile')) + 1;
-                // dd($index);
                 $name = $file->getClientOriginalName();
                 $newImageName = Str::of($file->getClientOriginalName())->explode('.');
                 
@@ -160,38 +156,47 @@ class ContentDetailController extends Controller
     }
 
     public function searchFile(Request $req) {
-        // dd(now());
+        $this->search = $req->searchInfo;
         $content_id = $req->content_id;
+
         if($req->fdate && $req->ldate) {
-            if($req->searchInfo) {
-                $this->searchTerm = $req->searchInfo;
+            $fdate = $req->fdate.' 00:00:00';
+            $ldate = $req->ldate.' 23:59:59';
+            if($this->search) {
                 $contents = ContentDetail::where('content_id', $content_id)
                                         ->where(function($query) {
-                                            $query->where('name', 'LIKE', "%".$this->searchTerm."%")
-                                                ->orWhere('note', 'LIKE', "%".$this->searchTerm."%");
-                                        })
-                                        ->whereBetween('created_at', [$req->fdate.' 00:01:00', $req->ldate.' 23:59:00'])
+                                            $query->where('name', 'LIKE', "%".$this->search."%")
+                                                ->orWhere('note', 'LIKE', "%".$this->search."%");
+                                        })->whereBetween('created_at', [$fdate, $ldate])
                                         ->get();
             }
             else {
                 $contents = ContentDetail::where('content_id', $content_id)
-                                        ->whereBetween('created_at', [$req->fdate.' 00:01:00', $req->ldate.' 23:59:00'])
+                                        ->whereBetween('created_at', [$fdate, $ldate])
                                         ->get();
             }
         }
         else {
-            if($req->searchInfo) {
+            if($this->search) {
                 $contents = ContentDetail::where('content_id', $content_id)
                                         ->where(function($query) {
-                                            $query->where('name', 'LIKE', "%".$this->searchTerm."%")
-                                                ->orWhere('note', 'LIKE', "%".$this->searchTerm."%");
-                                        })
-                                        ->get();
+                                            $query->where('name', 'LIKE', "%".$this->search."%")
+                                                ->orWhere('note', 'LIKE', "%".$this->search."%");
+                                        })->get();
             }
             else {
                 $contents = ContentDetail::where('content_id', $content_id)->get();
             }
         }
+        return view('content.detail', compact('contents', 'content_id'));
+    }
+
+    public function searchFiles(Request $req) {
+        $content_id = $req->content_id;
+        $search = $req->searchInfo;
+        $contents = ContentDetail::where('name', 'LIKE', "%".$search."%")
+                                ->orWhere('note', 'LIKE', "%".$search."%")
+                                ->get();
         return view('content.detail', compact('contents', 'content_id'));
     }
 }
