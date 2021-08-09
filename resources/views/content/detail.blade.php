@@ -231,7 +231,7 @@
                                                     <div class="progress-bar">
                                                         @if($file->type == "mp3")
                                                             <audio id="main-audio{{ $file->id }}" src={{ $file->link }}
-                                                                type="audio/mpeg"></audio>id="main-audio{{ $file->id }}"
+                                                                type="audio/mpeg"></audio>
                                                         @else
                                                             <video id="main-audio{{ $file->id }}" src=src={{ $file->link }} ></video> 
                                                         @endif
@@ -242,7 +242,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="controls">
-                                                    <a href="{{ $file->link }}" download="">
+                                                    <a href="{{ $file->link }}" download>
                                                         <i class="fas fa-download"></i>
                                                     </a>
                                                     <a onclick="playMp3({{$file->id}})"

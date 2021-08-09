@@ -11,7 +11,8 @@ use Image;
 
 class ContentDetailController extends Controller
 {
-    
+    protected $searchTerm;
+
     public function index (){
         $contentsDetail = ContentDetail::all();
         return view('content.detail', compact('contentsDetail'));
@@ -159,26 +160,32 @@ class ContentDetailController extends Controller
     }
 
     public function searchFile(Request $req) {
+        // dd(now());
         $content_id = $req->content_id;
         if($req->fdate && $req->ldate) {
             if($req->searchInfo) {
+                $this->searchTerm = $req->searchInfo;
                 $contents = ContentDetail::where('content_id', $content_id)
-                                        ->where('name', 'LIKE', "%".$req->searchInfo."%")
-                                        ->orWhere('note', 'LIKE', "%".$req->searchInfo."%")
-                                        ->whereBetween('created_at', [$req->fdate, $req->ldate])
+                                        ->where(function($query) {
+                                            $query->where('name', 'LIKE', "%".$this->searchTerm."%")
+                                                ->orWhere('note', 'LIKE', "%".$this->searchTerm."%");
+                                        })
+                                        ->whereBetween('created_at', [$req->fdate.' 00:01:00', $req->ldate.' 23:59:00'])
                                         ->get();
             }
             else {
                 $contents = ContentDetail::where('content_id', $content_id)
-                                        ->whereBetween('created_at', [$req->fdate, $req->ldate])
+                                        ->whereBetween('created_at', [$req->fdate.' 00:01:00', $req->ldate.' 23:59:00'])
                                         ->get();
             }
         }
         else {
             if($req->searchInfo) {
                 $contents = ContentDetail::where('content_id', $content_id)
-                                        ->where('name', 'LIKE', "%".$req->searchInfo."%")
-                                        ->orWhere('note', 'LIKE', "%".$req->searchInfo."%")
+                                        ->where(function($query) {
+                                            $query->where('name', 'LIKE', "%".$this->searchTerm."%")
+                                                ->orWhere('note', 'LIKE', "%".$this->searchTerm."%");
+                                        })
                                         ->get();
             }
             else {
