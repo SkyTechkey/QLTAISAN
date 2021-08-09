@@ -11,17 +11,6 @@ use Illuminate\Support\Str;
 class ContentController extends Controller
 {
     public function index (Request $request){
-        // if($request->user()->can('is-admin')){
-        //     $contents = Content::all();
-        // }
-        // else{
-        //     $department_id = Auth::user()->department_id;
-        //     $contents = Content::where('department_id',$department_id)->get();
-        // }
-        // foreach($contents as $content){
-        //    $content->user;
-        // }
-        // return view('content.list',compact('contents'));
         return view('index');
     }
     
@@ -61,7 +50,6 @@ class ContentController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->user()->id);
         $request->validate([
             'folderName' => 'required',
         ]);

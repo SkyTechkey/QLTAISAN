@@ -22,8 +22,9 @@
                         </div>
 
                         <div>
-                            <form action="/search-file" method="GET" enctype="multipart/form-data">
-                                <div class="form-group row">
+                            <form action="/search-file" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-group row pl-3">
                                     <label for="searchInfo" class="col-form-label">Content</label>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control" id="searchInfo" name="searchInfo"
@@ -217,12 +218,16 @@
                                 </a>
                                 {{-- Modal Music Player Start --}}
                                 <div class="modal fade" id="play-music{{ $file->id }}">
-                                    <div class="modal-dialog modal-lg modal-mp3">
-                                        <div class="modal-content">
+                                    <div class="modal-dialog ">
+                                        <div class="modal-content modal-mp3">
                                             <div class="wrapper-mp3">
+                                                @if($file->type == "mp4")
+                                                <video class="icon-area" id="main-audio{{ $file->id }}" src={{ $file->link }} ></video>
+                                                @else
                                                 <div class="icon-area">
                                                     <i class="fas fa-music" style="color: #15aabf"></i>
                                                 </div>
+                                                @endif
                                                 <div class="song-details">
                                                     <p class="name">{{ $file->name }}</p>
                                                     <p class="artist"></p>
@@ -233,7 +238,7 @@
                                                             <audio id="main-audio{{ $file->id }}" src={{ $file->link }}
                                                                 type="audio/mpeg"></audio>id="main-audio{{ $file->id }}"
                                                         @else
-                                                            <video id="main-audio{{ $file->id }}" src=src={{ $file->link }} ></video> 
+                                                            <video id="main-audio{{ $file->id }}" src={{ $file->link }} ></video> 
                                                         @endif
                                                     </div>
                                                     <div class="song-timer">
@@ -288,7 +293,7 @@
                                 {{-- Modal Music Player End --}}
                             @endif
                             {{-- </div> --}}
-
+                                
                             <div class="modal fade" id="file{{ $file->id }}">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">

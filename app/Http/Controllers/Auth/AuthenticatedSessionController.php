@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\ContentType;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -16,7 +18,8 @@ class AuthenticatedSessionController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {
+    {  $types = ContentType::all();
+        Session::put('types',$types);
         return view('auth.login');
     }
 

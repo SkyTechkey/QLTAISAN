@@ -24,6 +24,6 @@ class Content extends Model
     }
     public function detail_content()
     {
-        return $this->belongsToMany(ContentDetail::class, 'content_details');
+        return $this->hasMany(ContentDetail::class);
     }
 }

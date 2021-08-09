@@ -5,10 +5,10 @@ function playMp3(id) {
         moreMusicBtn = document.querySelector(`#music-info${id}`),
         musicInfo = document.querySelector(`.music-info${id}`),
         closemoreMusic = document.querySelector(`#close${id}`),
-        iconBtn = document.querySelector(`.main-audio${id} i`);
-
+        iconBtn = document.querySelector(`.main-audio${id} i`)
     moreMusicBtn.addEventListener("click", () => {
         musicInfo.classList.toggle("show");
+      
     });
 
     closemoreMusic.addEventListener("click", () => {

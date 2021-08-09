@@ -52,7 +52,6 @@ class ContentDetailController extends Controller
 
     public function store(Request $req)
     {
-        // dd($req);
         $req->validate([
             'imageFile' => 'required',
             'imageFile.*' => 'mimes:jpg,png,mp3,mp4',
@@ -159,18 +158,23 @@ class ContentDetailController extends Controller
     }
 
     public function searchFile(Request $req) {
+        $search = $req->searchInfo;
+        $fdate = $req -> fdate;
+        $fdate = $fdate . '  00:00:00';
+        $ldate = $req -> ldate;
+        $ldate = $ldate . '  23:59:59';
         $content_id = $req->content_id;
         if($req->fdate && $req->ldate) {
             if($req->searchInfo) {
                 $contents = ContentDetail::where('content_id', $content_id)
                                         ->where('name', 'LIKE', "%".$req->searchInfo."%")
                                         ->orWhere('note', 'LIKE', "%".$req->searchInfo."%")
-                                        ->whereBetween('created_at', [$req->fdate, $req->ldate])
+                                        ->whereBetween('created_at', [$fdate, $ldate])
                                         ->get();
             }
             else {
                 $contents = ContentDetail::where('content_id', $content_id)
-                                        ->whereBetween('created_at', [$req->fdate, $req->ldate])
+                                        ->whereBetween('created_at', [$fdate, $ldate])
                                         ->get();
             }
         }
