@@ -52,77 +52,81 @@ class ContentDetailController extends Controller
     public function store(Request $req)
     {
         $req->validate([
-            'imageFile' => 'required',
-            'imageFile.*' => 'mimes:jpg,png,mp3,mp4',
-            'name'=> 'required'
+            'file' => 'required',
         ]);
-        
-        if($req->hasfile('imageFile')) {
+
+        $file = $req->file;
+        if($file) {
             $date = now();
             $date = $date->format('d-m-Y-H-i-s');
             $destinationPath = public_path().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'thumbnail';
             if (!file_exists($destinationPath)) {
                 File::makeDirectory($destinationPath, 0775, true);
-            }
-            foreach($req->file('imageFile') as $file) {
-                $index = array_search($file, $req->file('imageFile')) + 1;
-                $name = $file->getClientOriginalName();
-                $newImageName = Str::of($file->getClientOriginalName())->explode('.');
-                
-                $extension = Str::lower($file->getClientOriginalExtension());
-                $newImageName = $newImageName[0];
-                $newImageName = Str::slug($req->name, '-').'-'.$index.'_'.$date.'.'.$extension;
-                $size = $file->getSize();
-                if ($size >= 1073741824) {
-                    $size = number_format($size / 1073741824, 2) . ' GB';
-                }
-                elseif ($size >= 1048576) {
-                    $size = number_format($size / 1048576, 2) . ' MB';
-                }
-                elseif ($size >= 1024) {
-                    $size = number_format($size / 1024, 2) . ' KB';
-                }
-                elseif ($size > 1) {
-                    $size = $size . ' bytes';
-                }
-                elseif ($size == 1) {
-                    $size = $size . ' byte';
-                }
-                else {
-                    $size = '0 bytes';
-                }
-                
-                $link_thumbnail = NULL;
-                if(in_array($extension, ["jpg", "png"])) {
-                    $imgFile = Image::make($file->getRealPath());
-                    $imgFile->resize(150, 150, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })->save($destinationPath.'/'.$newImageName);
-                    $link_thumbnail = $req->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'thumbnail'.DIRECTORY_SEPARATOR.$newImageName;
-                }
+            }                
+            $filename = $file->getClientOriginalName();
+            $explode = Str::of($filename)->explode('::');
+            $note = $explode[1];
+            $privacy = $explode[2];
+            $content_id = $explode[3];
 
-                if($req->privacy) {
-                    $privacy = "Public";
-                }
-                else {
-                    $privacy = NULL;
-                }
+            $newImageName = Str::of($filename)->explode('.')[0];
+            
+            $extension = $file->extension();
 
-                $department = Department::find($req->user()->department_id);
-                $file->move($path = public_path(). DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR, $newImageName);
-                $fileModal = new ContentDetail();
-                $fileModal->name = $newImageName;
-                $fileModal->type = $extension;
-                $fileModal->size = $size;
-                $fileModal->note = $req->note;
-                $fileModal->privacy = $privacy;
-                $fileModal->content_id = $req->content_id;
-                $fileModal->department_code = $department->department_code;
-                $fileModal->link_thumbnail = $link_thumbnail;
-                $fileModal->link = $req->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.$newImageName;
-                $fileModal->save();
+            $file_path = Str::slug($newImageName, '-').'_'.time().'.'.$extension; //ok
+            $newImageName = Str::slug($newImageName, '-').'_'.$date.'.'.$extension; //ok
+            $size = $file->getSize();
+            
+            if ($size >= 1073741824) {
+                $size = number_format($size / 1073741824, 2) . ' GB';
             }
-            return back()->with('success', 'File has successfully uploaded!');
+            elseif ($size >= 1048576) {
+                $size = number_format($size / 1048576, 2) . ' MB';
+            }
+            elseif ($size >= 1024) {
+                $size = number_format($size / 1024, 2) . ' KB';
+            }
+            elseif ($size > 1) {
+                $size = $size . ' bytes';
+            }
+            elseif ($size == 1) {
+                $size = $size . ' byte';
+            }
+            else {
+                $size = '0 bytes';
+            }
+            
+            $link_thumbnail = NULL;
+            if(in_array($extension, ["jpg", "png"])) {
+                $imgFile = Image::make($file->getRealPath());
+                $imgFile->resize(150, 150, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationPath.'/'.$file_path);
+                $link_thumbnail = $req->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'thumbnail'.DIRECTORY_SEPARATOR.$file_path;
+            }
+
+            if($privacy === "true") {
+                $privacy = "Public";
+            }
+            else {
+                $privacy = NULL;
+            }
+
+            $department = Department::find($req->user()->department_id);
+            $file->move($path = public_path(). DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR, $file_path);
+            $fileModal = new ContentDetail();
+            $fileModal->name = $newImageName;
+            $fileModal->type = $extension;
+            $fileModal->size = $size;
+            $fileModal->note = $note;
+            $fileModal->privacy = $privacy;
+            $fileModal->content_id = $content_id;
+            $fileModal->department_code = $department->department_code;
+            $fileModal->link_thumbnail = $link_thumbnail;
+            $fileModal->link = $req->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.$file_path;
+            $fileModal->save();
+            sleep(1);
+            return response()->json(['success' => true]);
         }
     }
 
@@ -147,7 +151,25 @@ class ContentDetailController extends Controller
     {
         if($request->user()->can('delete_content')){
             $content = ContentDetail::find($id);
+            
+            $link = $content->link;
+            $link = Str::of($link)->explode(DIRECTORY_SEPARATOR);
+            $link = public_path().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.$link[count($link) - 1];
+            if(file_exists($link)) {
+                unlink($link);
+            }
+
+            $link_thumbnail = $content->link_thumbnail;
+            if($link_thumbnail) {
+                $link_thumbnail = Str::of($link_thumbnail)->explode(DIRECTORY_SEPARATOR);
+                $link_thumbnail = public_path().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'thumbnail'.DIRECTORY_SEPARATOR.$link_thumbnail[count($link_thumbnail) - 1];
+                if(file_exists($link_thumbnail)) {
+                    unlink($link_thumbnail);
+                }
+            }
+
             $content->delete();
+
             return back();
         }
         else{

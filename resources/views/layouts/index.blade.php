@@ -35,18 +35,6 @@
     @stack('third_party_stylesheets')
 
     @stack('page_css')
-
-    <style>
-      .upload-area {
-          max-width: 500px;
-          margin: 0 auto;
-      }
-
-      .imgPreview img {
-          padding: 8px;
-          max-width: 100px;
-      }
-  </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
