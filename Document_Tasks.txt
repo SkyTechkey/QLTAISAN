@@ -46,3 +46,31 @@ Task 4:
     - Chưa hoàn thành: Chưa áp dụng load more on scroll
 Task 5: Như task 4 nhưng chưa xem được video và thông tin chi tiết video
 Task 6: Chưa hoàn thành
+**************************
+
+Update tasks: cập nhật lại quyền user
+- Design by: Nguyễn Hồng Quân
+- Ngày tao: 13/08/2021
+- Mô tả nội dung:
+    + Thêm permission: download_content
+    + Chỉnh quyền user chỉ được view
+    + Chỉnh hiển thị chỉ hiển thị những folder và files thuộc phòng ban của user đang login
+
+Tasks giao ngày 12/08/2021
+### Design by: Nguyễn Đình Kha
+### Ngày tạo: 14/08/2021
+### Mô tả nội dung:
+    * Task 1: Update upload multiple using Dropzone:
+        - Đã up được nhiều file cùng lúc
+    * Task 2: Chức năng khóa quyền public chưa làm được
+    * Task 3: Set tăng kích thước cho phép upload dung lượng lớn
+        - Có 3 cách để set tăng kích thước (Sửa file php.init, thư viện Upload Chunking và Resumable)
+        - Vì đã sử dụng Upload sử dụng Dropzone nên chỉ sử dụng được cách sửa file php.ini, cụ thể chỉnh sửa thành:
+            + upload_max_filesize=1024M
+            + post_max_filesize=1024M
+            + max_input_time=3000
+            + max_execution_time=3000
+        - Đã test và upload được file với dung lượng 300MB (thời gian up lâu)
+    * Task 4: Tạo hộp thoại chứa đường link file
+        - Đã tạo hộp thoại hiển thị link file với những file có privacy là public
+        - Copy link nhanh thông qua button và dán vào url đã hiển thị file đúng

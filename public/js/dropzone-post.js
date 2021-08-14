@@ -15,7 +15,7 @@ Dropzone.options.dropzone = {
             newName = `${name}${"::"}${note}${"::"}${privacy}${"::"}${content_id}`;
         return newName;
     },
-    acceptedFiles: "image/*, video/*, audio/*",
+    // acceptedFiles: "image/*, video/*, audio/*",
     // addRemoveLinks: true,
     timeout: 5000000,
     // removedfile: function(file) {
@@ -40,10 +40,10 @@ Dropzone.options.dropzone = {
     //         .previewElement) : void 0;
     // },
     success: function(file, res) {
-        // console.log(res)
+        console.log(res)
     },
     error: function(file, res) {
-        // console.log(res);
+        console.log(res);
         return false;
     }
 };

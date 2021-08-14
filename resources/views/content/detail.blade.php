@@ -18,10 +18,12 @@
                 <div>
                     <div class="mb-2">
                         <div class="float-left">
-                            @if ($content_id)
-                                <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal"
+                            @if($content_id)
+                                @can('create_content', User::class)
+                                    <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal"
                                     data-target="#newFiles">
                                     New Files </a>
+                                @endcan
                             @endif
                         </div>
 
@@ -144,6 +146,10 @@
                                     @endif
                                 </div>
                             </div>
+
+
+
+
                             <div class="dropdown dropdown-media">
                                 <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
                                     <i class="fas fa-ellipsis-h"></i>
@@ -152,16 +158,22 @@
                                     <form action="/content-detail/{{ $file->id }}" method="POST">
                                         <div class="row">
                                             <div class="col text-end">
-                                                {{-- <button type="button" class="dropdown-item">Details</button> --}}
-                                                <button type="button" class="dropdown-item" data-toggle="modal"
-                                                    data-target="#file{{ $file->id }}">
-                                                    Rename
-                                                </button>
-                                                <a href="/content-detail/download/{{ $file->id }}"
-                                                    class="dropdown-item">Download</a>
+                                                @can('update_content', User::class)
+                                                    <button type="button" class="dropdown-item" data-toggle="modal"
+                                                        data-target="#file{{ $file->id }}">
+                                                        Rename
+                                                    </button>
+                                                @endcan
+                                                @can('download_content', User::class)
+                                                    <a href="/content-detail/download/{{ $file->id }}"
+                                                        class="dropdown-item">Download</a>
+                                                @endcan
+
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item">Delete</button>
+                                                @can('delete_content', User::class)
+                                                    <button type="submit" class="dropdown-item">Delete</button>
+                                                @endcan
                                             </div>
                                         </div>
                                     </form>
@@ -215,16 +227,21 @@
                                         <form action="/content-detail/{{ $file->id }}" method="POST">
                                             <div class="row">
                                                 <div class="col text-end">
-                                                    {{-- <button type="button" class="dropdown-item">Details</button> --}}
-                                                    <button type="button" class="dropdown-item" data-toggle="modal"
-                                                        data-target="#file{{ $file->id }}">
-                                                        Rename
-                                                    </button>
-                                                    <a href="/content-detail/download/{{ $file->id }}"
-                                                        class="dropdown-item">Download</a>
+                                                    @can('update_content', User::class)
+                                                        <button type="button" class="dropdown-item" data-toggle="modal"
+                                                            data-target="#file{{ $file->id }}">
+                                                            Rename
+                                                        </button>
+                                                    @endcan
+                                                    @can('download_content', User::class)
+                                                        <a href="/content-detail/download/{{ $file->id }}" class="dropdown-item">Download</a>
+                                                    @endcan
+
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="dropdown-item">Delete</button>
+                                                    @can('delete_content', User::class)
+                                                        <button type="submit" class="dropdown-item">Delete</button>
+                                                    @endcan
                                                 </div>
                                             </div>
                                         </form>
@@ -276,16 +293,21 @@
                                         <form action="/content-detail/{{ $file->id }}" method="POST">
                                             <div class="row">
                                                 <div class="col text-end">
-                                                    {{-- <button type="button" class="dropdown-item">Details</button> --}}
+                                                    @can('update_content', User::class)
                                                     <button type="button" class="dropdown-item" data-toggle="modal"
                                                         data-target="#file{{ $file->id }}">
                                                         Rename
                                                     </button>
-                                                    <a href="/content-detail/download/{{ $file->id }}"
-                                                        class="dropdown-item">Download</a>
-                                                    @csrf
-                                                    @method('DELETE')
+                                                @endcan
+                                                @can('download_content', User::class)
+                                                    <a href="/content-detail/download/{{ $file->id }}" class="dropdown-item">Download</a>
+                                                @endcan
+
+                                                @csrf
+                                                @method('DELETE')
+                                                @can('delete_content', User::class)
                                                     <button type="submit" class="dropdown-item">Delete</button>
+                                                @endcan
                                                 </div>
                                             </div>
                                         </form>
@@ -420,8 +442,10 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
-                                            <input type="text" id="path-{{ $file->id }}" class="form-control col-sm-9 mr-2" value="{{ $file->link }}">
-                                            <button type="button" class="ml-2 btn btn-secondary col-sm-2" onclick="coppyPath({{ $file->id }})">Copy Path</button>
+                                            <input type="text" id="path-{{ $file->id }}"
+                                                class="form-control col-sm-9 mr-2" value="{{ $file->link }}">
+                                            <button type="button" class="ml-2 btn btn-secondary col-sm-2"
+                                                onclick="coppyPath({{ $file->id }})">Copy Path</button>
                                         </div>
                                     </div>
                                     <div class="modal-footer justify-content-between">
