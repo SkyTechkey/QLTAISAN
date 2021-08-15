@@ -74,3 +74,13 @@ Tasks giao ngày 12/08/2021
     * Task 4: Tạo hộp thoại chứa đường link file
         - Đã tạo hộp thoại hiển thị link file với những file có privacy là public
         - Copy link nhanh thông qua button và dán vào url đã hiển thị file đúng
+
+**************************************************************************************
+Update ngày 16/08/2021
+    - Design by Nguyễn Đình Kha
+    - Ngày tạo: 16/08/2021
+    - Mô tả nội dung:
+        + Update quyền user ở folder
+        + Update Folders và Files hiển thị trong thời gian 3 tháng gần nhất
+        + Add đếm số lượng file theo thể loại hiển thị ra dashboard
+        + Update validation trong thẻ image chỉ đc upload image, tương tự audio và video

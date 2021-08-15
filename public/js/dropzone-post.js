@@ -4,47 +4,48 @@ $.ajaxSetup({
     }
 });
 
+var Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: true,
+    timer: 5000
+});
+
 Dropzone.options.dropzone = {
     maxFilesize: 1024,
     renameFile: function(file) {
-        // name::note::privacy::content_id
+        // name::note::privacy::content_id::typeFile
         var content_id = $("#content_id").val() ? $("#content_id").val() : null,
             name = $("#name").val() ? $("#name").val() + '.' + file.type.split('/').pop() : file.name,
             note = $("#note").val() ? $("#note").val() : null,
             privacy = $("#privacy").is(":checked"),
-            newName = `${name}${"::"}${note}${"::"}${privacy}${"::"}${content_id}`;
+            type = file.type.split('/')[0],
+            newName = `${name}${"::"}${note}${"::"}${privacy}${"::"}${content_id}::${type}`;
         return newName;
     },
-    // acceptedFiles: "image/*, video/*, audio/*",
-    // addRemoveLinks: true,
+    acceptedFiles: "image/*, video/*, audio/*",
     timeout: 5000000,
-    // removedfile: function(file) {
-    //     var name = file.upload.filename;
-    //     $.ajax({
-    //         type: "POST",
-    //         url: '/delete',
-    //         data: {
-    //             filename: name
-    //         },
-    //         success: function(data) {
-    //             console.log(data);
-    //             console.log("File has been successfully removed!");
-    //         },
-    //         error: function(e) {
-    //             console.log(e);
-    //         }
-    //     });
-
-    //     var fileRef;
-    //     return (fileRef = file.previewElement) != null ? fileRef.parentNode.removeChild(file
-    //         .previewElement) : void 0;
-    // },
     success: function(file, res) {
-        console.log(res)
+        if (res.warning) {
+            // alert warning
+            Toast.fire({
+                icon: 'warning',
+                title: `${res.warning}`
+            });
+        }
+        if (res.success === true) {
+            // alert success
+            Toast.fire({
+                icon: 'success',
+                title: 'File has successfully uploaded!'
+            });
+        }
     },
     error: function(file, res) {
-        console.log(res);
-        return false;
+        Toast.fire({
+            icon: 'error',
+            title: 'Something went wrong. Try again!'
+        });
     }
 };
 

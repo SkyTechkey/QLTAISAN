@@ -10,4 +10,9 @@ class ContentType extends Model
     use HasFactory;
     protected $table = 'content_types';
     public $timestamps = false;
+
+    public function content()
+    {
+        return $this->hasMany(Content::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Content;
 use App\Models\ContentDetail;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -18,11 +19,17 @@ class ContentDetailController extends Controller
     }
 
     public function show (Request $request, $id){
-        $contents = ContentDetail::where('content_id', $id)->get();
+        // get date of 3 months ago
+        $fdate = now()->subMonth(3);
+        $ldate = now();
+        $search = "";
+        $contents = ContentDetail::where('content_id', $id)
+                                ->whereBetween('created_at', [$fdate, $ldate])
+                                ->get();
         $content_id = $id;
         // gọi hàm view ở policy để check
         if($request->user()->can('view_content', $contents)) {
-            return view('content.detail', compact('contents', 'content_id'));
+            return view('content.detail', compact('contents', 'content_id', "search", "fdate", "ldate"));
         }
         else{
             abort(403);
@@ -68,13 +75,28 @@ class ContentDetailController extends Controller
             $note = $explode[1];
             $privacy = $explode[2];
             $content_id = $explode[3];
-
+            $content_type = $explode[4];
+            $content_type_id = Content::find($content_id)->content_type_id;
             $newImageName = Str::of($filename)->explode('.')[0];
-            
             $extension = $file->extension();
+            if($content_type_id === 1) {
+                if($content_type != "image") {
+                    return response()->json(['warning' => 'Only accept image files in this folder!']);
+                }
+            }
+            if($content_type_id === 2) {
+                if($content_type != "audio") {
+                    return response()->json(['warning' => 'Only accept audio files in this folder!']);
+                }
+            }
+            if($content_type_id === 3) {
+                if($content_type != "video") {
+                    return response()->json(['warning' => 'Only accept video files in this folder!']);
+                }
+            }
 
-            $file_path = Str::slug($newImageName, '-').'_'.time().'.'.$extension; //ok
-            $newImageName = Str::slug($newImageName, '-').'_'.$date.'.'.$extension; //ok
+            $file_path = Str::slug($newImageName, '-').'_'.time().'.'.$extension;
+            $newImageName = Str::slug($newImageName, '-').'_'.$date.'.'.$extension;
             $size = $file->getSize();
             
             if ($size >= 1073741824) {
@@ -180,10 +202,10 @@ class ContentDetailController extends Controller
     public function searchFile(Request $req) {
         $this->search = $req->searchInfo;
         $content_id = $req->content_id;
+        $fdate = $req->fdate.' 00:00:00';
+        $ldate = $req->ldate.' 23:59:59';
 
         if($req->fdate && $req->ldate) {
-            $fdate = $req->fdate.' 00:00:00';
-            $ldate = $req->ldate.' 23:59:59';
             if($this->search) {
                 $contents = ContentDetail::where('content_id', $content_id)
                                         ->where(function($query) {
@@ -210,7 +232,8 @@ class ContentDetailController extends Controller
                 $contents = ContentDetail::where('content_id', $content_id)->get();
             }
         }
-        return view('content.detail', compact('contents', 'content_id'));
+        $search = $this->search;
+        return view('content.detail', compact('contents', 'content_id', "search", "fdate", "ldate"));
     }
 
     public function searchFiles(Request $req) {

@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             "note" => null,
             "user_id" => 1,
             "department_id" => 1,
-            "type_id" => 1,
+            "content_type_id" => 1,
             "deleted_at" => null,
             "created_at" => now(),
             "updated_at" => now()

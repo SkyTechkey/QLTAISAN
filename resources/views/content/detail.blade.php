@@ -9,7 +9,8 @@
     <link rel="stylesheet" href={{ URL::asset('css/music-player.css') }}>
     {{-- Dropzone --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/dropzone.min.css" rel="stylesheet">
-
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href={{ URL::asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}>
 @endpush
 @section('content')
     <div class="col-12">
@@ -34,16 +35,40 @@
                                     <div class="form-group row pl-3">
                                         <label for="searchInfo" class="col-form-label">Content</label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control" id="searchInfo" name="searchInfo"
-                                                placeholder="Search...">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="searchInfo"
+                                                name="searchInfo"
+                                                @if($search)
+                                                    value="{{ $search }}"
+                                                @else
+                                                    placeholder="Search..."
+                                                @endif
+                                            >
                                         </div>
                                         <label for="fdate" class="col-form-label">From</label>
+                                        
                                         <div class="col-sm-2">
-                                            <input type="date" class="form-control" name="fdate" id="fdate">
+                                            <input type="date"
+                                                class="form-control"
+                                                name="fdate"
+                                                id="fdate"
+                                                @if($fdate)
+                                                    value="{{ explode(' ', $fdate)[0] }}"
+                                                @endif
+                                            >
                                         </div>
                                         <label for="ldate" class="col-form-label">To</label>
                                         <div class="col-sm-2">
-                                            <input type="date" class="form-control" name="ldate" id="ldate">
+                                            <input type="date"
+                                                class="form-control"
+                                                name="ldate"
+                                                id="ldate"
+                                                @if($ldate)
+                                                    value="{{ explode(' ', $ldate)[0] }}"
+                                                @endif
+                                            >
                                         </div>
                                         <input hidden class="form-control" name="content_id" value={{ $content_id }}>
                                         <button type="submit" class="btn btn-primary">Search</button>
@@ -146,10 +171,6 @@
                                     @endif
                                 </div>
                             </div>
-
-
-
-
                             <div class="dropdown dropdown-media">
                                 <a href="#" class="btn btn-sm btn-hover" data-toggle="dropdown">
                                     <i class="fas fa-ellipsis-h"></i>
@@ -467,10 +488,11 @@
 @push('content')
     <!-- Ekko Lightbox -->
     <script src={{ URL::asset('plugins/ekko-lightbox/ekko-lightbox.min.js') }}></script>
+    <!-- SweetAlert2 -->
+    <script src={{ URL::asset('plugins/sweetalert2/sweetalert2.min.js') }}></script>
     {{-- Music Player --}}
     <script src={{ URL::asset('js/music-player.js') }}></script>
     {{-- Dropzone --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.2/min/dropzone.min.js"></script>
     <script src={{ URL::asset('js/dropzone-post.js') }}></script>
     <script>

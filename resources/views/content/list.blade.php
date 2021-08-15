@@ -11,9 +11,11 @@
 
                     <div class="mb-2">
                         <div class="float-left">
-                            <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal"
-                                data-target="#newFolder">
-                                New Folder </a>
+                            @can('create_content', User::class)
+                                <a class="btn btn-secondary" href="javascript:void(0)" data-toggle="modal"
+                                    data-target="#newFolder">
+                                    New Folder </a>
+                            @endcan
                         </div>
                         <div>
                             <form action="/search-folder" method="POST" enctype="multipart/form-data">
@@ -21,17 +23,17 @@
                                 <div class="form-group row pl-3">
                                     <label for="searchInfo" class="col-form-label">Content</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" id="searchInfo" name="searchInfo" placeholder="Search...">
+                                        <input type="text" class="form-control" id="searchInfo" name="searchInfo" @if($search) value="{{ $search }}" @else placeholder="Search..." @endif>
                                     </div>
                                     <label for="fdate" class="col-form-label">From</label>
                                     <div class="col-sm-2">
-                                        <input type="date" class="form-control" name="fdate" id="fdate">
+                                        <input type="date" class="form-control" name="fdate" id="fdate" @if($fdate) value="{{ explode(' ', $fdate)[0] }}" @endif>
                                     </div>
                                     <label for="ldate" class="col-form-label">To</label>
                                     <div class="col-sm-2">
-                                        <input type="date" class="form-control" name="ldate" id="ldate">
+                                        <input type="date" class="form-control" name="ldate" id="ldate" @if($ldate) value="{{ explode(' ', $ldate)[0] }}" @endif>
                                     </div>
-                                    <input hidden class="form-control" name="type_id" value={{ $type_id }}>
+                                    <input hidden class="form-control" name="content_type_id" value={{ $content_type_id }}>
                                     <button type="submit" class="btn btn-primary">Search</button>
                                     <div class="btn-group ml-2">
                                         <a id="list" class="btn btn-default" href="javascript:void(0)"> List view </a>
@@ -63,8 +65,8 @@
                                             <input type="text" class="form-control" name="folderName"
                                                 placeholder="Folder name">
                                         </div>
-                                        <input type="hidden" class="form-control" name="type_id" placeholder="Folder name"
-                                            value={{ $type_id }}>
+                                        <input type="hidden" class="form-control" name="content_type_id" placeholder="Folder name"
+                                            value={{ $content_type_id }}>
                                     </div>
                                     <div class="modal-footer justify-content-between">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -101,14 +103,20 @@
                                             <form action="/content/{{ $folder->id }}" method="POST">
                                                 <div class="row">
                                                     <div class="col text-end">
-                                                        <button type="button" class="dropdown-item">Details</button>
-                                                        <button type="button" class="dropdown-item" data-toggle="modal"
-                                                            data-target="#folder{{ $folder->id }}">
-                                                            Rename
-                                                        </button>
+                                                        {{-- <button type="button" class="dropdown-item">Details</button> --}}
+                                                        @can('update_content', User::class)
+                                                            <button type="button" class="dropdown-item" data-toggle="modal"
+                                                                data-target="#folder{{ $folder->id }}">
+                                                                Rename
+                                                            </button>
+                                                        @endcan
+                                                        
+                                                        @can('delete_content', User::class)
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="dropdown-item">Delete</button>
+                                                            <button type="submit" class="dropdown-item">Delete</button>
+                                                        @endcan
+                                                            
                                                     </div>
                                                     <!-- end col -->
                                                 </div>
