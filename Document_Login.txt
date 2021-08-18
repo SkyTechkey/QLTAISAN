@@ -1,0 +1,10 @@
+Task: Lập trình trang Login
+    - Design by Nguyễn Đình Kha
+    - Ngày tạo: 18/08/2021
+    - Mô tả nội dung:
+        + Thiết kế layout login với username và password
+        + Xây dựng Migration và Seeder với username (admin) và password (123456)
+        + Validation thông tin đăng nhập, đưa ra cảnh báo nếu username, password không hợp lệ
+        + Xây dựng Middleware ngăn chặn gửi yêu cầu không mong muốn, cụ thể: đã đăng nhập thì gõ path login không được,
+            ngược lại chưa đăng nhập thì gõ path dashboard sẽ redirect sang trang login, khi logout bấm nút trở về thì
+            redirect sang trang login.
