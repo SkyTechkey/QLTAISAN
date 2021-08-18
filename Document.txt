@@ -1,0 +1,11 @@
+**************************
+Task thiết kê layout demo, layout master
+- Design by: Trần Văn Phát
+- Ngày tạo: ngày 18/08/2021
+- Mô tả nội dung:
+    + Tạo thư mục layout
+    + Tạo master cho login
+    + Giao diện login
+    + Tạo master trang quản trị
+    + Giao diện chính trang tổng quát
+**************************
