@@ -1,0 +1,13 @@
+**************************
+Task phân quyền users
+- Design by: Nguyễn Hồng Quân
+- Ngày tạo: ngày 18/08/2021
+- Mô tả nội dung: 
+    + sử dụng middleware để xác nhận quyền mà tài khoản đang login
+    có được truy cập vào route hiện tại không
+    + các quyền được cài đặt là về user: 
+        + view_user: được xem user
+        + create_user: được tạo user
+        + update_user: được chỉnh sửa user
+        + delete_user: được xóa user
+**************************
