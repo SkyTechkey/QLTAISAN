@@ -1,0 +1,6 @@
+**************************
+Task merge login, layouts and decentralization
+- Ngày tạo: ngày 19/08/2021
+- Mô tả nội dung: 
+    + merge code từ nhánh master layouts, login_kha và decentralization_quan
+**************************
