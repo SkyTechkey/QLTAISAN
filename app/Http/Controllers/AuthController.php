@@ -50,6 +50,6 @@ class AuthController extends Controller
     function dashboard() {
         // return dashboard page with Logged in User Info
         $data = ['LoggedUserInfo' => User::where('id', session('LoggedUser'))->first()];
-        return view('dashboard.index', $data);
+        return view('demo-test.demo-test', $data);
     }
 }
