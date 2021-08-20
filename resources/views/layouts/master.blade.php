@@ -1,21 +1,38 @@
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>AdminLTE</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-     <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
 
-<body>
-        <!--UI login-->
-        @include('demo-test.demo-test')
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+      <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+      <img class="animation__shake" src="/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+    </div>
+        <!--Main Header-->
+        @include('partials.header')
+        @stack('css-up')
+       @stack('js-up')
 
+        <!-- Left side column. contains the logo and sidebar -->
+        @include('partials.left-sidebar')
+
+    
+        <!-- Content Wrapper. Contains page content -->
+        {{-- <div class="content-wrapper">
+            <section class="content">
+                @yield('content')
+            </section>
+        </div> --}}
+        <!--Main Footer-->
+        @include('partials.footer')
+    </div>
 </body>
 </html>
