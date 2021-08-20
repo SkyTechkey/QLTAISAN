@@ -29,3 +29,7 @@ Route::resource('department',DepartmentController::class)->middleware('auth');
 Route::resource('role',RoleController::class)->middleware('auth');
 Route::resource('permission',PermissionController::class)->middleware('auth');
 
+Route::get('/loginn', function(){
+    
+   return view('auth.login');
+});

@@ -73,5 +73,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete_department', function (User $user) {
             return $user->hasAccess(['delete_department']) ;
         });
+        Gate::define('download_content', function (User $user) {
+            return $user->hasAccess(['download_content']) ;
+        });
     }
 }

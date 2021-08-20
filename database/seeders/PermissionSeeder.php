@@ -14,7 +14,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'create_content'],
             ['name' => 'update_content'],
             ['name' => 'delete_content'],
-            ['name' => 'force_delete_content'],
+            ['name' => 'download_content'],
             
             ['name' => 'view_user'],
             ['name' => 'create_user'],

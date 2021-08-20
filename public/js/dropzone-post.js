@@ -12,6 +12,7 @@ var Toast = Swal.mixin({
 });
 
 Dropzone.options.dropzone = {
+    // autoProcessQueue:false,
     maxFilesize: 1024,
     renameFile: function(file) {
         // name::note::privacy::content_id::typeFile

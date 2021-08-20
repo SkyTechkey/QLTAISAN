@@ -19,10 +19,6 @@ class UserController extends Controller
             $users = User::all();
             $departments = Department::all();
             $roles = Role::all();
-            foreach($users as $user){
-                $user -> department;
-                $user -> roles;
-            }
             return view('user.list',compact('users','departments','roles'));
         }
         else{

@@ -45,4 +45,8 @@ class ContentPolicy
     {
         //
     }
+    public function download(User $user, Content $content)
+    {
+        return $user->hasAccess(['download_content']);
+    }
 }
