@@ -141,4 +141,5 @@
         </li>
     </ul>
 </nav>
+
 @include('partials.script-up')
