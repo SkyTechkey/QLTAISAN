@@ -12,8 +12,40 @@ var Toast = Swal.mixin({
 });
 
 Dropzone.options.dropzone = {
-    // autoProcessQueue:false,
+    autoProcessQueue:false,
     maxFilesize: 1024,
+    init: function() {
+            var submitButton = document.querySelector("#submit-all")
+                dropzone = this; // closure
+        
+            submitButton.addEventListener("click", function() {
+              dropzone.processQueue(); // Tell Dropzone to process all queued files.
+            })
+            this.on("addedfile", function(file) {
+    
+                // Create the remove button
+                var removeButton = Dropzone.createElement('<a class="dz-remove">Remove file</a>');
+                
+        
+                // Capture the Dropzone instance as closure.
+                var _this = this;
+        
+                // Listen to the click event
+                removeButton.addEventListener("click", function(e) {
+                  // Make sure the button click doesn't submit the form:
+                  e.preventDefault();
+                  e.stopPropagation();
+        
+                  // Remove the file preview.
+                  _this.removeFile(file);
+                  // If you want to the delete the file on the server as well,
+                  // you can do the AJAX request here.
+                });
+        
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(removeButton);
+              });
+        },
     renameFile: function(file) {
         // name::note::privacy::content_id::typeFile
         var content_id = $("#content_id").val() ? $("#content_id").val() : null,

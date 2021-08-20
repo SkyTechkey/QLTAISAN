@@ -122,6 +122,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" id="submit-all" class="btn btn-primary" >Submit</button>
                             </div>
                             {{-- </form> --}}
                         </div>
