@@ -2,7 +2,7 @@
 
     {{-- js see password --}}
     <!-- jQuery -->
-    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="{{URL::asset('/plugins/jquery/jquery.min.js')}}"></script>
     <script>
         $(".toggle-password").click(function() {
             $(this).toggleClass("fa-eye fa-eye-slash");

@@ -4,10 +4,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>AdminLTE</title>
+    <title> @yield('title')</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{URL::asset ('/plugins/fontawesome-free/css/all.min.css'); }}">
     <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="{{URL::asset ('/dist/css/adminlte.min.css'); }}">
+    
+    {{-- @stack('style-up') --}}
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -18,21 +23,19 @@
     </div>
         <!--Main Header-->
         @include('partials.header')
-        @stack('css-up')
-       @stack('js-up')
 
         <!-- Left side column. contains the logo and sidebar -->
         @include('partials.left-sidebar')
-
     
         <!-- Content Wrapper. Contains page content -->
-        {{-- <div class="content-wrapper">
+        <div class="content-wrapper">
             <section class="content">
                 @yield('content')
             </section>
-        </div> --}}
+        </div>
         <!--Main Footer-->
         @include('partials.footer')
     </div>
+    @stack('js-up')
 </body>
 </html>

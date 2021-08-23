@@ -1,4 +1,3 @@
-
 @include('login.style-login')
 <div class="container">
     <div class="row">
@@ -10,7 +9,6 @@
             <div class="col-lg-12 login-title">
                 Login
             </div>
-
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
                     <form>
@@ -41,5 +39,4 @@
             </div>
         </div>
     </div>
-
-    @include('login.script-login')
+@include('login.script-login')
