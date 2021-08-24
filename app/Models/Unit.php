@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class unit extends Model
 {
     use HasFactory;
-    protected $table = 'departments';
+    protected $table = 'units';
     protected $primary_key = 'id';
     public $timestamps = false;
-    public function user()
+
+    public function branch()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Branch::class);
     }
 }

@@ -15,9 +15,16 @@ class CreateDepartmentsTable extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('branch_id');
             $table->string('department_code');
             $table->string('name');
             $table->text('note')->nullable();
+
+            $table->foreign('branch_id')
+            ->references('id')
+            ->on('branches')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
     public function down()

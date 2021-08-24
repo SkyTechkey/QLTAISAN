@@ -11,12 +11,20 @@ class DatabaseSeeder extends Seeder
     
     public function run()
     {
+
+
+        DB::table('units')->insert([
+            ['name' => 'Sky'],
+        ]);
+        DB::table('branches')->insert([
+            ['name' => 'Sky 1', 'unit_id' => 1],
+        ]);
         DB::table('departments')->insert([
-            ['department_code' => 'dp1', 'name' => 'Develop department'],
-            ['department_code' => 'db2', 'name' => 'Sale department'],
-            ['department_code' => 'db3', 'name' => 'Training department'],
-            ['department_code' => 'db4', 'name' => 'Marketing department'],
-            ['department_code' => 'db5', 'name' => 'Human resouces department'],
+            ['department_code' => 'dp1', 'name' => 'Develop department', 'branch_id' => 1],
+            ['department_code' => 'db2', 'name' => 'Sale department', 'branch_id' => 1],
+            ['department_code' => 'db3', 'name' => 'Training department', 'branch_id' => 1],
+            ['department_code' => 'db4', 'name' => 'Marketing department', 'branch_id' => 1],
+            ['department_code' => 'db5', 'name' => 'Human resouces department', 'branch_id' => 1],
         ]);
         DB::table('users')->insert([
             [
