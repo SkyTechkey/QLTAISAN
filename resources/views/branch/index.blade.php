@@ -20,7 +20,7 @@
 <!-- Body content -->
 @section('content')
 
-    {{-- code content --}}
+   day la trang branch
 
 @endsection
 <!-- End body-->

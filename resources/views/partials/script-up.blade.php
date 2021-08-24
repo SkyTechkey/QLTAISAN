@@ -5,6 +5,5 @@
     <script src={{URL::asset("plugins/bootstrap/js/bootstrap.bundle.min.js")}}></script>
     <!-- AdminLTE App -->
     <script src={{URL::asset("dist/js/adminlte.js")}}></script>
-    <script src={{URL::asset("dist/js/demo.js")}}></script>
-    <script src={{URL::asset("dist/js/demo.js")}}></script>
+   
 @endpush

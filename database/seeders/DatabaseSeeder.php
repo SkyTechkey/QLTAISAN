@@ -49,22 +49,34 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
         DB::table('permissions')->insert([
-            ['name' => 'view_content'],
-            ['name' => 'create_content'],
-            ['name' => 'update_content'],
-            ['name' => 'delete_content'],
-            ['name' => 'force_delete_content'],
-            
             ['name' => 'view_user'],
             ['name' => 'create_user'],
             ['name' => 'update_user'],
             ['name' => 'delete_user'],
-            ['name' => 'change_role'],
+
+            ['name' => 'view_unit'],
+            ['name' => 'update_unit'],
+
+            ['name' => 'view_all_branch'],
+            ['name' => 'view_branch'],
+            ['name' => 'create_branch'],
+            ['name' => 'update_branch'],
+            ['name' => 'delete_branch'],
 
             ['name' => 'view_department'],
             ['name' => 'create_department'],
             ['name' => 'update_department'],
             ['name' => 'delete_department'],
+
+            ['name' => 'view_role'],
+            ['name' => 'create_role'],
+            ['name' => 'update_role'],
+            ['name' => 'delete_role'],
+
+            ['name' => 'view_permission'],
+            ['name' => 'create_permission'],
+            ['name' => 'update_permission'],
+            ['name' => 'delete_permission'],
         ]);
         DB::table('roles')->insert([
             ['name' => 'admin'],
@@ -92,6 +104,15 @@ class DatabaseSeeder extends Seeder
             ['permission_id' => 12, 'role_id' => 1],
             ['permission_id' => 13, 'role_id' => 1],
             ['permission_id' => 14, 'role_id' => 1],
+            ['permission_id' => 15, 'role_id' => 1],
+            ['permission_id' => 16, 'role_id' => 1],
+            ['permission_id' => 17, 'role_id' => 1],
+            ['permission_id' => 18, 'role_id' => 1],
+            ['permission_id' => 19, 'role_id' => 1],
+            ['permission_id' => 20, 'role_id' => 1],
+            ['permission_id' => 21, 'role_id' => 1],
+            ['permission_id' => 22, 'role_id' => 1],
+            ['permission_id' => 23, 'role_id' => 1],
             ['permission_id' => 1, 'role_id' => 2],
         ]);
     }

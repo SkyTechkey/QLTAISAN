@@ -17,7 +17,7 @@ class RoleController extends Controller
             foreach($roles as $role){
                 $role -> permissions;
             }
-            return view('role.list',compact('roles','permissions'));
+            return view('role.index',compact('roles','permissions'));
         }
         else{
             abort(403);
@@ -42,7 +42,6 @@ class RoleController extends Controller
     
     public function update(Request $request, $id)
     {
-        
         $role = Role::find($id);
         $role -> name = $request->name;
         $role -> save();

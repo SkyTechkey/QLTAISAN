@@ -7,78 +7,44 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->user()->can('view_all_branch')){
+            $branches = branch::all();
+            return view('branch.index',compact('branches'));
+        }
+        else if($request->user()->can('view_branch')){
+            $branches = branch::where('id',$request->user()->department->branch->id)->get();
+            return view('branch.index',compact('branches'));
+        }
+        else
+           return redirect()->back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\branch  $branch
-     * @return \Illuminate\Http\Response
-     */
-    public function show(branch $branch)
+    public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\branch  $branch
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(branch $branch)
+    public function update(Request $request, $id)
     {
-        //
+        $branch = branch::find($id);
+        $branch->name = $request->name;
+        $branch->email = $request->email;
+        $branch->address = $request->address;
+        $branch->phone = $request->phone;
+        $branch->unit_id = $request->unit_id;
+        $branch->note = $request->note;
+        $branch -> save();
+        return redirect()->route('branch.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\branch  $branch
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, branch $branch)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\branch  $branch
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(branch $branch)
+    public function destroy($id)
     {
         //
     }

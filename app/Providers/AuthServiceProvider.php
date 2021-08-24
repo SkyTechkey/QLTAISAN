@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,7 +25,89 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        Gate::define('is-admin', function (User $user) {
+            foreach($user->roles as $role){
+                if($role->name == 'admin'){
+                    return true;
+                }
+            }
+            return false;
+        });
+        // Quyền quản lý unit
+        Gate::define('view_unit', function (User $user) {
+            return $user->hasAccess(['view_unit']) ;
+        });
+        Gate::define('update_unit', function (User $user) {
+            return $user->hasAccess(['update_unit']) ;
+        });
+        // Quyền quản lý branch
+        Gate::define('view_all_branch', function (User $user) {
+            return $user->hasAccess(['view_all_branch']) ;
+        });
+        Gate::define('view_branch', function (User $user) {
+            return $user->hasAccess(['view_branch']) ;
+        });
+        Gate::define('create_branch', function (User $user) {
+            return $user->hasAccess(['create_branch']) ;
+        });
+        Gate::define('update_branch', function (User $user) {
+            return $user->hasAccess(['update_branch']) ;
+        });
+        Gate::define('delete_branch', function (User $user) {
+            return $user->hasAccess(['delete_branch']) ;
+        });
+        // Quyền quản lý department
+        Gate::define('view_department', function (User $user) {
+            return $user->hasAccess(['view_department']) ;
+        });
+        Gate::define('create_department', function (User $user) {
+            return $user->hasAccess(['create_department']) ;
+        });
+        Gate::define('update_department', function (User $user) {
+            return $user->hasAccess(['update_department']) ;
+        });
+        Gate::define('delete_department', function (User $user) {
+            return $user->hasAccess(['delete_department']) ;
+        });
+        // Quyền quản lý user
+        Gate::define('view_user', function (User $user) {
+            return $user->hasAccess(['view_user']) ;
+        });
+        Gate::define('create_user', function (User $user) {
+            return $user->hasAccess(['create_user']) ;
+        });
+        Gate::define('update_user', function (User $user) {
+            return $user->hasAccess(['update_user']) ;
+        });
+        Gate::define('delete_user', function (User $user) {
+            return $user->hasAccess(['delete_user']) ;
+        });
+      // Quyền quản lý role
+        Gate::define('view_role', function (User $user) {
+            return $user->hasAccess(['view_role']) ;
+        });
+        Gate::define('create_role', function (User $user) {
+            return $user->hasAccess(['create_role']) ;
+        });
+        Gate::define('update_role', function (User $user) {
+            return $user->hasAccess(['update_role']) ;
+        });
+        Gate::define('delete_role', function (User $user) {
+            return $user->hasAccess(['delete_role']) ;
+        });
+        // Quyền quản lý permission
+        Gate::define('view_permission', function (User $user) {
+            return $user->hasAccess(['view_permission']) ;
+        });
+        Gate::define('create_permission', function (User $user) {
+            return $user->hasAccess(['create_permission']) ;
+        });
+        Gate::define('update_permission', function (User $user) {
+            return $user->hasAccess(['update_permission']) ;
+        });
+        Gate::define('delete_permission', function (User $user) {
+            return $user->hasAccess(['delete_permission']) ;
+        });
+       
     }
 }

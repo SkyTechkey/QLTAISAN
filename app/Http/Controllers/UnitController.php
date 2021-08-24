@@ -4,82 +4,54 @@ namespace App\Http\Controllers;
 
 use App\Models\unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UnitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+   
+    public function index(Request $request)
     {
-        //
+        if($request->user()->can('is-admin') || $request->user()->can('view_unit')){
+            $units = unit::find(1);
+            return view('unit.index',compact('units'));
+            // return $units;
+        }
+        else
+            return redirect()->back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function update(Request $request, $id)
     {
-        //
+        if($request->user()->can('update_unit')){
+            
+        $file = $request->file;
+        if($file) {
+            $date = now();
+            $date = $date->format('d-m-Y-H-i-s');
+            $filename = $file->getClientOriginalName();
+            $newImageName = Str::of($filename)->explode('.')[0];
+            $extension = $file->extension();
+
+            $file_path = Str::slug($newImageName, '-').'_'.time().'.'.$extension;
+            $newImageName = Str::slug($newImageName, '-').'_'.$date.'.'.$extension;
+
+            $file->move(public_path(). DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'unit_avt'.DIRECTORY_SEPARATOR, $file_path);
+        }
+
+        $unit = unit::find($id);
+        $unit->name = $request->name;
+        $unit->email = $request->email;
+        $unit->address = $request->address;
+        $unit->phone = $request->phone;
+        $unit->representative = $request->representative;
+        $unit->position = $request->position;
+        $unit->image = $request->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'unit_avt'.DIRECTORY_SEPARATOR.$file_path;
+        $unit->note = $request->note;
+        $unit -> save();
+        return redirect()->route('unit.index');
+        }
+        else
+            return redirect()->back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\unit  $unit
-     * @return \Illuminate\Http\Response
-     */
-    public function show(unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\unit  $unit
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\unit  $unit
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, unit $unit)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\unit  $unit
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(unit $unit)
-    {
-        //
-    }
 }

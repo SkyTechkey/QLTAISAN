@@ -13,7 +13,7 @@ class PermissionController extends Controller
            
             $permissions = Permission::all();
            
-            return view('permission.list',compact('permissions'));
+            return view('permission.index',compact('permissions'));
         }
         else{
             abort(403);
@@ -43,8 +43,8 @@ class PermissionController extends Controller
         
         if($request->user()->can('is-admin')){
             $permission = Permission::find($id);
-        $permission -> name = $request->name;
-        $permission -> save();
+            $permission -> name = $request->name;
+            $permission -> save();
 
         return redirect()->route('permission.index');
         }

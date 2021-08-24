@@ -15,4 +15,8 @@ class Department extends Model
     {
         return $this->hasMany(User::class);
     }
+    public function branch()
+    {
+        return $this->belongsTo('App\Models\Branch');
+    }
 }
