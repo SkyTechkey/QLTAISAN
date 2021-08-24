@@ -50,7 +50,7 @@
            @can(['view_branch','view_all_branch'], App\Models\User::class)
            <li class="nav-item">
                <a href="{{ route('branch.index') }}" class="nav-link  {{ Request::is('branch*') ? 'active' : '' }}">
-                   <i class="nav-icon fas fa-tachometer-alt"></i>
+                   <i class="nav-icon fas fa-code-branch"></i>
                    <p>
                       Quản lý chi nhánh
                    </p>
@@ -68,11 +68,21 @@
                   </a>
               </li>
            @endcan
+          @can('view_user', App\Models\User::class)
+                <li class="nav-item">
+                  <a href="{{ route('user.index') }}" class="nav-link {{ Request::is('user*') ? 'active' : '' }}">
+                      <i class="nav-icon fas fa-user"></i>
+                      <p>
+                          Quản lý nhân viên
+                      </p>
+                  </a>
+              </li>
+           @endcan
 
            @can('view_role', App\Models\User::class)
                 <li class="nav-item">
                   <a href="{{ route('role.index') }}" class="nav-link {{ Request::is('role*') ? 'active' : '' }}">
-                      <i class="nav-icon fas fa-building"></i>
+                      <i class="nav-icon fas fa-user-tag"></i>
                       <p>
                           Quản lý role
                       </p>

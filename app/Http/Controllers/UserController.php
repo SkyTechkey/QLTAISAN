@@ -20,8 +20,7 @@ class UserController extends Controller
             $departments = Department::all();
             $roles = Role::all();
             // return view('user.list',compact('users','departments','roles'));
-            return $users;
-        
+            return view('users.index', compact('users'));
     }
 
     public function create(Request $request)
@@ -31,26 +30,27 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        //     'department_id' => 'required'
-        // ]);
+        $request->validate([
+            'name' => 'required|max:255',
+            'username' => 'required|max:50|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'password'=>'required|min:5'
+        ]);
 
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'password' => Hash::make($request->password),
-        //     'department_id' => $request->department_id,
-        // ]);
-        // foreach($request->role_id as $role_id){
-        //     RoleUser::create(
-        //         ['role_id' => $role_id, 'user_id' => $user->id],
-        //     );
-        // }
-        // return redirect()->route('user.index');
-        return 'stored';
+        $user = new User;
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->status = "active";
+        $user->department_id = $request->user()->department_id;
+        $user->password = Hash::make($request->password);
+        $save = $user->save();
+
+        if($save){
+            return back()->with('success','New User has been successfuly added to database');
+        }else{
+            return back()->with('fail','Something went wrong, try again!');
+        }
     }
 
     public function show(Request $request, $id)

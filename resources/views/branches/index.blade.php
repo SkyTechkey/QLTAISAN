@@ -1,0 +1,245 @@
+@extends('layouts.master')
+<!-- Title content -->
+@section('title')
+    Quản lý chi nhánh
+@endsection
+<!-- End Title -->
+
+<!--Add Css -->
+@push('css-up')
+    <link rel="stylesheet" href={{ URL::asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}>
+    <link rel="stylesheet" href={{ URL::asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}>
+    <style>
+        .btn-file-custom {
+            margin: 0 5px;
+        }
+    </style>
+@endpush
+<!-- End Css -->
+
+<!--Add js -->
+@push('js-up')
+
+@endpush
+<!-- End js -->
+
+<!-- Body content -->
+@section('content')
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Quản lý chi nhánh</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="btn-file-custom"><a href="#" class="btn bg-gradient-primary btn-sm">Thêm file Excel</a></li>
+                        <li class="btn-file-custom"><a href="#" class="btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#addBranch">Thêm mới</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+    <div class="modal fade" id="addBranch">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Thêm chi nhánh</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="form-horizontal" method="post" action="/branch" enctype="multipart/form-data">
+                    @csrf
+                    <div style="padding: 20px 20px 0 20px;">
+                    <div class="form-group row">
+                      <label for="branch" class="col-sm-2 col-form-label">Tên chi nhánh</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="branch" name="branch" placeholder="Tên phòng ban" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="inputExperience" class="col-sm-2 col-form-label">Ghi chú</label>
+                      <div class="col-sm-10">
+                        <textarea class="form-control" id="inputExperience" placeholder="Ghi chú"></textarea>
+                      </div>
+                    </div>
+                    </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <div class="container-fluid">
+        @if (Session::get('success'))
+            <span class="d-block alert alert-success text-center">
+                {{ Session::get('success') }}
+            </span>
+        @endif
+        @if (Session::get('fail'))
+            <span class="d-block alert alert-danger text-center">
+                {{ Session::get('fail') }}
+            </span>
+        @endif
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID Chi nhánh</th>
+                                    <th>Tên Chi nhánh</th>
+                                    <th>Ghi Chú</th>
+                                    <th>Chức năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Trident</td>
+                                    <td>Internet
+                                        Explorer 4.0
+                                    </td>
+                                    <td>Win 95+</td>
+                                    <td>
+                                        <div class="row">
+                                            <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editBranch">Sửa</a>
+                                            <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#deleteBranch">Xóa</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Trident</td>
+                                    <td>Internet
+                                        Explorer 5.0
+                                    </td>
+                                    <td>Win 95+</td>
+                                    <td>
+                                        <div class="row">
+                                            <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editBranch">Sửa</a>
+                                            <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#deleteBranch">Xóa</a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                {{-- Modal Edit Branch Start --}}
+                                <div class="modal fade" id="editBranch">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Sửa chi nhánh</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form class="form-horizontal">
+                                                <div style="padding: 20px 20px 0 20px;">
+                                                <div class="form-group row">
+                                                  <label for="inputName" class="col-sm-2 col-form-label">Tên chi nhánh</label>
+                                                  <div class="col-sm-10">
+                                                    <input type="email" class="form-control" id="inputName" placeholder="Tên phòng ban">
+                                                  </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                  <label for="inputExperience" class="col-sm-2 col-form-label">Ghi chú</label>
+                                                  <div class="col-sm-10">
+                                                    <textarea class="form-control" id="inputExperience" placeholder="Ghi chú"></textarea>
+                                                  </div>
+                                                </div>
+                                                </div>
+                                                  <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                                    <button type="button" class="btn btn-primary">Sửa</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                {{-- Modal Edit Branch End --}}
+
+                                {{-- Modal Delete Branch Start --}}
+                                <div class="modal fade" id="deleteBranch">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content bg-danger">
+                                            <form action="">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Bạn có thực sự muốn xóa chi nhánh ...?</h4> {{-- Thay tên chi nhánh vào ... --}}
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Hủy</button>
+                                                    <button type="submit" class="btn btn-outline-light">Xóa</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                {{-- Modal Delete Branch End --}}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+<!-- End body-->
+
+<!--Add Css -->
+@push('css-down')
+
+@endpush
+<!-- End Css -->
+
+<!--Add js -->
+@push('js-down')
+    {{-- JS table search --}}
+    <script src={{ URL::asset('plugins/datatables/jquery.dataTables.min.js') }}></script>
+    <script src={{ URL::asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}></script>
+
+    <script src={{ URL::asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}></script>
+    <script src={{ URL::asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}></script>
+    <script src={{ URL::asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}></script>
+    <script src={{ URL::asset('plugins/datatables-buttons/js/buttons.print.min.js') }}></script>
+    <script src={{ URL::asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}></script>
+    <script src={{ URL::asset('plugins/jszip/jszip.min.js') }}></script>
+    <script>
+        $(function () {
+          $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+          }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+          $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+          });
+        });
+      </script>
+@endpush
+<!-- End js -->
+<!-- End Js -->
