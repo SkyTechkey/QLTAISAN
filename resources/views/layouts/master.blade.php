@@ -6,13 +6,11 @@
     <meta charset="UTF-8">
     <title> @yield('title')</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{URL::asset ('/plugins/fontawesome-free/css/all.min.css'); }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{URL::asset ('/dist/css/adminlte.min.css'); }}">
-    
-    {{-- @stack('style-up') --}}
+
+    @include('partials.style-up') {{-- CSS dùng chung cho cả hệ thống --}}
+    @include('partials.script-up') {{-- script dùng chung cho cả hệ thống --}}
+    @stack('css-up'){{-- CSS dùng riêng cho từng layout--}}
+    @stack('js-up'){{-- JS dùng riêng cho từng layout--}}
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -26,7 +24,7 @@
 
         <!-- Left side column. contains the logo and sidebar -->
         @include('partials.left-sidebar')
-    
+
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <section class="content">
@@ -36,6 +34,10 @@
         <!--Main Footer-->
         @include('partials.footer')
     </div>
-    @stack('js-up')
+
+    @include('partials.style-down') {{-- CSS dùng chung cho cả hệ thống --}}
+    @include('partials.script-down') {{-- script dùng chung cho cả hệ thống --}}
+    @stack('css-down'){{-- CSS dùng riêng cho từng layout--}}
+    @stack('js-down'){{-- JS dùng riêng cho từng layout--}}
 </body>
 </html>

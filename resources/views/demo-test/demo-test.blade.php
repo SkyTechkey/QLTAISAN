@@ -1,26 +1,39 @@
 @extends('layouts.master')
 <!-- Title content -->
-@section('title')
+    @section('title')
 
-@endsection
+    @endsection
 <!-- End Title -->
 
 <!--Add Css -->
-@push('css-up')
+    @push('css-up')
 
-@endpush
+    @endpush
 <!-- End Css -->
+
+<!--Add js -->
+    @push('js-up')
+
+    @endpush
+<!-- End js -->
 
 <!-- Body content -->
 @section('content')
 
-    <!-- code content -->
+    {{-- code content --}}
 
 @endsection
 <!-- End body-->
 
-<!--Add Js -->
-@push('js')
+<!--Add Css -->
+    @push('css-down')
 
-@endpush
+    @endpush
+<!-- End Css -->
+
+<!--Add js -->
+    @push('js-down')
+
+    @endpush
+<!-- End js -->
 <!-- End Js -->
