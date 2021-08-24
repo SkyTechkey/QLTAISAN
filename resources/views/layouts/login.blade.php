@@ -1,17 +1,17 @@
+
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title> @yield('title')</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+   @stack('css-login') 
 </head>
 
-<body>
-        <!--UI login-->
-        @include('login.index')
-        @stack('style-login')
-        @stack('script-login')
-
+<body >
+    <div class="container">
+        @yield('content')
+    </div>
+    @stack('js-login')
 </body>
 </html>

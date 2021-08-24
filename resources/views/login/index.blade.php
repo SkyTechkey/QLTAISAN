@@ -1,6 +1,33 @@
+@extends('layouts.login')
+<!-- Title content -->
+@section('title')
+    Login
+@endsection
+<!-- End Title -->
 
-@include('login.style-login')
-<div class="container">
+<!--Add Css -->
+@push('css-login')
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #40E0D0;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #FF0080, #ec008c, #40E0D0);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #FF0080, #ec008c, #40E0D0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        .btn-login {
+            width: 100%;
+            font-size: 0.9rem;
+            letter-spacing: 0.05rem;
+            padding: 0.75rem 1rem;
+        }
+
+    </style>
+@endpush
+<!-- End Css -->
+
+<!-- Body content -->
+@section('content')
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card border-0 shadow rounded-3 my-5">
@@ -44,6 +71,19 @@
             </div>
         </div>
     </div>
-</div>
-
-    @include('login.script-login')
+@endsection
+<!-- End body-->
+@push('js-login')
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script>
+        $(".toggle-password").click(function() {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
+@endpush

@@ -1,4 +1,3 @@
-@include('partials.style-down')
  <!-- Main Footer -->
  <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
@@ -9,6 +8,3 @@
     </strong>
     All rights reserved.
 </footer>
-<!-- Control Sidebar -->
-
-@include('partials.script-down')

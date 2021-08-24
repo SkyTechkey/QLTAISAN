@@ -1,5 +1,3 @@
-@include('partials.style-up')
-<!-- Main Header -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -141,5 +139,3 @@
         </li>
     </ul>
 </nav>
-
-@include('partials.script-up')
