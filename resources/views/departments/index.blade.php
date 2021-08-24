@@ -56,24 +56,37 @@ Quản lý phòng ban
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="form-horizontal">
+                <form method="POST" action="{{ route('department.store') }}">
+                    @csrf
                     <div style="padding: 20px 20px 0 20px;">
-                    <div class="form-group row">
-                      <label for="inputName" class="col-sm-2 col-form-label">Tên phòng ban</label>
-                      <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputName" placeholder="Tên phòng ban">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="inputExperience" class="col-sm-2 col-form-label">Ghi chú</label>
-                      <div class="col-sm-10">
-                        <textarea class="form-control" id="inputExperience" placeholder="Ghi chú"></textarea>
-                      </div>
-                    </div>
-                    </div>
-                      <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Thêm</button>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="department_code">Department Code</label>
+                            <input type="text" class="form-control" id="department_code" name='department_code'
+                                placeholder="department_code">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name Department</label>
+                            <input type="text" class="form-control" id="name" name='name' placeholder="name">
+                        </div>
+                        <div class="form-group">
+                            <label>Note</label>
+                            <textarea class="form-control" rows="3" name="note"
+                                placeholder="Note ..."></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="branch_id">Branch</label>
+                          <select class="custom-select" id="branch_id"
+                              name="branch_id">
+                              @foreach ($branches as $branch)
+                                  <option value={{ $branch->id }}>{{ $branch->name }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Sửa</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -81,6 +94,7 @@ Quản lý phòng ban
         </div>
         <!-- /.modal-dialog -->
     </div>
+</div>
     <!-- /.modal -->
     <div class="container-fluid">
         <div class="row">
@@ -92,9 +106,9 @@ Quản lý phòng ban
                             <label for="inputName" class="col-1 col-form-label">Chi nhánh</label>
                             <div class="col-3">
                                 <select class="form-control select2bs4" style="width: 100%;">
-                                    <option selected="selected">Tất cả chi nhánh</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
+                                    @foreach ($branches as $branch)
+                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                           </div>
@@ -106,91 +120,44 @@ Quản lý phòng ban
                         <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID Phòng ban</th>
-                                    <th>Tên Phòng ban</th>
-                                    <th>Tên Chi nhánh</th>
-                                    <th>Ghi Chú</th>
-                                    <th>Chức năng</th>
+                                    <th>Department Code</th>
+                                    <th>Name</th>
+                                    <th>Note</th>
+                                    <th>Number of employee</th>
+                                    <th>Branch</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($departments as $department)
                                 <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>Win 95+</td>
+                                    <td>{{$department->department_code}}</td>
+                                    <td>{{$department->name}}</td>
+                                    <td>{{$department->note}}</td>
+                                    <td>{{count($department->user)}}</td>
+                                    <td>{{$department->branch->name}}</td>
                                     <td>
                                         <div class="row">
-                                            <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editDepartment">Sửa</a>
-                                            <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#deleteDepartment">Xóa</a>
+                                            <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editDepartment{{$department->id}}">Sửa</a>
+                                            <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#deleteDepartment{{$department->id}}">Xóa</a>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 5.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>Win 95+</td>
-                                    <td>
-                                        <div class="row">
-                                            <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editDepartment">Sửa</a>
-                                            <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#deleteDepartment">Xóa</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                
-                                {{-- Modal Edit Department Start --}}
-                                <div class="modal fade" id="editDepartment">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
+
+                                  {{-- Modal Delete Department Start --}}
+                                  <div class="modal fade" id="deleteDepartment{{$department->id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content bg-danger">
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Sửa phòng ban</h4>
+                                                <h4 class="modal-title">Bạn có thực sự muốn xóa phòng {{$department->name}}?</h4> {{-- Thay tên phòng ban vào ... --}}
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form class="form-horizontal">
-                                                <div style="padding: 20px 20px 0 20px;">
-                                                <div class="form-group row">
-                                                  <label for="inputName" class="col-sm-2 col-form-label">Tên phòng ban</label>
-                                                  <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="inputName" placeholder="Tên phòng ban">
-                                                  </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                  <label for="inputExperience" class="col-sm-2 col-form-label">Ghi chú</label>
-                                                  <div class="col-sm-10">
-                                                    <textarea class="form-control" id="inputExperience" placeholder="Ghi chú"></textarea>
-                                                  </div>
-                                                </div>
-                                                </div>
-                                                  <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                                                    <button type="button" class="btn btn-primary">Sửa</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
-                                {{-- Modal Edit Department End --}}
-
-                                {{-- Modal Delete Department Start --}}
-                                <div class="modal fade" id="deleteDepartment">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content bg-danger">
-                                            <form action="">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Bạn có thực sự muốn xóa phòng ...?</h4> {{-- Thay tên phòng ban vào ... --}}
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
+                                            <form method="POST" action={{route('department.destroy',$department->id)}}>
+                                                @method('delete')
+                                                @csrf
+                                               
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-outline-light" data-dismiss="modal">Hủy</button>
                                                     <button type="submit" class="btn btn-outline-light">Xóa</button>
@@ -202,6 +169,62 @@ Quản lý phòng ban
                                     <!-- /.modal-dialog -->
                                 </div>
                                 {{-- Modal Delete Department End --}}
+                             
+                                {{-- Modal Edit Department Start --}}
+                                <div class="modal fade" id="editDepartment{{$department->id}}">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Sửa phòng ban</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form method="POST" action="{{ route('department.update',$department->id) }}">
+                                                @csrf
+                                                @method('put')
+                                                <div style="padding: 20px 20px 0 20px;">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label for="department_code">Department Code</label>
+                                                        <input type="text" class="form-control" id="department_code" name='department_code'
+                                                            placeholder="department_code" value="{{$department->department_code}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="name">Name Department</label>
+                                                        <input type="text" class="form-control" id="name" name='name' placeholder="name" value="{{$department->name}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Note</label>
+                                                        <textarea class="form-control" rows="3" name="note"
+                                                            placeholder="Note ...">{{$department->note}}</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                      <label for="branch_id">Branch</label>
+                                                      <select class="custom-select" id="branch_id"
+                                                          name="branch_id">
+                                                          @foreach ($branches as $branch)
+                                                              <option value={{ $branch->id }}
+                                                                {{ $department->branch_id == $branch->id ? 'selected' : '' }}
+                                                                >{{ $branch->name }}</option>
+                                                          @endforeach
+                                                      </select>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                                        <button type="submit" class="btn btn-primary">Sửa</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                {{-- Modal Edit Department End --}}
+
+                              
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

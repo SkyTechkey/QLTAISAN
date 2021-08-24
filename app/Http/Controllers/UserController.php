@@ -41,7 +41,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->status = "active";
+        $user->status = true;
         $user->department_id = $request->user()->department_id;
         $user->password = Hash::make($request->password);
         $save = $user->save();
@@ -66,27 +66,32 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255',
-        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        // ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
-        // $user = User::find($id);
-        // $user -> name = $request->name;
-        // $user -> email = $request->email;
-        // $user -> password = Hash::make($request->password);
-        // $user -> department_id = $request->department_id;
-        // $user -> save();
+        $user = User::find($id);
+        $user -> name = $request->name;
+        $user -> email = $request->email;
+        $user -> password = Hash::make($request->password);
+        $user -> department_id = $request->department_id;
+        $save = $user->save();
        
-        // $roleuser = RoleUser::where('user_id',$id)->delete();
+        $roleuser = RoleUser::where('user_id',$id)->delete();
       
-        // foreach($request->role_id as $role_id){
-        //     RoleUser::create(
-        //         ['role_id' => $role_id, 'user_id' => $user->id],
-        //     );
-        // }
-            return ('updated');
+        foreach($request->role_id as $role_id){
+            RoleUser::create(
+                ['role_id' => $role_id, 'user_id' => $user->id],
+            );
+        }
+      
+        if($save){
+            return back()->with('success','New User has been successfuly updated to database');
+        }else{
+            return back()->with('fail','Something went wrong, try again!');
+        }
     }
 
     public function destroy( $id, Request $request)

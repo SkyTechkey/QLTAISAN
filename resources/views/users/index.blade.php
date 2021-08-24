@@ -119,11 +119,11 @@
                         <div class="form-group row">
                             <label for="inputName" class="col-1 col-form-label">Chi nhánh</label>
                             <div class="col-3">
-                                <select class="form-control select2bs4" style="width: 100%;">
-                                    <option selected="selected">Tất cả chi nhánh</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
+                                {{-- <select class="form-control select2bs4" style="width: 100%;">
+                                    @foreach ($branches as $branch)
+                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                    @endforeach
+                                </select> --}}
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->username }}</td>
                                         <td>{{ $user->department_id }}</td>
-                                        <td>{{ $user->status }}</td>
+                                        <td>{{ $user->status ? 'active':'lock'}} </td>
                                         <td>{{ $user->note }}</td>
                                         <td>
                                             <div class="row">

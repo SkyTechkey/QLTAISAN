@@ -23,13 +23,17 @@ class BranchController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
         $request->validate([
             'name' => 'required|max:255'
         ]);
 
         $branch = new Branch;
         $branch->name = $request->name;
+        $branch->email = $request->email;
+        $branch->address = $request->address;
+        $branch->phone = $request->phone;
+        $branch->unit_id = $request->unit_id;
+        $branch->note = $request->note;
         $save = $branch->save();
 
         if($save){
@@ -54,11 +58,13 @@ class BranchController extends Controller
         $branch->unit_id = $request->unit_id;
         $branch->note = $request->note;
         $branch -> save();
-        return redirect()->route('branches.index');
+        return redirect()->route('branch.index');
     }
 
     public function destroy($id)
     {
-        //
+        $branch = Branch::find($id);
+        $branch -> delete();
+        return redirect()->route('branch.index');
     }
 }

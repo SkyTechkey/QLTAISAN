@@ -12,7 +12,7 @@ class DepartmentController extends Controller
         if($request->user()->can('view_department')){
             $departments = Department::all();
             $branches = Branch::all();
-            return view('department.index',compact('departments','branches'));
+            return view('departments.index',compact('departments','branches'));
         }
         else
             return redirect()->back();

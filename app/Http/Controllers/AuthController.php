@@ -26,15 +26,21 @@ class AuthController extends Controller
         if(!$userInfo){
             return back()->with('fail','We do not recognize your username!');
         }else{
-            //check password
-            if(Hash::check($request->password, $userInfo->password)) {
-                $request->session()->put('LoggedUser', $userInfo->id);
-                Auth::attempt(['username'=>$request->username,'password'=>$request->password]);
-                return redirect('/dashboard');
+            if($userInfo->status){
+                //check password
+                if(Hash::check($request->password, $userInfo->password)) {
+                    $request->session()->put('LoggedUser', $userInfo->id);
+                    Auth::attempt(['username'=>$request->username,'password'=>$request->password]);
+                    return redirect('/dashboard');
 
-            }else{
-                return back()->with('fail', 'Incorrect password!');
+                }else{
+                    return back()->with('fail', 'Incorrect password!');
+                }
             }
+            else{
+                return back()->with('fail', 'Your account was blocked');
+            }
+            
         }
     }
 

@@ -35,7 +35,10 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="btn-file-custom"><a href="#" class="btn bg-gradient-primary btn-sm">Thêm file Excel</a></li>
+                        @can('create_branch', App\Models\User::class)
                         <li class="btn-file-custom"><a href="#" class="btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#addBranch">Thêm mới</a></li>
+                            
+                        @endcan
                     </ol>
                 </div>
             </div>
@@ -52,19 +55,42 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="form-horizontal" method="post" action="/branch" enctype="multipart/form-data">
+                <form method="POST" action={{ route('branch.store') }}>
                     @csrf
                     <div style="padding: 20px 20px 0 20px;">
                     <div class="form-group row">
-                      <label for="branch" class="col-sm-2 col-form-label">Tên chi nhánh</label>
+                      <label for="inputName" class="col-sm-2 col-form-label">Tên chi nhánh</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" id="branch" name="branch" placeholder="Tên phòng ban" required>
+                        <input type="text" name="name" class="form-control" id="inputName" placeholder="Tên chi nhánh"
+                       >
                       </div>
                     </div>
                     <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="email" name="email" class="form-control" id="email" placeholder="Email"
+                          >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="phone" class="form-control" id="phone" placeholder="số điện thoại"
+                         >
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="address" class="form-control" id="address" placeholder="địa chỉ"
+                         >
+                        </div>
+                      </div>
+                    <input type="text" hidden name="unit_id" value="1">
+                    <div class="form-group row">
                       <label for="inputExperience" class="col-sm-2 col-form-label">Ghi chú</label>
                       <div class="col-sm-10">
-                        <textarea class="form-control" id="inputExperience" placeholder="Ghi chú"></textarea>
+                        <textarea class="form-control" name="note" id="inputExperience" placeholder="Ghi chú"></textarea>
                       </div>
                     </div>
                     </div>
@@ -101,82 +127,43 @@
                                 <tr>
                                     <th>ID Chi nhánh</th>
                                     <th>Tên Chi nhánh</th>
+                                    <th>Email</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Số điện thoại</th>
                                     <th>Ghi Chú</th>
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>
-                                        <div class="row">
-                                            <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editBranch">Sửa</a>
-                                            <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#deleteBranch">Xóa</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 5.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>
-                                        <div class="row">
-                                            <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editBranch">Sửa</a>
-                                            <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#deleteBranch">Xóa</a>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                {{-- Modal Edit Branch Start --}}
-                                <div class="modal fade" id="editBranch">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Sửa chi nhánh</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                @foreach ($branches as $branch)
+                                    <tr>
+                                        <td>{{$branch->id}}</td>
+                                        <td>{{$branch->name}}</td>
+                                        <td>{{$branch->email}}</td>
+                                        <td>{{$branch->address}}</td>
+                                        <td>{{$branch->phone}}</td>
+                                        <td>{{$branch->note}}</td>
+                                        <td>
+                                            <div class="row">
+                                                @can('update_branch', App\Models\User::class)
+                                                <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editBranch{{$branch->id}}">Sửa</a>
+                                                @endcan
+                                                @can('delete_branch', App\Models\User::class)
+                                                <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#deleteBranch{{$branch->id}}">Xóa</a> 
+                                                @endcan
                                             </div>
-                                            <form class="form-horizontal">
-                                                <div style="padding: 20px 20px 0 20px;">
-                                                <div class="form-group row">
-                                                  <label for="inputName" class="col-sm-2 col-form-label">Tên chi nhánh</label>
-                                                  <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="inputName" placeholder="Tên phòng ban">
-                                                  </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                  <label for="inputExperience" class="col-sm-2 col-form-label">Ghi chú</label>
-                                                  <div class="col-sm-10">
-                                                    <textarea class="form-control" id="inputExperience" placeholder="Ghi chú"></textarea>
-                                                  </div>
-                                                </div>
-                                                </div>
-                                                  <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                                                    <button type="button" class="btn btn-primary">Sửa</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
-                                {{-- Modal Edit Branch End --}}
-
-                                {{-- Modal Delete Branch Start --}}
-                                <div class="modal fade" id="deleteBranch">
+                                        </td>
+                                    </tr>
+                              
+                                 {{-- Modal Delete Branch Start --}}
+                                 <div class="modal fade" id="deleteBranch{{$branch->id}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content bg-danger">
-                                            <form action="">
+                                            <form method="POST" action={{ route('branch.destroy', $branch->id) }}>
+                                                @method('delete')
+                                                @csrf
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Bạn có thực sự muốn xóa chi nhánh ...?</h4> {{-- Thay tên chi nhánh vào ... --}}
+                                                    <h4 class="modal-title">Bạn có thực sự muốn xóa chi nhánh {{$branch->name}}?</h4> {{-- Thay tên chi nhánh vào ... --}}
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -192,7 +179,71 @@
                                     <!-- /.modal-dialog -->
                                 </div>
                                 {{-- Modal Delete Branch End --}}
+                                
+                                {{-- Modal Edit Branch Start --}}
+                                <div class="modal fade" id="editBranch{{$branch->id}}">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Sửa chi nhánh</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form method="POST" action={{ route('branch.update', $branch->id) }}>
+                                                @method('put')
+                                                @csrf
+                                                <div style="padding: 20px 20px 0 20px;">
+                                                <div class="form-group row">
+                                                  <label for="inputName" class="col-sm-2 col-form-label">Tên chi nhánh</label>
+                                                  <div class="col-sm-10">
+                                                    <input type="text" name="name" class="form-control" id="inputName" placeholder="Tên chi nhánh"
+                                                    value="{{$branch->name}}">
+                                                  </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="email" name="email" class="form-control" id="email" placeholder="Email"
+                                                      value="{{$branch->email}}">
+                                                    </div>
+                                                  </div>
+                                                  <div class="form-group row">
+                                                    <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text" name="phone" class="form-control" id="phone" placeholder="số điện thoại"
+                                                      value="{{$branch->phone}}">
+                                                    </div>
+                                                  </div>
+                                                  <div class="form-group row">
+                                                    <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text" name="address" class="form-control" id="address" placeholder="địa chỉ"
+                                                      value="{{$branch->address}}">
+                                                    </div>
+                                                  </div>
+                                                <input type="text" hidden name="unit_id" value="1">
+                                                <div class="form-group row">
+                                                  <label for="inputExperience" class="col-sm-2 col-form-label">Ghi chú</label>
+                                                  <div class="col-sm-10">
+                                                    <textarea class="form-control" name="note" id="inputExperience" placeholder="Ghi chú">{{$branch->note}}</textarea>
+                                                  </div>
+                                                </div>
+                                                </div>
+                                                  <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                                    <button type="submit" class="btn btn-primary">Sửa</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                {{-- Modal Edit Branch End --}}
 
+                               
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

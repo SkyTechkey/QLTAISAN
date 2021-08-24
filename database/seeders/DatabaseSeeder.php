@@ -17,14 +17,31 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Sky'],
         ]);
         DB::table('branches')->insert([
-            ['name' => 'Sky 1', 'unit_id' => 1],
+            ['name' => 'Chi nhánh 1',
+             'unit_id' => 1,
+             'email' => 'chinhanh1@gmail.com',
+             'phone' => '0321456789',
+             'address'=>'Đà Nẵng'
+            ],
+            ['name' => 'Chi nhánh 2',
+            'unit_id' => 1,
+            'email' => 'chinhanh2@gmail.com',
+            'phone' => '03298765421',
+            'address'=>'Huế'
+           ],
+           ['name' => 'Chi nhánh 3',
+           'unit_id' => 1,
+           'email' => 'chinhanh3@gmail.com',
+           'phone' => '03298761111',
+           'address'=>'Sài Gòn'
+          ],
         ]);
         DB::table('departments')->insert([
-            ['department_code' => 'dp1', 'name' => 'Develop department', 'branch_id' => 1],
-            ['department_code' => 'db2', 'name' => 'Sale department', 'branch_id' => 1],
-            ['department_code' => 'db3', 'name' => 'Training department', 'branch_id' => 1],
-            ['department_code' => 'db4', 'name' => 'Marketing department', 'branch_id' => 1],
-            ['department_code' => 'db5', 'name' => 'Human resouces department', 'branch_id' => 1],
+            ['department_code' => 'pb1', 'name' => 'Develop department', 'branch_id' => 1],
+            ['department_code' => 'pb2', 'name' => 'Sale department', 'branch_id' => 1],
+            ['department_code' => 'pb3', 'name' => 'Training department', 'branch_id' => 2],
+            ['department_code' => 'pb4', 'name' => 'Marketing department', 'branch_id' => 2],
+            ['department_code' => 'pb5', 'name' => 'Human resouces department', 'branch_id' => 3],
         ]);
         DB::table('users')->insert([
             [
@@ -33,6 +50,9 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('123456'),
                 'department_id' => 1,
+                'status'=>true,
+                'address'=>'Đà Nẵng',
+                'phone' => '095113114',
                 'created_at' => now(),
                 'updated_at' => now(),
                 'email_verified_at' => now(),
@@ -43,6 +63,35 @@ class DatabaseSeeder extends Seeder
                 'email' => 'user@gmail.com',
                 'password' => Hash::make('123456'),
                 'department_id' => 1,
+                'status'=>true,
+                'address'=>'Đà Nẵng',
+                'phone' => '095113115',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'email_verified_at' => now(),
+            ],
+            [
+                'name' => 'user1',
+                'username' => 'user1',
+                'email' => 'user1@gmail.com',
+                'password' => Hash::make('123456'),
+                'department_id' => 2,
+                'status'=>true,
+                'address'=>'Đà Nẵng',
+                'phone' => '095113114',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'email_verified_at' => now(),
+            ],
+            [
+                'name' => 'user2',
+                'username' => 'user2',
+                'email' => 'user2@gmail.com',
+                'password' => Hash::make('123456'),
+                'department_id' => 3,
+                'status'=>false,
+                'address'=>'Đà Nẵng',
+                'phone' => '095113114',
                 'created_at' => now(),
                 'updated_at' => now(),
                 'email_verified_at' => now(),
@@ -88,6 +137,8 @@ class DatabaseSeeder extends Seeder
         DB::table('role_user')->insert([
             ['role_id' => 1, 'user_id' => 1],
             ['role_id' => 2, 'user_id' => 2],
+            ['role_id' => 2, 'user_id' => 3],
+            ['role_id' => 2, 'user_id' => 4],
         ]);
         DB::table('permission_role')->insert([
             ['permission_id' => 1, 'role_id' => 1],
