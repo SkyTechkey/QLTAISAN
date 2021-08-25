@@ -134,6 +134,22 @@ class DatabaseSeeder extends Seeder
             ['name' => 'create_permission'],
             ['name' => 'update_permission'],
             ['name' => 'delete_permission'],
+
+            ['name' => 'view_provide'],
+            ['name' => 'create_provide'],
+            ['name' => 'update_provide'],
+            ['name' => 'delete_provide'],
+
+            ['name' => 'view_property_type'],
+            ['name' => 'create_property_type'],
+            ['name' => 'update_property_type'],
+            ['name' => 'delete_property_type'],
+
+            
+            ['name' => 'view_property_group'],
+            ['name' => 'create_property_group'],
+            ['name' => 'update_property_group'],
+            ['name' => 'delete_property_group'],
         ]);
         DB::table('roles')->insert([
             ['name' => 'admin'],
@@ -151,6 +167,28 @@ class DatabaseSeeder extends Seeder
             ['role_id' => 2, 'user_id' => 3],
             ['role_id' => 2, 'user_id' => 4],
         ]);
+
+        DB::table('provide')->insert([
+            ['code' => 'M127', 'name' => 'khong biet', 'phone' => '012345','address' => 'Da Nang'],
+            ['code' => 'MOU49', 'name' => 'khong biet', 'phone' => '123456','address' => 'Da Nang'],
+            ['code' => 'D238', 'name' => 'Khong biet', 'phone' => '234567','address' => 'Ha Noi'],
+            ['code' => 'KBD57', 'name' => 'Khong biet', 'phone' => '345678','address' => 'Ha Noi'],
+        ]);
+
+        DB::table('property_type')->insert([
+            ['property_name' => 'Dell', 'note' => 'xai ok'],
+            ['property_name' => 'HP', 'note' => 'xai ok'],
+            ['property_name' => 'Asus', 'note' => 'xai ok'],
+            ['property_name' => 'MacBook', 'note' => 'xai ok'],
+        ]);
+
+        DB::table('property_group')->insert([
+            ['property_name' => 'Dell', 'note' => 'xai ok'],
+            ['property_name' => 'Asus', 'note' => 'xai ok'],
+            ['property_name' => 'HP', 'note' => 'xai ok'],
+            ['property_name' => 'MacBook', 'note' => 'xai ok'],
+        ]);
+
         DB::table('permission_role')->insert([
             ['permission_id' => 1, 'role_id' => 1],
             ['permission_id' => 2, 'role_id' => 1],
@@ -175,6 +213,18 @@ class DatabaseSeeder extends Seeder
             ['permission_id' => 21, 'role_id' => 1],
             ['permission_id' => 22, 'role_id' => 1],
             ['permission_id' => 23, 'role_id' => 1],
+            ['permission_id' => 24, 'role_id' => 1],
+            ['permission_id' => 25, 'role_id' => 1],
+            ['permission_id' => 26, 'role_id' => 1],
+            ['permission_id' => 27, 'role_id' => 1],
+            ['permission_id' => 28, 'role_id' => 1],
+            ['permission_id' => 29, 'role_id' => 1],
+            ['permission_id' => 30, 'role_id' => 1],
+            ['permission_id' => 31, 'role_id' => 1],
+            ['permission_id' => 32, 'role_id' => 1],
+            ['permission_id' => 33, 'role_id' => 1],
+            ['permission_id' => 34, 'role_id' => 1],
+            ['permission_id' => 35, 'role_id' => 1],
             ['permission_id' => 7, 'role_id' => 2],
             ['permission_id' => 8, 'role_id' => 2],
         ]);

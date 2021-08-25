@@ -108,6 +108,46 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete_permission', function (User $user) {
             return $user->hasAccess(['delete_permission']) ;
         });
+        // Nhà cung cấp
+         Gate::define('view_provide', function (User $user) {
+            return $user->hasAccess(['view_provide']) ;
+        });
+        Gate::define('create_provide', function (User $user) {
+            return $user->hasAccess(['create_provide']) ;
+        });
+        Gate::define('update_provide', function (User $user) {
+            return $user->hasAccess(['update_provide']) ;
+        });
+        Gate::define('delete_provide', function (User $user) {
+            return $user->hasAccess(['delete_provide']) ;
+        });
        
+        // Loại sản phẩm
+        Gate::define('view_property_type', function (User $user) {
+            return $user->hasAccess(['view_property_type']) ;
+        });
+        Gate::define('create_property_type', function (User $user) {
+            return $user->hasAccess(['create_property_type']) ;
+        });
+        Gate::define('update_property_type', function (User $user) {
+            return $user->hasAccess(['update_property_type']) ;
+        });
+        Gate::define('delete_property_type', function (User $user) {
+            return $user->hasAccess(['delete_property_type']) ;
+        });
+
+          // nhóm sản phẩm
+          Gate::define('view_property_group', function (User $user) {
+            return $user->hasAccess(['view_property_group']) ;
+        });
+        Gate::define('create_property_group', function (User $user) {
+            return $user->hasAccess(['create_property_group']) ;
+        });
+        Gate::define('update_property_group', function (User $user) {
+            return $user->hasAccess(['update_property_group']) ;
+        });
+        Gate::define('delete_property_group', function (User $user) {
+            return $user->hasAccess(['delete_property_group']) ;
+        });
     }
 }

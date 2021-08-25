@@ -8,6 +8,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProvideController;
+use App\Http\Controllers\PropertyGroupController;
+use App\Http\Controllers\PropertyTypeController;
 
 // kiểm tra đăng nhập
 Route::post('/login/check', [AuthController::class, 'onLogin'])->name('login.check');
@@ -70,6 +73,33 @@ Route::prefix('permission')->middleware(['auth'])->group(function () {
     Route::put('/{id}', [PermissionController::class,'update'])->middleware(['permission:update_permission'])->name('permission.update');
     Route::delete('/{id}', [PermissionController::class,'destroy'])->middleware(['permission:delete_permission'])->name('permission.destroy');
 });
+// Nhà cung cấp
+Route::prefix('provide')->middleware(['auth'])->group(function () {
+    Route::get('/', [ProvideController::class,'index'])->middleware(['permission:view_provide'])->name('provide.index');
+    Route::get('/{id}', [ProvideController::class,'show'])->middleware(['permission:view_provide'])->name('provide.show');
+    Route::post('/', [ProvideController::class,'store'])->middleware(['permission:create_provide'])->name('provide.store');
+    Route::put('/{id}', [ProvideController::class,'update'])->middleware(['permission:update_provide'])->name('provide.update');
+    Route::delete('/{id}', [ProvideController::class,'destroy'])->middleware(['permission:delete_provide'])->name('provide.destroy');
+});
+// Loại tài sản
+Route::prefix('property_type')->middleware(['auth'])->group(function () {
+    Route::get('/', [PropertyTypeController::class,'index'])->middleware(['permission:view_property_type'])->name('property_type.index');
+    Route::get('/{id}', [PropertyTypeController::class,'show'])->middleware(['permission:view_property_type'])->name('property_type.show');
+    Route::post('/', [PropertyTypeController::class,'store'])->middleware(['permission:create_property_type'])->name('property_type.store');
+    Route::put('/{id}', [PropertyTypeController::class,'update'])->middleware(['permission:update_property_type'])->name('property_type.update');
+    Route::delete('/{id}', [PropertyTypeController::class,'destroy'])->middleware(['permission:delete_property_type'])->name('property_type.destroy');
+});
+
+// Nhóm sản phẩm
+Route::prefix('property_group')->middleware(['auth'])->group(function () {
+    Route::get('/', [PropertyGroupController::class,'index'])->middleware(['permission:view_property_group'])->name('property_group.index');
+    Route::get('/{id}', [PropertyGroupController::class,'show'])->middleware(['permission:view_property_group'])->name('property_group.show');
+    Route::post('/', [PropertyGroupController::class,'store'])->middleware(['permission:create_property_group'])->name('property_group.store');
+    Route::put('/{id}', [PropertyGroupController::class,'update'])->middleware(['permission:update_property_group'])->name('property_group.update');
+    Route::delete('/{id}', [PropertyGroupController::class,'destroy'])->middleware(['permission:delete_property_group'])->name('property_group.destroy');
+});
+
+
 
 // 
 Route::get('/get-department/{id}', [DepartmentController::class, 'getDepartments']);

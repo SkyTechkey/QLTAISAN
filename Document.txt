@@ -48,7 +48,7 @@ Task 7,8: Trang quản Nhân viên
     + Khóa hoặc mở khóa user
 **************************
 
-Task : Chỉnh sửa thông tin user
+Task 9 : Chỉnh sửa thông tin user
 - Ngày tạo: ngày 25/08/2021
 - Mô tả nội dung:
     Hoàn thành:
@@ -57,4 +57,12 @@ Task : Chỉnh sửa thông tin user
     + Thông báo nếu thành công hoặc lỗi
     + Upload avatar
     + Đăng xuất
+**************************
+
+Task 10,11,12 : Nhà cung cấp, Qly loại tài sản, nhóm tài sản
+- Ngày tạo: ngày 26/08/2021
+- Mô tả nội dung:
+    Hoàn thành:
+    + thêm, sửa, xóa
+    + Phân quyền menu 
 **************************
