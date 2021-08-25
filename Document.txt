@@ -1,3 +1,60 @@
-*********************
+**************************
+Task 1: Trang quản lý đơn vị
+- Ngày tạo: ngày 25/08/2021
+- Mô tả nội dung:
+    + thiết kế Form chỉnh sửa đơn vị dựa trên
+    template của adminlte
+    + Xem và update đơn vị
+    + Thông báo nếu thành công hoặc lỗi
+    + upload avatar
+    + đặt quyền view_unit và update_unit
+**************************
+Task 2, 3: Trang quản lý chi nhánh
+- Ngày tạo: ngày 25/08/2021
+- Mô tả nội dung:
+    Hoàn thành:
+    + Thiết kế datatable dựa trên template
+    + CRUD bằng cách dùng modal
+    + Thông báo nếu thành công hoặc lỗi
+    + đặt quyền view_branch,view_all_branch,create_branch,update_branch,delete_branch
+    + Xuất file excel
+    Chưa hoàn thành:
+    + import excel
+**************************
+Task 4, 5: Trang quản lý Phòng ban
+- Ngày tạo: ngày 25/08/2021
+- Mô tả nội dung:
+    Hoàn thành:
+    + Thiết kế datatable dựa trên template
+    + CRUD bằng cách load modal 
+    + Thông báo nếu thành công hoặc lỗi
+    + đặt quyền view_department,create_department,update_department,delete_deparment
+    + Xuất file excel
+    + Chọn chi nhánh hiển thị
+    Chưa hoàn thành:
+    + import excel
+**************************
+Task 6 : quản lý permission role
+**************************
+Task 7,8: Trang quản Nhân viên
+- Ngày tạo: ngày 25/08/2021
+- Mô tả nội dung:
+    Hoàn thành:
+    + Thiết kế datatable dựa trên template
+    + CRUD bằng cách load modal 
+    + Thông báo nếu thành công hoặc lỗi
+    + đặt quyền view_user,create_user,update_user,delete_user
+    + Chọn chi nhánh hiển thị
+    + Khóa hoặc mở khóa user
+**************************
 
-*********************
+Task : Chỉnh sửa thông tin user
+- Ngày tạo: ngày 25/08/2021
+- Mô tả nội dung:
+    Hoàn thành:
+    + Thiết kế trang profile dựa trên template
+    + update thông tin user cả mật khẩu
+    + Thông báo nếu thành công hoặc lỗi
+    + Upload avatar
+    + Đăng xuất
+**************************

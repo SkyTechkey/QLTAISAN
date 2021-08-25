@@ -1,7 +1,7 @@
 @extends('layouts.master')
 <!-- Title content -->
 @section('title')
-    profile
+    Thông tin đơn vị
 @endsection
 <!-- End Title -->
 

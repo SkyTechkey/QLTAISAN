@@ -175,7 +175,8 @@ class DatabaseSeeder extends Seeder
             ['permission_id' => 21, 'role_id' => 1],
             ['permission_id' => 22, 'role_id' => 1],
             ['permission_id' => 23, 'role_id' => 1],
-            ['permission_id' => 1, 'role_id' => 2],
+            ['permission_id' => 7, 'role_id' => 2],
+            ['permission_id' => 8, 'role_id' => 2],
         ]);
     }
 }

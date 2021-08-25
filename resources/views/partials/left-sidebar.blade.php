@@ -49,9 +49,7 @@
                   </a>
               </li>
            @endcan
-
-           {{-- Phần menu cho Chi nhánh --}}
-           @can(['view_branch','view_all_branch'], App\Models\User::class)
+           @can(['view_all_branch','view_branch'], App\Models\User::class)
            <li class="nav-item">
                <a href="{{ route('branch.index') }}" class="nav-link  {{ Request::is('branch*') ? 'active' : '' }}">
                    <i class="nav-icon fas fa-code-branch"></i>
@@ -61,6 +59,29 @@
                 </a>
             </li>
           @endcan
+          @cannot(['view_all_branch','view_branch'], App\Models\User::class)
+            @can('view_all_branch', App\Models\User::class)
+            <li class="nav-item">
+                <a href="{{ route('branch.index') }}" class="nav-link  {{ Request::is('branch*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-code-branch"></i>
+                    <p>
+                      Quản lý chi nhánh
+                    </p>
+                </a>
+            </li>
+          @endcan
+          @can('view_branch', App\Models\User::class)
+          <li class="nav-item">
+              <a href="{{ route('branch.index') }}" class="nav-link  {{ Request::is('branch*') ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-code-branch"></i>
+                  <p>
+                    Quản lý chi nhánh
+                  </p>
+              </a>
+          </li>
+        @endcan
+         @endcannot
+         
             {{-- Phần menu cho phòng ban --}}
           @can('view_department', App\Models\User::class)
                 <li class="nav-item">

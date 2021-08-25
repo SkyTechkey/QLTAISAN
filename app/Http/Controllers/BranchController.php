@@ -15,6 +15,7 @@ class BranchController extends Controller
         }
         else if($request->user()->can('view_branch')){
             $branches = Branch::where('id',$request->user()->department->branch->id)->get();
+            // dd($request->user()->can('view_branch'));
             return view('branches.index',compact('branches'));
         }
         else
