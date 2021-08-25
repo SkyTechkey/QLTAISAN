@@ -52,6 +52,16 @@
         </div>
         <!-- /.container-fluid -->
     </section>
+    @if (Session::get('success'))
+    <span class="d-block alert alert-success text-center">
+        {{ Session::get('success') }}
+    </span>
+    @endif
+    @if (Session::has('fail'))
+        <span class="d-block alert alert-danger text-center">
+            {{ Session::get('fail')}}
+        </span>
+    @endif
 
     <div class="modal fade" id="addDepartment">
         <div class="modal-dialog modal-lg">
@@ -89,7 +99,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary">Sửa</button>
+                                <button type="submit" class="btn btn-primary">Thêm</button>
                             </div>
                         </div>
                 </form>
@@ -122,12 +132,12 @@
                         <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Department Code</th>
-                                    <th>Name</th>
+                                    <th>Mã</th>
+                                    <th>Tên phòng ban</th>
                                     <th>Note</th>
-                                    <th>Number of employee</th>
-                                    <th>Branch</th>
-                                    <th>Action</th>
+                                    <th>Nhân viên</th>
+                                    <th>Chi nhánh</th>
+                                    <th>Chức năng</th>
                                 </tr>
                             </thead>
                             <tbody id="tbl_department">

@@ -10,6 +10,7 @@ use App\Models\RoleUser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -18,14 +19,10 @@ class UserController extends Controller
     {
        
             $users = User::all();
-            foreach($users as $user) {
-                $user->department_name = Department::where('id', $user->department_id)->firstOrFail()->name;
-            }
             $departments = Department::all();
             $branches = Branch::all();
             $roles = Role::all();
-            // return view('user.list',compact('users','departments','roles'));
-            return view('users.index', compact('users', 'branches'));
+            return view('users.index', compact('users', 'branches','departments','roles'));
     }
 
     public function create(Request $request)
@@ -35,22 +32,44 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+      
+
+        $validation = Validator::make($request->all(),
+        [
             'name' => 'required|max:255',
             'username' => 'required|max:50|unique:users',
             'email' => 'required|email|max:255|unique:users',
-            'password'=>'required|min:5'
+            'password'=>'required|min:5',
+        ],[
+            'name.required' => "Tên đang để trống",
+            'email.required' => "Email đang để trống",
+            'email.unique' => "Email bị trùng",
+            'username.required' => "username đang để trống",
+            'username.unique' => "username bị trùng",
+            'password.required' => "Hãy nhập mật khẩu",
+            'password.min'=>"Nhập mật khẩu vào cho đủ 5 kí tự",            
         ]);
+
+        if ($validation->fails()){
+            $response=array('status'=>'error','errors'=>$validation->errors()->toArray()); 
+            return back()->with('fail','Something went wrong, try again!');
+        }
+
 
         $user = new User;
         $user->name = $request->name;
         $user->username = $request->username;
         $user->email = $request->email;
         $user->status = true;
-        $user->department_id = $request->user()->department_id;
+        $user->department_id = $request->department_id;
         $user->password = Hash::make($request->password);
         $save = $user->save();
 
+        foreach($request->role_id as $role_id){
+            RoleUser::create(
+                ['role_id' => $role_id, 'user_id' => $user->id],
+            );
+        }
         if($save){
             return back()->with('success','New User has been successfuly added to database');
         }else{
@@ -72,19 +91,27 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'name' => 'required|max:255',
+            'username' => 'required|max:50',
+            'email' => 'required|email|max:255',
         ]);
-
+        if($request->password){
+            $request->validate([
+                'password'=>'required|min:5'
+            ]);
+        }
         $user = User::find($id);
-        $user -> name = $request->name;
-        $user -> email = $request->email;
-        $user -> password = Hash::make($request->password);
-        $user -> department_id = $request->department_id;
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->status = true;
+        $user->department_id = $request->department_id;
+        if($request->password){
+            $user->password = Hash::make($request->password);
+        }
         $save = $user->save();
        
-        $roleuser = RoleUser::where('user_id',$id)->delete();
+        RoleUser::where('user_id',$id)->delete();
       
         foreach($request->role_id as $role_id){
             RoleUser::create(

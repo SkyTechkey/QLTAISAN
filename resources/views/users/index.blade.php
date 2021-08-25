@@ -38,10 +38,13 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
+                        @can('create_user', User::class)
                         <li class="btn-file-custom"><a href="#" class="btn bg-gradient-primary btn-sm">Thêm file Excel</a>
                         </li>
+                       
                         <li class="btn-file- "><a href="#" class="btn bg-gradient-success btn-sm" data-toggle="modal"
                                 data-target="#addUser">Thêm mới</a></li>
+                        @endcan
                     </ol>
                 </div>
             </div>
@@ -54,9 +57,9 @@
             {{ Session::get('success') }}
         </span>
     @endif
-    @if (Session::get('fail'))
+    @if (Session::has('fail'))
         <span class="d-block alert alert-danger text-center">
-            {{ Session::get('fail') }}
+            {{ Session::get('fail')}}
         </span>
     @endif
 
@@ -69,7 +72,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="form-horizontal" method="post" action="/user" enctype="multipart/form-data">
+                <form class="form-horizontal" method="post" action="{{route('user.store')}}" enctype="multipart/form-data">
                     @csrf
                     <div style="padding: 20px 20px 0 20px;">
                         <div class="form-group row">
@@ -98,6 +101,27 @@
                             <div class="col-sm-10">
                                 <input class="form-control" type="password" id="password" name="password"
                                     placeholder="Mật khẩu" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="department_id" class="col-sm-2 col-form-label">Department</label>
+                            <select class="custom-select col-sm-10" id="department_id"
+                                name="department_id">
+                                @foreach ($departments as $department)
+                                    <option value={{ $department->id }}>
+                                        {{ $department->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <label for="role_id" class="col-sm-2" ></label>
+                            <div class="col-sm-10 row" id="role_id">
+                                @foreach ($roles as $role)
+                                    <div class="form-check col-md-4">
+                                        <input class="form-check-input" type="checkbox" value="{{ $role->id }}" name="role_id[]"  {{$role->id==2? "checked":""}}>
+                                        <label class="form-check-label">{{$role->name}}</label>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -133,41 +157,57 @@
                         <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID nhân viên</th>
+                                    <th>ID</th>
                                     <th>Tên nhân viên</th>
                                     <th>Username</th>
                                     <th>Tên phòng ban</th>
                                     <th>Trạng thái</th>
-                                    <th>Ghi Chú</th>
+                                    <th>Role</th>
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
                             <tbody id="tbl_user">
+                             
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->username }}</td>
-                                        <td>{{ $user->department_name }}</td>
+                                        <td>{{ $user->department ? $user->department->name : 'none'}}</td>
                                         <td>{{ $user->status ? 'Active' : 'Lock' }} </td>
-                                        <td>{{ $user->note }}</td>
+                                        <td >
+                                            @foreach ($user->roles as $role)
+            
+                                            @if ($role->name == 'admin')
+                                                <small class="badge badge-danger">{{ $role->name }}</small>
+                                            @elseif ($role->id >= 2 && $role->id <=5)
+                                                <small class="badge badge-primary">{{ $role->name }}</small>
+                                            @elseif ($role->id >= 6 && $role->id <8 )
+                                                <small class="badge badge-warning">{{ $role->name }}</small>
+                                            @else
+                                                <small class="badge badge-info">{{$role->name }}</small>
+                                            @endif
+                                           
+                                         @endforeach
+                                        </td>
+                                      
                                         <td>
                                             <div class="row">
                                                 @can('update_user', User::class)
-                                                    <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal"
-                                                        data-target="#editUser{{ $user->id }}">Sửa</a>
+                                                    <button type="button" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal"
+                                                        data-target="#editUser{{ $user->id }}">Sửa</button>
                                                 @endcan
 
                                                 @can('delete_user', User::class)
-                                                    <a href="#" class="col-5 btn bg-gradient-danger btn-sm"
-                                                        style="margin-left: 10px" data-toggle="modal"
-                                                        data-target="#lockUser{{ $user->id }}">{{ $user->status ? "Khóa" : "Mở khóa" }}</a>
+                                                    <button type="button" class="col-5 btn bg-gradient-danger btn-sm"
+                                                        style="margin-left: 10px;width:100px" data-toggle="modal"
+                                                        data-target="#lockUser{{ $user->id }}">{{ $user->status ? "Khóa" : "Mở khóa" }}</button>
                                                 @endcan
                                             </div>
                                         </td>
                                     </tr>
 
-                                    @can('update_user', User::class)
+            
                                         {{-- Modal Edit User Start --}}
                                         <div class="modal fade" id="editUser{{ $user->id }}">
                                             <div class="modal-dialog modal-lg">
@@ -179,29 +219,61 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <form class="form-horizontal">
+                                                    <form class="form-horizontal" method="post" action="{{route('user.update',$user->id)}}" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('put')
                                                         <div style="padding: 20px 20px 0 20px;">
                                                             <div class="form-group row">
-                                                                <label for="name{{ $user->id }}" class="col-sm-2 col-form-label">Tên nhân
-                                                                    viên</label>
+                                                                <label for="name" class="col-sm-2 col-form-label">Họ và tên</label>
                                                                 <div class="col-sm-10">
-                                                                    <input type="email" class="form-control" id="name{{ $user->id }}"
-                                                                        placeholder="Tên nhân viên" />
+                                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên"
+                                                                        value="{{$user->name}}" />
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
-                                                                <label for="note{{ $user->id }}" class="col-sm-2 col-form-label">Ghi
-                                                                    chú</label>
+                                                                <label for="username" class="col-sm-2 col-form-label">Username</label>
                                                                 <div class="col-sm-10">
-                                                                    <textarea class="form-control" id="note{{ $user->id }}"
-                                                                        placeholder="Ghi chú"></textarea>
+                                                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username"
+                                                                    value="{{$user->username}}"  />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                                                    value="{{$user->email}}"  />
+                                                                </div>
+                                                            </div>
+                        
+                                                            <div class="form-group row">
+                                                                <label for="department_id" class="col-sm-2 col-form-label">Department</label>
+                                                                <select class="custom-select col-sm-10" id="department_id"
+                                                                    name="department_id">
+                                                                    @foreach ($departments as $department)
+                                                                        <option value={{ $department->id }}
+                                                                            {{ $department->id == $user->department_id ? 'selected' : '' }}>
+                                                                            {{ $department->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label for="role_id" class="col-sm-2" ></label>
+                                                                <div class="col-sm-10 row" id="role_id">
+                                                                    @foreach ($roles as $role)
+                                                                        <div class="form-check col-md-4">
+                                                                            <input class="form-check-input" type="checkbox" value="{{ $role->id }}" name="role_id[]"
+                                                                            @foreach ($user->roles as $u_role)
+                                                                                {{$u_role->id==$role->id? "checked":""}}
+                                                                            @endforeach>
+                                                                            <label class="form-check-label">{{$role->name}}</label>
+                                                                        </div>
+                                                                    @endforeach
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer justify-content-between">
-                                                            <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">Hủy</button>
-                                                            <button type="submit" class="btn btn-primary">Sửa</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Thêm</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -210,9 +282,9 @@
                                             <!-- /.modal-dialog -->
                                         </div>
                                         {{-- Modal Edit User End --}}
-                                    @endcan
+                                 
 
-                                    @can('delete_user', User::class)
+                                  
                                         {{-- Modal Lock/Unlock User Start --}}
                                         <div class="modal fade" id="lockUser{{ $user->id }}">
                                             <div class="modal-dialog">
@@ -241,7 +313,6 @@
                                             <!-- /.modal-dialog -->
                                         </div>
                                         {{-- Modal Lock/Unlock User End --}}
-                                    @endcan
                                 @endforeach
                             </tbody>
                         </table>

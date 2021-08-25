@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
                 'username' => 'admin',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('123456'),
-                'department_id' => 1,
+                'department_id' => null,
                 'status'=>true,
                 'address'=>'Đà Nẵng',
                 'phone' => '095113114',
@@ -138,8 +138,11 @@ class DatabaseSeeder extends Seeder
         DB::table('roles')->insert([
             ['name' => 'admin'],
             ['name' => 'user'],
-            ['name' => 'manager'],
-            ['name' => 'editor'],
+            ['name' => 'admin-branch'],
+            ['name' => 'admin-department'],
+            ['name' => 'manager-branch'],
+            ['name' => 'manager-department'],
+            
         ]);
         
         DB::table('role_user')->insert([

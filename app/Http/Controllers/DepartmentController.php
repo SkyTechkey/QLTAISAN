@@ -25,23 +25,40 @@ class DepartmentController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'department_code' => 'required|max:20',
+            'name' => 'required|max:50',
+        ]);
         $department = new Department();
         $department->branch_id = $request->branch_id;
         $department->department_code = $request->department_code;
         $department->name = $request->name;
         $department->note = $request->note;
-        $department -> save();
-        return redirect()->route('department.index');
+        $save = $department -> save();
+        if($save){
+           return redirect()->route('department.index')->with('success','New Branch has been successfuly added to database');
+        }else{
+           return redirect()->route('department.index')->with('fail','Something went wrong, try again!');
+        }
+        
     }
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'department_code' => 'required|max:20',
+            'name' => 'required|max:50',
+        ]);
         $department = Department::find($id);
         $department->branch_id = $request->branch_id;
         $department->department_code = $request->department_code;
         $department->name = $request->name;
         $department->note = $request->note;
-        $department -> save();
-        return redirect()->route('department.index');
+        $save = $department -> save();
+        if($save){
+           return redirect()->route('department.index')->with('success','New Branch has been successfuly added to database');
+        }else{
+           return redirect()->route('department.index')->with('fail','Something went wrong, try again!');
+        }
     }
 
     public function destroy($id)

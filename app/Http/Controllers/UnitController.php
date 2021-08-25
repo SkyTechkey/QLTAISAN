@@ -23,9 +23,20 @@ class UnitController extends Controller
     public function update(Request $request, $id)
     {
         if($request->user()->can('update_unit')){
-            
-        $file = $request->file;
-        if($file) {
+            $request->validate([
+                'name' => 'required|max:255',
+                'address' => 'required',
+                'phone' => 'required|max:12',
+                'representative' => 'required|max:100',
+                'position' => 'required|max:100',
+                'email' => 'required|email|max:255',
+            ]);
+            $file = $request->file;
+            if($file) {
+                $request->validate([
+                    'file'=>'required|mimes:jpeg,jpg,png|max:10000',
+                ]);
+           
             $date = now();
             $date = $date->format('d-m-Y-H-i-s');
             $filename = $file->getClientOriginalName();
@@ -45,10 +56,18 @@ class UnitController extends Controller
         $unit->phone = $request->phone;
         $unit->representative = $request->representative;
         $unit->position = $request->position;
+        if($file) {
         $unit->image = $request->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'unit_avt'.DIRECTORY_SEPARATOR.$file_path;
+        }
         $unit->note = $request->note;
-        $unit -> save();
-        return redirect()->route('unit.index');
+        $save = $unit -> save();
+        
+        if($save){
+            return redirect()->route('unit.index')->with('success','New User has been successfuly updated to database');
+        }else{
+            return redirect()->route('unit.index')->with('fail','Something went wrong, try again!');
+        }
+        
         }
         else
             return redirect()->back();

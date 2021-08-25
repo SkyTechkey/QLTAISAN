@@ -41,7 +41,16 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
+    @if (Session::get('success'))
+    <span class="d-block alert alert-success text-center">
+        {{ Session::get('success') }}
+    </span>
+    @endif
+    @if (Session::has('fail'))
+        <span class="d-block alert alert-danger text-center">
+            {{ Session::get('fail')}}
+        </span>
+    @endif
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -55,8 +64,10 @@
                                 <form method="POST" action={{ route('unit.update', $units->id) }}  enctype="multipart/form-data">
                                     @method('put')
                                     @csrf
-                                <img class="profile-user-img img-fluid img-circle" src={{URL::asset($units->image)}}
+                                    <div class="text-center" id="profile-img">
+                                <img class="profile-user-img img-fluid img-circle" src={{$units->image ? $units->image: asset('/files/unit_avt/unit_avt.jpg')  }}
                                     id="custom-img" alt="User profile picture">
+                                    </div>
                             </div>
                             <input type="file" id="input-file" name="file" style="visibility: hidden;" >
                             <label for='input-file' class="btn btn-primary btn-block" style="margin-top: 50px;" > Chọn file</label>
@@ -117,8 +128,7 @@
                                 <div class="form-group row">
                                     <label for="note" class="col-sm-3 col-form-label">Ghi chú</label>
                                     <div class="col-sm-9">
-                                        <input type="text" id='note' name='note' class="form-control" value="{{$units->note}}"
-                                            required>
+                                        <textarea type="text" id='note' name='note' class="form-control">{{$units->note}}</textarea>
                                     </div>
                                 </div>
                                 @can('update_unit', App\Models\User::class)
@@ -141,3 +151,21 @@
 @endsection
 <!-- End body-->
 
+@push('js-down')
+    <script>
+        const fileName = document.querySelector("#input-file");
+        const img = document.querySelector("#profile-img img");
+        
+        fileName.addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const result = reader.result;
+                    img.src = result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+@endpush

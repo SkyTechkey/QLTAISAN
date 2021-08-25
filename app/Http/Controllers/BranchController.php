@@ -24,7 +24,10 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'phone' => 'required|max:12|unique:branches',
+            'email' => 'required|email|max:255|unique:branches',
         ]);
 
         $branch = new Branch;
@@ -50,6 +53,12 @@ class BranchController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|max:255',
+            'address' => 'required|max:255',
+            'phone' => 'required|max:12',
+            'email' => 'required|email|max:255',
+        ]);
         $branch = Branch::find($id);
         $branch->name = $request->name;
         $branch->email = $request->email;
@@ -57,8 +66,13 @@ class BranchController extends Controller
         $branch->phone = $request->phone;
         $branch->unit_id = $request->unit_id;
         $branch->note = $request->note;
-        $branch -> save();
-        return redirect()->route('branch.index');
+        $save = $branch->save();
+
+        if($save){
+            return back()->with('success','New Branch has been successfuly added to database');
+        }else{
+            return back()->with('fail','Something went wrong, try again!');
+        }
     }
 
     public function destroy($id)

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -44,6 +46,41 @@ class AuthController extends Controller
         }
     }
 
+    public function profile(Request $request) {
+        $user = $request->user();
+        
+        return view('profile.index',compact('user'));
+    }
+
+    public function profileUpdate(Request $request, $id) {
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->note = $request->note;
+        if($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if($request->file) {
+            $extension = $request->file->extension();
+            $file_path = Str::slug($request->name, '-').'_'.time().'.'.$extension;
+            $user->image = $request->getSchemeAndHttpHost().DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'user_avt'.DIRECTORY_SEPARATOR.$file_path;
+            $request->file->move($path = public_path(). DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'user_avt'.DIRECTORY_SEPARATOR, $file_path);
+        }
+        $save = $user->save();
+
+        if($save) {
+           
+            return redirect()->route('profile')->with('success', 'Saved');
+        }
+        else {
+            return redirect()->route('profile')->with('fail', 'Something went wrong, try again!');
+        }
+    }
+
+
     function logout() {
         // handle logout
         if(session()->has('LoggedUser')){
@@ -55,7 +92,8 @@ class AuthController extends Controller
 
     function dashboard() {
         // return dashboard page with Logged in User Info
-        $data = ['LoggedUserInfo' => User::where('id', session('LoggedUser'))->first()];
-        return view('dashboard.index', $data);
+        $userInfo = ['LoggedUserInfo' => User::where('id', session('LoggedUser'))->first()];
+        Session::put('userInfo', $userInfo);
+        return view('dashboard.index', $userInfo);
     }
 }

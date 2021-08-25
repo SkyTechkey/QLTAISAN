@@ -19,6 +19,8 @@ Route::group(['middleware'=> ['AuthCheck']], function() {
     });
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::put('/profile-update/{id}', [AuthController::class, 'profileUpdate'])->name('profile.update');
 });
 // Xử lý đơn vị
 Route::prefix('unit')->middleware(['auth'])->group(function () {
