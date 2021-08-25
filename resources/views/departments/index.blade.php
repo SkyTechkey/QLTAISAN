@@ -41,8 +41,11 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="btn-file-custom"><a href="#" class="btn bg-gradient-primary btn-sm">Thêm file Excel</a>
                         </li>
-                        <li class="btn-file- "><a href="#" class="btn bg-gradient-success btn-sm" data-toggle="modal"
+                        @can('create_department', App\Models\User::class)
+                            <li class="btn-file- "><a href="#" class="btn bg-gradient-success btn-sm" data-toggle="modal"
                                 data-target="#addDepartment">Thêm mới</a></li>
+                        @endcan
+                       
                     </ol>
                 </div>
             </div>
@@ -137,11 +140,16 @@
                                         <td>{{ $department->branch->name }}</td>
                                         <td>
                                             <div class="row">
-                                                <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal"
-                                                    data-target="#editDepartment{{ $department->id }}">Sửa</a>
-                                                <a href="#" class="col-5 btn bg-gradient-danger btn-sm"
+                                                @can('update_department', App\Models\User::class)
+                                                    <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal"
+                                                        data-target="#editDepartment{{ $department->id }}">Sửa</a>
+                                                @endcan
+                                                @can('delete_department', App\Models\User::class)
+                                                    <a href="#" class="col-5 btn bg-gradient-danger btn-sm"
                                                     style="margin-left: 10px" data-toggle="modal"
                                                     data-target="#deleteDepartment{{ $department->id }}">Xóa</a>
+                                                @endcan
+                                                
                                             </div>
                                         </td>
                                     </tr>

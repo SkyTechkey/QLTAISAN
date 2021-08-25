@@ -37,7 +37,7 @@
             
             <div class="card-header">
                 <h3 class="card-title">List of Permission</h3>
-                @can('is-admin', App\Models\User::class)
+                @can('create_permission', App\Models\User::class)
                     <div class="float-right col-1">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add">
                             Add
@@ -60,13 +60,13 @@
                                 <td>{{ $permission->name }}</td>
                                 <td>
                                     <div class="btn-group">
-                                    @can('is-admin', App\Models\User::class)
+                                    @can('update_permission', App\Models\User::class)
                                     <button type="button" class="btn btn-warning btn-block btn-flat"
                                         data-toggle="modal" data-target="#modal-edit{{ $permission->id }}">
                                         <i class="fa fa-pencil-alt"></i>
                                     </button>
                                     @endcan
-                                    @can('is-admin', App\Models\User::class)
+                                    @can('delete_permission', App\Models\User::class)
                                             <form method="POST" action={{ route('permission.destroy', $permission->id) }}>
                                                 @method('delete')
                                                 @csrf

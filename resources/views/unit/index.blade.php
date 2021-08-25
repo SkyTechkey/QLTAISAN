@@ -55,7 +55,7 @@
                                 <form method="POST" action={{ route('unit.update', $units->id) }}  enctype="multipart/form-data">
                                     @method('put')
                                     @csrf
-                                <img class="profile-user-img img-fluid img-circle" src={{ $units->image }}
+                                <img class="profile-user-img img-fluid img-circle" src={{URL::asset($units->image)}}
                                     id="custom-img" alt="User profile picture">
                             </div>
                             <input type="file" id="input-file" name="file" style="visibility: hidden;" >
@@ -121,10 +121,12 @@
                                             required>
                                     </div>
                                 </div>
+                                @can('update_unit', App\Models\User::class)
+                                    <div class="row float-sm-right">
+                                        <button type="submit" class="btn btn-primary css_button">Lưu</button>
+                                    </div>
+                                @endcan
                                 
-                                <div class="row float-sm-right">
-                                    <button type="submit" class="btn btn-primary css_button">Lưu</button>
-                                </div>
                             </form>
                         </div><!-- /.card-header -->
                     </div>

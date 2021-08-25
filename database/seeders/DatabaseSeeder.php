@@ -14,7 +14,15 @@ class DatabaseSeeder extends Seeder
 
 
         DB::table('units')->insert([
-            ['name' => 'Sky'],
+            [
+                'name' => 'Sky',
+                'email'=> 'Sky@technology.org',
+                'address'=> 'Đà Nẵng',
+                'phone' => '0341125674',
+                'representative' => 'Mr.Jonh',
+                'position' => 'director',
+                'image'=>"/files/unit_avt/unit_avt.jpg"
+            ],
         ]);
         DB::table('branches')->insert([
             ['name' => 'Chi nhánh 1',
