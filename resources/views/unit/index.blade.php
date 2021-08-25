@@ -8,11 +8,17 @@
 <!--Add Css -->
 @push('css-up')
 <style>
- .css_button{
-    float:right;
-    width: 10%;
-    margin-top: 3%;
- }
+    .css_button{
+        margin: 4px 6px;
+    }
+
+    #custom-img {
+        margin-top: 3rem;
+        display: inline-block;
+        width: 15rem;
+        height: 15rem;
+        object-fit: cover;
+    }
 </style>
 @endpush
 <!-- End Css -->
@@ -40,7 +46,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
 
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
@@ -49,79 +55,75 @@
                                 <form method="POST" action={{ route('unit.update', $units->id) }}  enctype="multipart/form-data">
                                     @method('put')
                                     @csrf
-                                <img class="profile-user-img img-fluid img-circle" src={{$units->image}}
-                                    style="width: 90%; height: 90%;" alt="User profile picture">
+                                <img class="profile-user-img img-fluid img-circle" src={{ $units->image }}
+                                    id="custom-img" alt="User profile picture">
                             </div>
                             <input type="file" id="input-file" name="file" style="visibility: hidden;" >
-                            <label for='input-file' class="btn btn-primary btn-block" style="margin-top: 50px;" > chọn file</label>
+                            <label for='input-file' class="btn btn-primary btn-block" style="margin-top: 50px;" > Chọn file</label>
                         </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                 </div>
                 <!-- /.col -->
-                <div class="col-md-9">
-
+                <div class="col-md-8">
                     <div class="card">
                         <div class="card-header p-5">
-                           
                                 <div class="form-group row">
-                                    <label for="organization_name" class="col-sm-2 col-form-label">Tên đơn vị</label>
-                                    <div class="col-sm-8">
+                                    <label for="organization_name" class="col-sm-3 col-form-label">Tên đơn vị</label>
+                                    <div class="col-sm-9">
                                         <input type="text" id='or_name' name='name' class="form-control" required value="{{$units->name}}">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="address" class="col-sm-2 col-form-label">Địa chỉ</label>
-                                    <div class="col-sm-8">
+                                    <label for="address" class="col-sm-3 col-form-label">Địa chỉ</label>
+                                    <div class="col-sm-9">
                                         <input type="text" id='address' name='address' class="form-control" required value="{{$units->address}}">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="email" class="col-sm-2 col-form-label">Email</label>
-                                    <div class="col-sm-8">
+                                    <label for="email" class="col-sm-3 col-form-label">Email</label>
+                                    <div class="col-sm-9">
                                         <input type="email" id='email' name='email' class="form-control" required value="{{$units->email}}">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="phone" class="col-sm-2 col-form-label">Số điện thoại</label>
-                                    <div class="col-sm-8">
+                                    <label for="phone" class="col-sm-3 col-form-label">Số điện thoại</label>
+                                    <div class="col-sm-9">
                                         <input type="text" id='phone' name='phone' class="form-control" value="{{$units->phone}}"
                                             required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="representative" class="col-sm-2 col-form-label">Người đại diện</label>
-                                    <div class="col-sm-8">
+                                    <label for="representative" class="col-sm-3 col-form-label">Người đại diện</label>
+                                    <div class="col-sm-9">
                                         <input type="text" id='representative' name='representative' class="form-control" value="{{$units->representative}}"
                                             required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="position" class="col-sm-2 col-form-label">Chức vụ</label>
-                                    <div class="col-sm-8">
+                                    <label for="position" class="col-sm-3 col-form-label">Chức vụ</label>
+                                    <div class="col-sm-9">
                                         <input type="text" id='position' name='position' class="form-control" value="{{$units->position}}"
                                             required>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="note" class="col-sm-2 col-form-label">Ghi chú</label>
-                                    <div class="col-sm-8">
+                                    <label for="note" class="col-sm-3 col-form-label">Ghi chú</label>
+                                    <div class="col-sm-9">
                                         <input type="text" id='note' name='note' class="form-control" value="{{$units->note}}"
                                             required>
                                     </div>
                                 </div>
                                 
-                                <div class="row">
-                                    <div class="col-sm-10" >
-                                        <button type="submit" class="btn btn-primary css_button">Lưu</button>
-                                    </div>
+                                <div class="row float-sm-right">
+                                    <button type="submit" class="btn btn-primary css_button">Lưu</button>
                                 </div>
                             </form>
                         </div><!-- /.card-header -->

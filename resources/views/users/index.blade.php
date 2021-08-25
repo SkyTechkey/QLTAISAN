@@ -119,11 +119,12 @@
                         <div class="form-group row">
                             <label for="inputName" class="col-1 col-form-label">Chi nhánh</label>
                             <div class="col-3">
-                                {{-- <select class="form-control select2bs4" style="width: 100%;">
+                                <select id="select_branch" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="0" selected="selected">Tất cả chi nhánh</option>
                                     @foreach ($branches as $branch)
-                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                                     @endforeach
-                                </select> --}}
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -141,28 +142,26 @@
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbl_user">
                                 @foreach ($users as $user)
-
                                     <tr>
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->username }}</td>
-                                        <td>{{ $user->department_id }}</td>
-                                        <td>{{ $user->status ? 'active':'lock'}} </td>
+                                        <td>{{ $user->department_name }}</td>
+                                        <td>{{ $user->status ? 'Active' : 'Lock' }} </td>
                                         <td>{{ $user->note }}</td>
                                         <td>
                                             <div class="row">
-
                                                 @can('update_user', User::class)
-                                                <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal"
-                                                data-target="#editUser{{ $user->id }}">Sửa</a>
+                                                    <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal"
+                                                        data-target="#editUser{{ $user->id }}">Sửa</a>
                                                 @endcan
-                                                
+
                                                 @can('delete_user', User::class)
                                                     <a href="#" class="col-5 btn bg-gradient-danger btn-sm"
-                                                    style="margin-left: 10px" data-toggle="modal"
-                                                    data-target="#lockUser{{ $user->id }}">Khóa</a>
+                                                        style="margin-left: 10px" data-toggle="modal"
+                                                        data-target="#lockUser{{ $user->id }}">{{ $user->status ? "Khóa" : "Mở khóa" }}</a>
                                                 @endcan
                                             </div>
                                         </td>
@@ -183,18 +182,18 @@
                                                     <form class="form-horizontal">
                                                         <div style="padding: 20px 20px 0 20px;">
                                                             <div class="form-group row">
-                                                                <label for="inputName" class="col-sm-2 col-form-label">Tên nhân
+                                                                <label for="name{{ $user->id }}" class="col-sm-2 col-form-label">Tên nhân
                                                                     viên</label>
                                                                 <div class="col-sm-10">
-                                                                    <input type="email" class="form-control" id="inputName"
+                                                                    <input type="email" class="form-control" id="name{{ $user->id }}"
                                                                         placeholder="Tên nhân viên" />
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
-                                                                <label for="inputExperience" class="col-sm-2 col-form-label">Ghi
+                                                                <label for="note{{ $user->id }}" class="col-sm-2 col-form-label">Ghi
                                                                     chú</label>
                                                                 <div class="col-sm-10">
-                                                                    <textarea class="form-control" id="inputExperience"
+                                                                    <textarea class="form-control" id="note{{ $user->id }}"
                                                                         placeholder="Ghi chú"></textarea>
                                                                 </div>
                                                             </div>
@@ -218,9 +217,13 @@
                                         <div class="modal fade" id="lockUser{{ $user->id }}">
                                             <div class="modal-dialog">
                                                 <div class="modal-content bg-danger">
-                                                    <form action="">
+                                                    <form action="/user/{{ $user->id }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Bạn có thực sự muốn khóa tài khoản nhân viên {{ $user->name }} ( {{ $user->username }} )?</h4> {{-- Thay tên nhân viên vào ... --}}
+                                                            <h4 class="modal-title">Xác nhận {{ $user->status ? "khóa" : "mở khóa" }} tài khoản nhân viên
+                                                                {{ $user->name }} ( {{ $user->username }} )?</h4>
+                                                            {{-- Thay tên nhân viên vào ... --}}
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
@@ -229,7 +232,7 @@
                                                         <div class="modal-footer justify-content-between">
                                                             <button type="button" class="btn btn-outline-light"
                                                                 data-dismiss="modal">Hủy</button>
-                                                            <button type="submit" class="btn btn-outline-light">Khóa</button>
+                                                            <button type="submit" class="btn btn-outline-light">{{ $user->status ? "Khóa" : "Mở khóa" }}</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -290,6 +293,57 @@
             });
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
+            });
+        });
+
+        $(document).ready(function() {
+            // Branch Change
+            $('#select_branch').change(function() {
+                // Branch id
+                var id = $(this).val();
+                // Set Empty the table
+                $('#tbl_user').find('tr').remove();
+                // AJAX request 
+                $.ajax({
+                    url: 'get-user/' + id,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(res) {
+                        var len = 0;
+                        if (res != null) {
+                            len = res.length;
+                        }
+
+                        if (len > 0) {
+                            // Read data and create <tr>
+                            for (var i = 0; i < len; i++) {
+                                var row = `<tr>
+                                        <td>${res[i].id}</td>
+                                        <td>${res[i].name}</td>
+                                        <td>${res[i].username}</td>
+                                        <td>${res[i].department_name}</td>
+                                        <td>${res[i].status ? "Active" : "Lock"}</td>
+                                        <td>${res[i].note ? res[i].id : ""}</td>
+                                        <td>
+                                            <div class="row">
+                                                @can('update_user', User::class)
+                                                    <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal"
+                                                        data-target="#editUser${res[i].id}">Sửa</a>
+                                                @endcan
+
+                                                @can('delete_user', User::class)
+                                                    <a href="#" class="col-5 btn bg-gradient-danger btn-sm"
+                                                        style="margin-left: 10px" data-toggle="modal"
+                                                        data-target="#lockUser${res[i].id}">${res[i].status ? "Khóa" : "Mở khóa"}</a>
+                                                @endcan
+                                            </div>
+                                        </td>
+                                    </tr>`;
+                                $("#tbl_user").append(row);
+                            }
+                        }
+                    }
+                });
             });
         });
     </script>

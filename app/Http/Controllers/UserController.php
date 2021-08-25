@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Branch;
 use App\Models\RoleUser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
@@ -17,10 +18,14 @@ class UserController extends Controller
     {
        
             $users = User::all();
+            foreach($users as $user) {
+                $user->department_name = Department::where('id', $user->department_id)->firstOrFail()->name;
+            }
             $departments = Department::all();
+            $branches = Branch::all();
             $roles = Role::all();
             // return view('user.list',compact('users','departments','roles'));
-            return view('users.index', compact('users'));
+            return view('users.index', compact('users', 'branches'));
     }
 
     public function create(Request $request)
@@ -94,11 +99,42 @@ class UserController extends Controller
         }
     }
 
-    public function destroy( $id, Request $request)
+    // Function lock/unlock user
+    public function destroy($id, Request $request)
     {
-      
-            // $user = User::find($id);
-            // $user->delete();
-           return ('deleted');
+        $user = User::find($id);
+        $user->status = $user->status ? 0 : 1;
+        $save = $user->save();
+
+        if($save) {
+            // message success
+            return back();
+        }
+        else {
+            // message fail
+            return back();
+        }
+    }
+
+    public function getUsers($branch_id) {
+        $users = [];
+        if($branch_id == 0) {
+            $users = User::all();
+            foreach($users as $user) {
+                $user->department_name = Department::where('id', $user->department_id)->firstOrFail()->name;
+            }
+        }
+        else {
+            $departs = Department::where('branch_id', $branch_id)->get();
+            foreach($departs as $depart) {
+                $usersTerm = User::where('department_id', $depart->id)->get();
+                foreach($usersTerm as $userTerm) {
+                    $userTerm->department_name = $depart->name;
+                    $users[count($users)] = $userTerm;
+                }
+            }
+        }
+        
+        return $users;
     }
 }

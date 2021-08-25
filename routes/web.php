@@ -68,3 +68,7 @@ Route::prefix('permission')->middleware(['auth'])->group(function () {
     Route::put('/{id}', [PermissionController::class,'update'])->middleware(['permission:update_permission'])->name('permission.update');
     Route::delete('/{id}', [PermissionController::class,'destroy'])->middleware(['permission:delete_permission'])->name('permission.destroy');
 });
+
+// 
+Route::get('/get-department/{id}', [DepartmentController::class, 'getDepartments']);
+Route::get('/get-user/{id}', [UserController::class, 'getUsers']);
