@@ -48,8 +48,9 @@ class AuthController extends Controller
 
     public function profile(Request $request) {
         $user = $request->user();
-        
-        return view('profile.index',compact('user'));
+        $userInfo = ['LoggedUserInfo' => User::where('id', session('LoggedUser'))->first()];
+        Session::put('userInfo', $userInfo);
+        return view('profile.index',compact('user','userInfo'));
     }
 
     public function profileUpdate(Request $request, $id) {

@@ -11,16 +11,19 @@
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="/profile" class="d-block">
-                    @foreach (Session::get('userInfo') as $user)
-                        {{ $user->name }}
-                    @endforeach
-                </a>
-            </div>
+            @foreach (Session::get('userInfo') as $user)
+                <div class="image">
+                    <img src={{$user->image ? $user->image : asset('/files/user_avt/user-avt.png')}}  
+                    style="display: inline-block; width: 2rem; height: 2rem; object-fit: cover"
+                    class="img-circle elevation-2" 
+                    alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="/profile" class="d-block">
+                            {{ $user->name }}
+                    </a>
+                </div>
+            @endforeach
         </div>
 
         <!-- SidebarSearch Form -->
