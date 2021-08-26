@@ -1,7 +1,7 @@
 @extends('layouts.master')
 <!-- Title content -->
 @section('title')
-    Nhà cung cấp
+  Nhóm tài sản
 @endsection
 <!-- End Title -->
 
@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Nhà cung cấp</h1>
+                    <h1>Nhóm tài sản</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -63,7 +63,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Thêm nhà cung cấp</h4>
+                    <h4 class="modal-title">Thêm nhóm tài sản</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -72,10 +72,10 @@
                     @csrf
                     <div style="padding: 20px 20px 0 20px;">
                         <div class="form-group row">
-                            <label for="inputName" class="col-sm-2 col-form-label">Loại tài sản</label>
+                            <label for="inputName" class="col-sm-2 col-form-label">Nhóm tài sản</label>
                             <div class="col-sm-10">
                                 <input type="text" name="name" class="form-control" id="inputName"
-                                    placeholder="Loại tài sản">
+                                    placeholder="Nhóm tài sản">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -176,7 +176,7 @@
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Sửa loại sản phẩm </h4>
+                                                    <h4 class="modal-title">Sửa nhóm sản phẩm </h4>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
@@ -191,7 +191,7 @@
                                                                 class="col-sm-2 col-form-label">Tên</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" name="name" class="form-control"
-                                                                    id="inputName" placeholder="Loại sản phẩm"
+                                                                    id="inputName" placeholder="Nhóm sản phẩm"
                                                                     value="{{$group->property_name }}">
                                                             </div>
                                                         </div>

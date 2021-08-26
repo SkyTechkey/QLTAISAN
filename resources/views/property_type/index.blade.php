@@ -1,7 +1,7 @@
 @extends('layouts.master')
 <!-- Title content -->
 @section('title')
-    Nhà cung cấp
+    Loại tài sản
 @endsection
 <!-- End Title -->
 
@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Nhà cung cấp</h1>
+                    <h1>Loại tài sản</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -63,7 +63,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Thêm nhà cung cấp</h4>
+                    <h4 class="modal-title">Thêm Loại tài sản</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

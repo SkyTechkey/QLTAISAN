@@ -131,8 +131,8 @@
                                 <tr>
                                     <th>Mã NCC</th>
                                     <th>Tên NCC</th>
-                                    <th>Số điện thoại</th>
                                     <th>Địa chỉ</th>
+                                    <th>Số điện thoại</th>    
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
