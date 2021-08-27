@@ -89,6 +89,66 @@
                     @endcan
                 @endcannot
 
+                {{-- Quản lý tài sản --}}
+                <li class="nav-item">
+                    <a href="/assets" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                      <i class="nav-icon fas fa-suitcase-rolling"></i>
+                      <p>
+                        Quản lý tài sản
+                        <i class="fas fa-angle-left right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="/assets" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Quản lý tài sản</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="/assets/details" class="nav-link {{ Request::is('assets/details*') ? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Chi tiết tài sản</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="/assets/edit" class="nav-link {{ Request::is('assets/edit*') ? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Sửa chữa</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                <li class="nav-item">
+                    <a href="/" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                      <i class="nav-icon fas fa-file-invoice"></i>
+                      <p>
+                        Phiếu bàn giao
+                        <i class="fas fa-angle-left right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="/" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Phiếu bàn giao</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="/" class="nav-link {{ Request::is('assets/edit*') ? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Phiếu nhập</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="/" class="nav-link {{ Request::is('assets/details*') ? 'active' : '' }}">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Chi tiết phiếu</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+
                 {{-- Phần menu cho phòng ban --}}
                 @can('view_department', App\Models\User::class)
                     <li class="nav-item">

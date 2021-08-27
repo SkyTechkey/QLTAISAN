@@ -104,3 +104,9 @@ Route::prefix('property_group')->middleware(['auth'])->group(function () {
 // 
 Route::get('/get-department/{id}', [DepartmentController::class, 'getDepartments']);
 Route::get('/get-user/{id}', [UserController::class, 'getUsers']);
+
+// 
+Route::get('/assets', function() {
+    return view('assets.index');
+});
+

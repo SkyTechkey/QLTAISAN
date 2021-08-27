@@ -3,4 +3,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href={{URL::asset('plugins/fontawesome-free/css/all.min.css')}}>
     <link rel="stylesheet" href={{URL::asset('dist/css/adminlte.min.css')}}>
+    <style>
+        .nav-treeview {
+            margin-left: 20px;
+        }
+    </style>
 @endpush

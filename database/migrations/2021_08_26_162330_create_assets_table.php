@@ -25,7 +25,7 @@ class CreateAssetsTable extends Migration
             $table->date('warranty_expires');           // hết hạn bảo hành
             $table->date('date_liquidation');           // thời gian thanh lý
             $table->decimal('first_value');             // giá trị ban đầu
-            $table->decimal('depreciation_per_year');   // khấu hao hàng năm
+            $table->decimal('depreciation_per_year');   // khấu hao hàng năm (%)
             $table->decimal('depreciation');           // giá trị khấu hao
             $table->decimal('residual_value');          // giá trị còn lại
             $table->decimal('maintenance_fee');         // phí bảo dưỡng
