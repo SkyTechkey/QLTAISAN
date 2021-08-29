@@ -15,7 +15,7 @@ class CreatePropertyGroupTable extends Migration
     {
         Schema::create('property_group', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('property_name');
+            $table->string('name');
             $table->string('note');
         });
     }

@@ -11,4 +11,8 @@ class Property_type extends Model
     protected $table = 'property_type';
     protected $primary_key = 'id';
     public $timestamps = false;
+    public function asset()
+    {
+        return $this->hasMany(Asset::class);
+    }
 }

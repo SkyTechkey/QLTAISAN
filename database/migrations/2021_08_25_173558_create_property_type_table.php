@@ -15,7 +15,7 @@ class CreatePropertyTypeTable extends Migration
     {
         Schema::create('property_type', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('property_name');
+            $table->string('name');
             $table->string('note');
         });
     }

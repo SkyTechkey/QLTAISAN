@@ -11,47 +11,46 @@ class CreateAssetsTable extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('id_branch')->unsigned();
-            $table->integer('id_provide')->unsigned();
-            $table->integer('id_property_type')->unsigned();
-            $table->integer('id_property_group')->unsigned();
+            $table->integer('department_id')->unsigned();
+            $table->integer('provide_id')->unsigned();
+            $table->integer('property_type_id')->unsigned();
+            $table->integer('property_group_id')->unsigned();
 
             $table->string('code');
             $table->string('name');
-            $table->string('group');
-            $table->string('usage_status');               // tình trạng sử dụng
+            $table->string('usage_status');             // tình trạng sử dụng
             $table->string('image')->nullable();
             $table->date('date_purchase');              // ngày mua
             $table->date('warranty_expires');           // hết hạn bảo hành
-            $table->date('date_liquidation');           // thời gian thanh lý
-            $table->decimal('first_value');             // giá trị ban đầu
-            $table->decimal('depreciation_per_year');   // khấu hao hàng năm (%)
-            $table->decimal('depreciation');           // giá trị khấu hao
-            $table->decimal('residual_value');          // giá trị còn lại
-            $table->decimal('maintenance_fee');         // phí bảo dưỡng
-            $table->decimal('repair_fee');              // phí sửa chữa
-            $table->boolean('access_status');       // tình trạng nhập xuất
+            $table->date('date_liquidation'); 
+            $table->decimal('first_value',$precision = 19, $scale = 2);             // giá trị ban đầu
+            $table->decimal('depreciation_per_year',$precision = 19, $scale = 2);   // khấu hao hàng năm (%)
+            $table->decimal('depreciation',$precision = 19, $scale = 2);            // giá trị khấu hao
+            $table->decimal('residual_value',$precision = 19, $scale = 2);          // giá trị còn lại
+            // $table->float('maintenance_fee')->nullable();         // phí bảo dưỡng
+            // $table->float('repair_fee')->nullable();              // phí sửa chữa
+            $table->boolean('access_status')->nullable();           // tình trạng nhập xuất
             $table->text('note')->nullable();
 
-            $table->foreign('id_branch')
+            $table->foreign('department_id')
             ->references('id')
-            ->on('branches')
+            ->on('departments')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
-            $table->foreign('id_property_type')
+            $table->foreign('property_type_id')
             ->references('id')
             ->on('property_type')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
-            $table->foreign('id_property_group')
+            $table->foreign('property_group_id')
             ->references('id')
             ->on('property_group')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
-            $table->foreign('id_provide')
+            $table->foreign('provide_id')
             ->references('id')
             ->on('provide')
             ->onUpdate('cascade')

@@ -38,12 +38,12 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        @can('create_user', User::class)
+                        @can('create_assets', User::class)
                             <li class="btn-file-custom"><a href="#" class="btn bg-gradient-primary btn-sm">Thêm file Excel</a>
                             </li>
 
                             <li class="btn-file- "><a href="#" class="btn bg-gradient-success btn-sm" data-toggle="modal"
-                                    data-target="#addUser">Thêm mới</a></li>
+                                    data-target="#addAsset">Thêm mới</a></li>
                         @endcan
                     </ol>
                 </div>
@@ -63,7 +63,7 @@
         </span>
     @endif
 
-    <div class="modal fade" id="addUser">
+    <div class="modal fade" id="addAsset">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -72,90 +72,103 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form  method="POST" action={{route('assets.store')}} enctype="multipart/form-data">
+                    @csrf
                     <div class="card-body">
                         <div class="row my-3">
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Mã tài sản</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Mã tài sản">
+                                <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Mã tài sản">
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Tên tài sản</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên tài sản">
+                                <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Tên tài sản" required>
                             </div>
                             <div class="col-sm-4">
                                 <label for="exampleInputEmail1">Phân loại</label>
-                                <select id="" class="form-control select2bs4" style="width: 100%;">
-                                    <option value="0" selected="selected">Phân loại</option>
-                                        <option value="">Phân loại 1</option>
-                                        <option value="">Phân loại 2</option>
-                                        <option value="">Phân loại 3</option>
+                                <select id="" name="property_type_id" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="1" selected="selected">Phân loại</option>
+                                    @foreach ($property_types as $type)
+                                        <option value="{{$type->id}}">{{$type->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
+    
                         <div class="row my-3">
                             <div class="col-sm-4">
                                 <label for="exampleInputEmail1">Nhóm tài sản</label>
-                                <select id="" class="form-control select2bs4" style="width: 100%;">
-                                    <option value="0" selected="selected">Nhóm tài sản</option>
-                                        <option value="">Nhóm tài sản 1</option>
-                                        <option value="">Nhóm tài sản 2</option>
-                                        <option value="">Nhóm tài sản 3</option>
+                                <select id="" name="property_group_id" class="form-control select2bs4" style="width: 100%;">
+                                        <option value="1" selected="selected">Nhóm tài sản</option>
+                                        @foreach ($property_groups as $group)
+                                            <option value="{{$group->id}}">{{$group->name}}</option>
+                                        @endforeach
                                 </select>
                             </div>
                             <div class="col-sm-4">
                                 <label for="exampleInputEmail1">Trạng thái</label>
-                                <select id="" class="form-control select2bs4" style="width: 100%;">
-                                    <option value="0" selected="selected">Tốt</option>
-                                    <option value="">Trung bình</option>
+                                <select id="" name="usage_status" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="Tốt" selected="selected">Tốt</option>
+                                    <option value="Trung bình">Trung bình</option>
+                                    <option value="Hỏng">Hỏng</option>
                                 </select>
                             </div>
                             <div class="col-sm-4">
                                 <label for="exampleInputEmail1">Nhà cung cấp</label>
-                                <select id="" class="form-control select2bs4" style="width: 100%;">
-                                    <option value="0" selected="selected">Nhà cung cấp</option>
-                                        <option value="">Nhà cung cấp 1</option>
-                                        <option value="">Nhà cung cấp 2</option>
-                                        <option value="">Nhà cung cấp 3</option>
+                                <select id="" name="provide_id" class="form-control select2bs4" style="width: 100%;">
+                                        <option value="1" selected="selected">Nhà cung cấp</option>
+                                        @foreach ($provides as $provide)
+                                            <option value="{{$provide->id}}">{{$provide->name}}</option>
+                                        @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="row my-3">
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Ngày mua</label>
-                                <input type="date" class="form-control" id="exampleInputEmail1">
+                                <input type="date" name="date_purchase" class="form-control" id="exampleInputEmail1">
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Ngày hết bảo hành</label>
-                                <input type="date" class="form-control" id="exampleInputEmail1">
+                                <input type="date" name="warranty_expires" class="form-control" id="exampleInputEmail1">
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Ngày thanh lý</label>
-                                <input type="date" class="form-control" id="exampleInputEmail1">
+                                <input type="date" name="date_liquidation" class="form-control" id="exampleInputEmail1">
                             </div>
                         </div>
                         <div class="row my-3">
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Giá trị ban đầu</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Giá trị ban đầu">
+                                <input type="number" name="first_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị ban đầu" required>
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Tỉ lệ khấu hao hàng năm</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm">
+                                <input type="number" name="depreciation_per_year" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm" required>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label for="exampleInputEmail1">Giá trị khấu hao</label>
+                                <input type="number" name="depreciation" class="form-control" id="exampleInputEmail1" placeholder="Giá trị khấu hao" required>
+                            </div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="form-group col-sm-4">
+                                <label for="exampleInputEmail1">Giá trị còn lại</label>
+                                <input type="number" name="residual_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị còn lại" required>
                             </div>
                             <div class="col-sm-4">
-                                <label for="exampleInputEmail1">Phòng theo dõi</label>
-                                <select id="" class="form-control select2bs4" style="width: 100%;">
-                                    <option value="0" selected="selected">Phòng theo dõi</option>
-                                        <option value="">Phòng theo dõi 1</option>
-                                        <option value="">Phòng theo dõi 2</option>
-                                        <option value="">Phòng theo dõi 3</option>
+                                <label for="exampleInputEmail1">Phòng ban quản lý</label>
+                                <select id="" name="department_id" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="1" selected="selected">Phòng ban quản lý</option>
+                                        @foreach ($departments as $department)
+                                            <option value="{{$department->id}}">{{$department->name}}</option>
+                                        @endforeach
                                 </select>
-                            </div>
+                            </div>   
                         </div>
                         <div class="form-group my-3">
                             <label>Ghi chú</label>
-                            <textarea class="form-control" rows="4" placeholder="Ghi chú ..."></textarea>
+                            <textarea class="form-control" name="note" rows="4" placeholder="Ghi chú ..."></textarea>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -202,30 +215,31 @@
                                 </tr>
                             </thead>
                             <tbody id="tbl_assets">
-
-                                {{-- @foreach ($users as $user) --}}
+                                @foreach ($assets as $asset)
                                 <tr>
-                                    <td> user->id }}</td>
-                                    <td> user->name }}</td>
-                                    <td> user->username }}</td>
-                                    <td> user</td>
-                                    <td> user</td>
-                                    <td> user->status </td>
-                                    <td>
-                                        <small class="badge badge-danger">role->name }}</small>
-                                    </td>
-
+                                    <td> {{$asset->code}}</td>
+                                    <td> {{$asset->name }}</td>
+                                    <td> {{$asset->property_type->name}}</td>
+                                    <td> {{$asset->property_group->name}}</td>
+                                    <td> {{$asset->usage_status}}</td>
+                                    <td> {{$asset->date_purchase}}</td>
+                                    <td> {{$asset->date_liquidation}}</td>
                                     <td>
                                         <div class="row">
-                                            @can('update_user', User::class)
-                                                <button type="button" class="col-5 btn bg-gradient-success btn-sm"
-                                                    data-toggle="modal" data-target="#editUser user->id }}">Sửa</button>
+                                            @can('update_assets', User::class)
+                                                <button type="button" class="col-3 btn bg-gradient-success btn-sm"
+                                                style="margin-left: 2px"
+                                                    data-toggle="modal" data-target="#editAsset{{$asset->id}}">Sửa</button>
                                             @endcan
-
-                                            @can('delete_user', User::class)
-                                                <button type="button" class="col-5 btn bg-gradient-danger btn-sm"
-                                                    style="margin-left: 10px;width:100px" data-toggle="modal"
-                                                    data-target="#lockUser user->id }}">Khóa</button>
+                                            @can('view_assets', User::class)
+                                                <button type="button" class="col-4 btn bg-gradient-primary btn-sm"
+                                                style="margin-left: 2px"
+                                                    data-toggle="modal" data-target="#viewAsset{{$asset->id}}">Xem</button>
+                                            @endcan
+                                            @can('delete_assets', User::class)
+                                                <button type="button" class="col-4 btn bg-gradient-danger btn-sm"
+                                                    style="margin-left: 2px" data-toggle="modal"
+                                                    data-target="#deleteAsset{{$asset->id}}">xóa</button>
                                             @endcan
                                         </div>
                                     </td>
@@ -233,7 +247,7 @@
 
 
                                 {{-- Modal Edit User Start --}}
-                                {{-- <div class="modal fade" id="editUser{{ $user->id }}">
+                                <div class="modal fade" id="editAsset{{ $asset->id }}">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -243,58 +257,115 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <form class="form-horizontal" method="post" action="{{route('user.update',$user->id)}}" enctype="multipart/form-data">
+                                                    <form class="form-horizontal" method="post" action="{{route('assets.update',$asset->id)}}" enctype="multipart/form-data">
                                                         @csrf
                                                         @method('put')
-                                                        <div style="padding: 20px 20px 0 20px;">
-                                                            <div class="form-group row">
-                                                                <label for="name" class="col-sm-2 col-form-label">Họ và tên</label>
-                                                                <div class="col-sm-10">
-                                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên"
-                                                                        value="{{$user->name}}" />
+                                                        <div class="card-body">
+                                                            <div class="row my-3">
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Mã tài sản</label>
+                                                                    <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Mã tài sản"
+                                                                    value="{{$asset->code}}">
+                                                                </div>
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Tên tài sản</label>
+                                                                    <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Tên tài sản"
+                                                                    value="{{$asset->name}}" required>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <label for="exampleInputEmail1">Phân loại</label>
+                                                                    <select id="" name="property_type_id" class="form-control select2bs4" style="width: 100%;">
+                                                                        @foreach ($property_types as $type)
+                                                                            <option value="{{$type->id}}" 
+                                                                                {{$type->id==$asset->property_type_id ? 'selected="selected"' : ''}}>{{$type->name}}</option>
+                                                                        @endforeach
+                                                                    </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group row">
-                                                                <label for="username" class="col-sm-2 col-form-label">Username</label>
-                                                                <div class="col-sm-10">
-                                                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username"
-                                                                    value="{{$user->username}}"  />
+                                        
+                                                            <div class="row my-3">
+                                                                <div class="col-sm-4">
+                                                                    <label for="exampleInputEmail1">Nhóm tài sản</label>
+                                                                    <select id="" name="property_group_id" class="form-control select2bs4" style="width: 100%;">
+                                                                            <option value="1" selected="selected">Nhóm tài sản</option>
+                                                                            @foreach ($property_groups as $group)
+                                                                                <option value="{{$group->id}}"
+                                                                                    {{$group->id==$asset->property_group_id ? 'selected="selected"' : ''}}>{{$group->name}}</option>
+                                                                            @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <label for="exampleInputEmail1">Trạng thái</label>
+                                                                    <select id="" name="usage_status" class="form-control select2bs4" style="width: 100%;">
+                                                                        <option value="Tốt" {{$asset->usage_status == 'Tốt'?'selected="selected"':''}}>Tốt</option>
+                                                                        <option value="Trung bình" {{$asset->usage_status == 'Trung bình'?'selected="selected"':''}}>Trung bình</option>
+                                                                        <option value="Hỏng" {{$asset->usage_status == 'Hỏng'?'selected="selected"':''}}>Hỏng</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <label for="exampleInputEmail1">Nhà cung cấp</label>
+                                                                    <select id="" name="provide_id" class="form-control select2bs4" style="width: 100%;">
+                                                                
+                                                                            @foreach ($provides as $provide)
+                                                                                <option value="{{$provide->id}}"
+                                                                                    {{$provide->id==$asset->provide_id ? 'selected="selected"' : ''}}>{{$provide->name}}</option>
+                                                                            @endforeach
+                                                                    </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group row">
-                                                                <label for="email" class="col-sm-2 col-form-label">Email</label>
-                                                                <div class="col-sm-10">
-                                                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                                                                    value="{{$user->email}}"  />
+                                                            <div class="row my-3">
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Ngày mua</label>
+                                                                    <input type="date" name="date_purchase" class="form-control" id="exampleInputEmail1" value="{{$asset->date_purchase}}">
+                                                                </div>
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Ngày hết bảo hành</label>
+                                                                    <input type="date" name="warranty_expires" class="form-control" id="exampleInputEmail1" value="{{$asset->warranty_expires}}">
+                                                                </div>
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Ngày thanh lý</label>
+                                                                    <input type="date" name="date_liquidation" class="form-control" id="exampleInputEmail1" value="{{$asset->date_liquidation}}">
                                                                 </div>
                                                             </div>
-                        
-                                                            <div class="form-group row">
-                                                                <label for="department_id" class="col-sm-2 col-form-label">Department</label>
-                                                                <select class="custom-select col-sm-10" id="department_id"
-                                                                    name="department_id">
-                                                                    @foreach ($departments as $department)
-                                                                        <option value={{ $department->id }}
-                                                                            {{ $department->id == $user->department_id ? 'selected' : '' }}>
-                                                                            {{ $department->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label for="role_id" class="col-sm-2" ></label>
-                                                                <div class="col-sm-10 row" id="role_id">
-                                                                    @foreach ($roles as $role)
-                                                                        <div class="form-check col-md-4">
-                                                                            <input class="form-check-input" type="checkbox" value="{{ $role->id }}" name="role_id[]"
-                                                                            @foreach ($user->roles as $u_role)
-                                                                                {{$u_role->id==$role->id? "checked":""}}
-                                                                            @endforeach>
-                                                                            <label class="form-check-label">{{$role->name}}</label>
-                                                                        </div>
-                                                                    @endforeach
+                                                            <div class="row my-3">
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Giá trị ban đầu</label>
+                                                                    <input type="number" name="first_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị ban đầu"
+                                                                    value="{{$asset->first_value}}" required>
                                                                 </div>
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Tỉ lệ khấu hao hàng năm</label>
+                                                                    <input type="number" name="depreciation_per_year" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm"
+                                                                    value="{{$asset->depreciation_per_year}}" required>
+                                                                </div>
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Giá trị khấu hao</label>
+                                                                    <input type="number" name="depreciation" class="form-control" id="exampleInputEmail1" placeholder="Giá trị khấu hao"
+                                                                    value="{{$asset->depreciation}}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row my-3">
+                                                                <div class="form-group col-sm-4">
+                                                                    <label for="exampleInputEmail1">Giá trị còn lại</label>
+                                                                    <input type="number" name="residual_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị còn lại"
+                                                                    value="{{$asset->residual_value}}" required>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <label for="exampleInputEmail1">Phòng ban quản lý</label>
+                                                                    <select id="" name="department_id" class="form-control select2bs4" style="width: 100%;">
+                                                                            @foreach ($departments as $department)
+                                                                                <option value="{{$department->id}}"
+                                                                                    {{$department->id==$asset->department_id ? 'selected="selected"' : ''}}>{{$department->name}}</option>
+                                                                            @endforeach
+                                                                    </select>
+                                                                </div>                                                                
+                                                            </div>
+                                                            <div class="form-group my-3">
+                                                                <label>Ghi chú</label>
+                                                                <textarea class="form-control" name="note" rows="4" placeholder="Ghi chú ...">{{$asset->note}}</textarea>
                                                             </div>
                                                         </div>
+                                                        <!-- /.card-body -->
                                                         <div class="modal-footer justify-content-between">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                             <button type="submit" class="btn btn-primary">Thêm</button>
@@ -304,22 +375,20 @@
                                                 <!-- /.modal-content -->
                                             </div>
                                             <!-- /.modal-dialog -->
-                                        </div> --}}
+                                        </div>
                                 {{-- Modal Edit User End --}}
 
 
 
                                 {{-- Modal Lock/Unlock User Start --}}
-                                {{-- <div class="modal fade" id="lockUser{{ $user->id }}">
+                                <div class="modal fade" id="deleteAsset{{ $asset->id}}">
                                             <div class="modal-dialog">
                                                 <div class="modal-content bg-danger">
-                                                    <form action="/user/{{ $user->id }}" method="POST">
+                                                    <form action="{{route('assets.destroy',$asset->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Xác nhận {{ $user->status ? "khóa" : "mở khóa" }} tài khoản nhân viên
-                                                                {{ $user->name }} ( {{ $user->username }} )?</h4>
-                                                             Thay tên nhân viên vào ... 
+                                                            <h4 class="modal-title">Xác nhận xóa {{ $asset->name }}?</h4>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
@@ -328,16 +397,17 @@
                                                         <div class="modal-footer justify-content-between">
                                                             <button type="button" class="btn btn-outline-light"
                                                                 data-dismiss="modal">Hủy</button>
-                                                            <button type="submit" class="btn btn-outline-light">{{ $user->status ? "Khóa" : "Mở khóa" }}</button>
+                                                            <button type="submit" class="btn btn-outline-light">Xóa</button>
                                                         </div>
                                                     </form>
                                                 </div>
                                                 <!-- /.modal-content -->
                                             </div>
                                             <!-- /.modal-dialog -->
-                                        </div> --}}
+                                        </div>
                                 {{-- Modal Lock/Unlock User End --}}
-                                {{-- @endforeach --}}
+                                @endforeach
+                             
                             </tbody>
                         </table>
                     </div>

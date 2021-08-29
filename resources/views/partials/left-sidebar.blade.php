@@ -53,6 +53,7 @@
                         </a>
                     </li>
                 @endcan
+                {{-- Phần menu cho chi nhánh --}}
                 @can(['view_all_branch', 'view_branch'], App\Models\User::class)
                     <li class="nav-item">
                         <a href="{{ route('branch.index') }}"
@@ -90,7 +91,8 @@
                 @endcannot
 
                 {{-- Quản lý tài sản --}}
-                <li class="nav-item">
+                @can('view_assets', User::class)
+                <li class="nav-item {{ Request::is('assets*') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="/assets" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
                       <i class="nav-icon fas fa-suitcase-rolling"></i>
                       <p>
@@ -118,37 +120,38 @@
                         </a>
                       </li>
                     </ul>
-                  </li>
-                <li class="nav-item">
+                </li>
+                @endcan
+                {{-- Quản lý phiếu nhập xuất --}}
+                {{-- <li class="nav-item">
                     <a href="/" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
-                      <i class="nav-icon fas fa-file-invoice"></i>
-                      <p>
+                        <i class="nav-icon fas fa-file-invoice"></i>
+                        <p>
                         Phiếu bàn giao
                         <i class="fas fa-angle-left right"></i>
-                      </p>
+                        </p>
                     </a>
                     <ul class="nav nav-treeview">
-                      <li class="nav-item">
-                        <a href="/" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>Phiếu bàn giao</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="/" class="nav-link {{ Request::is('assets/edit*') ? 'active' : '' }}">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>Phiếu nhập</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="/" class="nav-link {{ Request::is('assets/details*') ? 'active' : '' }}">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>Chi tiết phiếu</p>
-                        </a>
-                      </li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Phiếu bàn giao</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link {{ Request::is('assets/edit*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Phiếu nhập</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link {{ Request::is('assets/details*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Chi tiết phiếu</p>
+                            </a>
+                        </li>
                     </ul>
-                  </li>
-
+                </li> --}}
                 {{-- Phần menu cho phòng ban --}}
                 @can('view_department', App\Models\User::class)
                     <li class="nav-item">
@@ -161,6 +164,7 @@
                         </a>
                     </li>
                 @endcan
+                {{-- Phần menu users --}}
                 @can('view_user', App\Models\User::class)
                     <li class="nav-item">
                         <a href="{{ route('user.index') }}"
@@ -172,7 +176,7 @@
                         </a>
                     </li>
                 @endcan
-
+                {{-- Phần menu role --}}
                 @can('view_role', App\Models\User::class)
                     <li class="nav-item">
                         <a href="{{ route('role.index') }}"
@@ -184,7 +188,7 @@
                         </a>
                     </li>
                 @endcan
-
+                {{-- Phần menu permission --}}
                 @can('view_permission', App\Models\User::class)
                     <li class="nav-item">
                         <a href="{{ route('permission.index') }}"
@@ -196,7 +200,7 @@
                         </a>
                     </li>
                 @endcan
-
+                {{-- Phần menu nhà cung cấp --}}
                 @can('view_provide', App\Models\User::class)
                     <li class="nav-item">
                         <a href="{{ route('provide.index') }}"
@@ -208,7 +212,7 @@
                         </a>
                     </li>
                 @endcan
-
+                {{-- Phần menu loại tài sản--}}
                 @can('view_property_type', App\Models\User::class)
                     <li class="nav-item">
                         <a href="{{ route('property_type.index') }}"
@@ -220,7 +224,7 @@
                         </a>
                     </li>
                 @endcan
-
+                {{-- Phần menu nhóm tài sản --}}
                 @can('view_property_group', App\Models\User::class)
                     <li class="nav-item">
                         <a href="{{ route('property_group.index') }}"
@@ -232,7 +236,7 @@
                         </a>
                     </li>
                 @endcan
-
+                {{-- Phần đăng xuất --}}
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt icon-logout"></i>
@@ -240,9 +244,6 @@
                             Đăng xuất
                         </p>
                     </a>
-                </li>
-
-
                 </li>
             </ul>
         </nav>

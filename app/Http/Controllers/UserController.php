@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\RoleUser;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 

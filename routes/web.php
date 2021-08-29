@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DepartmentController;
@@ -90,7 +91,7 @@ Route::prefix('property_type')->middleware(['auth'])->group(function () {
     Route::delete('/{id}', [PropertyTypeController::class,'destroy'])->middleware(['permission:delete_property_type'])->name('property_type.destroy');
 });
 
-// Nhóm sản phẩm
+// Nhóm tài sản
 Route::prefix('property_group')->middleware(['auth'])->group(function () {
     Route::get('/', [PropertyGroupController::class,'index'])->middleware(['permission:view_property_group'])->name('property_group.index');
     Route::get('/{id}', [PropertyGroupController::class,'show'])->middleware(['permission:view_property_group'])->name('property_group.show');
@@ -99,14 +100,26 @@ Route::prefix('property_group')->middleware(['auth'])->group(function () {
     Route::delete('/{id}', [PropertyGroupController::class,'destroy'])->middleware(['permission:delete_property_group'])->name('property_group.destroy');
 });
 
-
+// Xử lý tài sản
+Route::prefix('assets')->middleware(['auth'])->group(function () {
+    Route::get('/', [AssetController::class,'index'])
+    ->middleware(['permission:view_assets'])
+    ->name('assets.index');
+    Route::get('/{id}', [AssetController::class,'show'])->middleware(['permission:view_assets'])->name('assets.show');
+    Route::post('/', [AssetController::class,'store'])
+    ->middleware(['permission:create_assets'])
+    ->name('assets.store');
+    Route::put('/{id}', [AssetController::class,'update'])
+    ->middleware(['permission:update_assets'])
+    ->name('assets.update');
+    Route::delete('/{id}', [AssetController::class,'destroy'])
+    ->middleware(['permission:delete_assets'])
+    ->name('assets.destroy');
+});
 
 // 
 Route::get('/get-department/{id}', [DepartmentController::class, 'getDepartments']);
 Route::get('/get-user/{id}', [UserController::class, 'getUsers']);
 
 // 
-Route::get('/assets', function() {
-    return view('assets.index');
-});
 

@@ -11,4 +11,8 @@ class Provide extends Model
     protected $table = 'provide';
     protected $primary_key = 'id';
     public $timestamps = false;
+    public function asset()
+    {
+        return $this->hasMany(Asset::class);
+    }
 }

@@ -125,6 +125,11 @@ class DatabaseSeeder extends Seeder
             ['name' => 'update_department'],
             ['name' => 'delete_department'],
 
+            ['name' => 'view_assets'],
+            ['name' => 'create_assets'],
+            ['name' => 'update_assets'],
+            ['name' => 'delete_assets'],
+
             ['name' => 'view_role'],
             ['name' => 'create_role'],
             ['name' => 'update_role'],
@@ -160,35 +165,12 @@ class DatabaseSeeder extends Seeder
             ['name' => 'manager-department'],
             
         ]);
-        
         DB::table('role_user')->insert([
             ['role_id' => 1, 'user_id' => 1],
             ['role_id' => 2, 'user_id' => 2],
             ['role_id' => 2, 'user_id' => 3],
             ['role_id' => 2, 'user_id' => 4],
         ]);
-
-        DB::table('provide')->insert([
-            ['code' => 'M127', 'name' => 'khong biet', 'phone' => '012345','address' => 'Da Nang'],
-            ['code' => 'MOU49', 'name' => 'khong biet', 'phone' => '123456','address' => 'Da Nang'],
-            ['code' => 'D238', 'name' => 'Khong biet', 'phone' => '234567','address' => 'Ha Noi'],
-            ['code' => 'KBD57', 'name' => 'Khong biet', 'phone' => '345678','address' => 'Ha Noi'],
-        ]);
-
-        DB::table('property_type')->insert([
-            ['property_name' => 'Dell', 'note' => 'xai ok'],
-            ['property_name' => 'HP', 'note' => 'xai ok'],
-            ['property_name' => 'Asus', 'note' => 'xai ok'],
-            ['property_name' => 'MacBook', 'note' => 'xai ok'],
-        ]);
-
-        DB::table('property_group')->insert([
-            ['property_name' => 'Dell', 'note' => 'xai ok'],
-            ['property_name' => 'Asus', 'note' => 'xai ok'],
-            ['property_name' => 'HP', 'note' => 'xai ok'],
-            ['property_name' => 'MacBook', 'note' => 'xai ok'],
-        ]);
-
         DB::table('permission_role')->insert([
             ['permission_id' => 1, 'role_id' => 1],
             ['permission_id' => 2, 'role_id' => 1],
@@ -225,8 +207,49 @@ class DatabaseSeeder extends Seeder
             ['permission_id' => 33, 'role_id' => 1],
             ['permission_id' => 34, 'role_id' => 1],
             ['permission_id' => 35, 'role_id' => 1],
+            ['permission_id' => 36, 'role_id' => 1],
+            ['permission_id' => 37, 'role_id' => 1],
+            ['permission_id' => 38, 'role_id' => 1],
+            ['permission_id' => 39, 'role_id' => 1],
             ['permission_id' => 7, 'role_id' => 2],
             ['permission_id' => 8, 'role_id' => 2],
         ]);
+        DB::table('provide')->insert([
+            ['code' => 'M127', 'name' => 'khong biet', 'phone' => '012345','address' => 'Da Nang'],
+            ['code' => 'MOU49', 'name' => 'khong biet', 'phone' => '123456','address' => 'Da Nang'],
+            ['code' => 'D238', 'name' => 'Khong biet', 'phone' => '234567','address' => 'Ha Noi'],
+            ['code' => 'KBD57', 'name' => 'Khong biet', 'phone' => '345678','address' => 'Ha Noi'],
+        ]);
+        DB::table('property_type')->insert([
+            ['name' => 'Tài sản cố định', 'note' => 'xai ok'],
+            ['name' => 'Tài sản không cố định', 'note' => 'xai ok'],
+        ]);
+        DB::table('property_group')->insert([
+            ['name' => 'Dell', 'note' => 'xai ok'],
+            ['name' => 'Asus', 'note' => 'xai ok'],
+            ['name' => 'HP', 'note' => 'xai ok'],
+            ['name' => 'MacBook', 'note' => 'xai ok'],
+        ]);
+       
+        // for($i = 0; $i<1000;$i++){
+        DB::table('assets')->insert([
+                [
+                    'code'=>'code1',
+                    'name'=>'tài sản ',
+                    'usage_status'=>'tốt',
+                    'date_purchase'=>"2021-01-01",
+                    'warranty_expires'=>"2021-01-01",
+                    'date_liquidation'=>"2021-01-01",
+                    'first_value'=>1000000000,
+                    'residual_value'=>100000 ,
+                    'depreciation_per_year'=>10,
+                    'depreciation'=>10000,
+                    'department_id'=>random_int(1,3),
+                    'provide_id'=>random_int(1,3),
+                    'property_type_id'=>random_int(1,2),
+                    'property_group_id'=>random_int(1,3),
+                ],
+        ]);
+    //   }
     }
 }

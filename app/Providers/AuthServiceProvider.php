@@ -69,6 +69,19 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete_department', function (User $user) {
             return $user->hasAccess(['delete_department']) ;
         });
+        // Quyền quản lý tài sản (assets)
+        Gate::define('view_assets', function (User $user) {
+            return $user->hasAccess(['view_assets']) ;
+        });
+        Gate::define('create_assets', function (User $user) {
+            return $user->hasAccess(['create_assets']) ;
+        });
+        Gate::define('update_assets', function (User $user) {
+            return $user->hasAccess(['update_assets']) ;
+        });
+        Gate::define('delete_assets', function (User $user) {
+            return $user->hasAccess(['delete_assets']) ;
+        });
         // Quyền quản lý user
         Gate::define('view_user', function (User $user) {
             return $user->hasAccess(['view_user']) ;

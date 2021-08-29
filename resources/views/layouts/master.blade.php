@@ -33,6 +33,7 @@
         </div>
         <!--Main Footer-->
         @include('partials.footer')
+      
     </div>
 
     @include('partials.style-down') {{-- CSS dùng chung cho cả hệ thống --}}
