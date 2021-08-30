@@ -66,7 +66,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form  method="POST" action={{route('repair-cost.store')}} enctype="multipart/form-data">
+                    <form  method="POST" action={{route('assets-repair.store')}} enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="row my-3">
@@ -173,183 +173,117 @@
                                             <td> {{ $repair_cost->provide_id }}</td>
                                             <td> {{ $repair_cost->cost }}</td>
                                             <td> {{ $repair_cost->details }}</td>
-                                            {{-- <td>
-                                                         <div class="row">
-                                                             @can('update_assets', User::class)
-                                                                 <button type="button" class="col-3 btn bg-gradient-success btn-sm"
-                                                                 style="margin-left: 2px"
-                                                                     data-toggle="modal" data-target="#editAsset{{$repair_cost->id}}">Sửa</button>
-                                                             @endcan
-                                                             @can('view_assets', User::class)
-                                                                 <a type="button" class="col-4 btn bg-gradient-primary btn-sm"
-                                                                 style="margin-left: 2px" href="{{ route('assets.show', $repair_cost->id) }}">Xem</a>
-                                                             @endcan
-                                                             @can('delete_assets', User::class)
-                                                                 <button type="button" class="col-4 btn bg-gradient-danger btn-sm"
-                                                                     style="margin-left: 2px" data-toggle="modal"
-                                                                     data-target="#deleteAsset{{$repair_cost->id}}">xóa</button>
-                                                             @endcan
-                                                         </div>
-                                                     </td> --}}
-                                        </tr>
+                                            <td>
+                                                <div class="row">
+                                                    @can('update_assets', User::class)
+                                                        <button type="button" class="col-4 btn bg-gradient-success btn-sm"
+                                                        style="margin-left: 2px"
+                                                            data-toggle="modal" data-target="#editFee{{$repair_cost->id}}">Sửa</button>
+                                                    @endcan
+                                                 
+                                                    @can('delete_assets', User::class)
+                                                        <button type="button" class="col-4 btn bg-gradient-danger btn-sm"
+                                                            style="margin-left: 2px" data-toggle="modal"
+                                                            data-target="#editFee{{$repair_cost->id}}">xóa</button>
+                                                    @endcan
+                                                </div>
+                                            </td>
+                                     </tr>
 
-
-                                        {{-- Modal Edit User Start --}}
-                                        {{-- <div class="modal fade" id="editAsset{{ $repair_cost->id }}">
-                                                             <div class="modal-dialog modal-lg">
-                                                                 <div class="modal-content">
-                                                                     <div class="modal-header">
-                                                                         <h4 class="modal-title">Sửa nhân viên</h4>
-                                                                         <button type="button" class="close" data-dismiss="modal"
-                                                                             aria-label="Close">
-                                                                             <span aria-hidden="true">&times;</span>
-                                                                         </button>
-                                                                     </div>
-                                                                     <form class="form-horizontal" method="post" action="{{route('assets.update',$asset->id)}}" enctype="multipart/form-data">
-                                                                         @csrf
-                                                                         @method('put')
-                                                                         <div class="card-body">
-                                                                             <div class="row my-3">
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Mã tài sản</label>
-                                                                                     <input type="text" name="code" class="form-control" id="exampleInputEmail1" placeholder="Mã tài sản"
-                                                                                     value="{{$asset->code}}">
-                                                                                 </div>
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Tên tài sản</label>
-                                                                                     <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Tên tài sản"
-                                                                                     value="{{$asset->name}}" >
-                                                                                 </div>
-                                                                                 <div class="col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Phân loại</label>
-                                                                                     <select id="" name="property_type_id" class="form-control select2bs4" style="width: 100%;">
-                                                                                         @foreach ($property_types as $type)
-                                                                                             <option value="{{$type->id}}" 
-                                                                                                 {{$type->id==$asset->property_type_id ? 'selected="selected"' : ''}}>{{$type->name}}</option>
-                                                                                         @endforeach
-                                                                                     </select>
-                                                                                 </div>
-                                                                             </div>
+                                     {{-- MODAL ADD PHÍ SỬA CHỮA --}}
+                                     <div class="modal fade" id="editFee{{$repair_cost->id}}">
+                                         <div class="modal-dialog modal-lg">
+                                             <div class="modal-content">
+                                                 <div class="modal-header">
+                                                     <h4 class="modal-title">Sửa khoản phí</h4>
+                                                     <button type="button"
+                                                             class="close"
+                                                             data-dismiss="modal"
+                                                             aria-label="Close">
+                                                         <span aria-hidden="true">&times;</span>
+                                                     </button>
+                                                 </div>
+                                                 <form  method="POST" action={{route('assets-repair.update',$repair_cost->id)}} enctype="multipart/form-data">
+                                                     @csrf
+                                                     @method('put')
+                                                     <div class="card-body">
+                                                         <div class="row my-3">
                                                          
-                                                                             <div class="row my-3">
-                                                                                 <div class="col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Nhóm tài sản</label>
-                                                                                     <select id="" name="property_group_id" class="form-control select2bs4" style="width: 100%;">
-                                                                                             <option value="1" selected="selected">Nhóm tài sản</option>
-                                                                                             @foreach ($property_groups as $group)
-                                                                                                 <option value="{{$group->id}}"
-                                                                                                     {{$group->id==$asset->property_group_id ? 'selected="selected"' : ''}}>{{$group->name}}</option>
-                                                                                             @endforeach
-                                                                                     </select>
-                                                                                 </div>
-                                                                                 <div class="col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Trạng thái</label>
-                                                                                     <select id="" name="usage_status" class="form-control select2bs4" style="width: 100%;">
-                                                                                         <option value="Tốt" {{$asset->usage_status == 'Tốt'?'selected="selected"':''}}>Tốt</option>
-                                                                                         <option value="Trung bình" {{$asset->usage_status == 'Trung bình'?'selected="selected"':''}}>Trung bình</option>
-                                                                                         <option value="Hỏng" {{$asset->usage_status == 'Hỏng'?'selected="selected"':''}}>Hỏng</option>
-                                                                                     </select>
-                                                                                 </div>
-                                                                                 <div class="col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Nhà cung cấp</label>
-                                                                                     <select id="" name="provide_id" class="form-control select2bs4" style="width: 100%;">
-                                                                                 
-                                                                                             @foreach ($provides as $provide)
-                                                                                                 <option value="{{$provide->id}}"
-                                                                                                     {{$provide->id==$asset->provide_id ? 'selected="selected"' : ''}}>{{$provide->name}}</option>
-                                                                                             @endforeach
-                                                                                     </select>
-                                                                                 </div>
-                                                                             </div>
-                                                                             <div class="row my-3">
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Ngày mua</label>
-                                                                                     <input type="date" name="date_purchase" class="form-control" id="exampleInputEmail1" value="{{$asset->date_purchase}}">
-                                                                                 </div>
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Ngày hết bảo hành</label>
-                                                                                     <input type="date" name="warranty_expires" class="form-control" id="exampleInputEmail1" value="{{$asset->warranty_expires}}">
-                                                                                 </div>
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Ngày thanh lý</label>
-                                                                                     <input type="date" name="date_liquidation" class="form-control" id="exampleInputEmail1" value="{{$asset->date_liquidation}}">
-                                                                                 </div>
-                                                                             </div>
-                                                                             <div class="row my-3">
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Giá trị ban đầu</label>
-                                                                                     <input type="number" name="first_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị ban đầu"
-                                                                                     value="{{$asset->first_value}}" >
-                                                                                 </div>
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Tỉ lệ khấu hao hàng năm</label>
-                                                                                     <input type="number" name="depreciation_per_year" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm"
-                                                                                     value="{{$asset->depreciation_per_year}}" >
-                                                                                 </div>
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Giá trị khấu hao</label>
-                                                                                     <input type="number" name="depreciation" class="form-control" id="exampleInputEmail1" placeholder="Giá trị khấu hao"
-                                                                                     value="{{$asset->depreciation}}" >
-                                                                                 </div>
-                                                                             </div>
-                                                                             <div class="row my-3">
-                                                                                 <div class="form-group col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Giá trị còn lại</label>
-                                                                                     <input type="number" name="residual_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị còn lại"
-                                                                                     value="{{$asset->residual_value}}" >
-                                                                                 </div>
-                                                                                 <div class="col-sm-4">
-                                                                                     <label for="exampleInputEmail1">Phòng ban quản lý</label>
-                                                                                     <select id="" name="department_id" class="form-control select2bs4" style="width: 100%;">
-                                                                                             @foreach ($departments as $department)
-                                                                                                 <option value="{{$department->id}}"
-                                                                                                     {{$department->id==$asset->department_id ? 'selected="selected"' : ''}}>{{$department->name}}</option>
-                                                                                             @endforeach
-                                                                                     </select>
-                                                                                 </div>                                                                
-                                                                             </div>
-                                                                             <div class="form-group my-3">
-                                                                                 <label>Ghi chú</label>
-                                                                                 <textarea class="form-control" name="note" rows="4" placeholder="Ghi chú ...">{{$asset->note}}</textarea>
-                                                                             </div>
-                                                                         </div>
-                                                                         <!-- /.card-body -->
-                                                                         <div class="modal-footer justify-content-between">
-                                                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                             <button type="submit" class="btn btn-primary">Thêm</button>
-                                                                         </div>
-                                                                     </form>
-                                                                 </div> --}}
-                                        <!-- /.modal-content -->
-                                        {{-- </div> --}}
-                                        <!-- /.modal-dialog -->
-                                        {{-- </div> --}}
-                                        {{-- Modal Edit User End --}}
-
-
-
-                                        {{-- <div class="modal fade" id="deleteAsset{{ $asset->id}}">
-                                                             <div class="modal-dialog">
-                                                                 <div class="modal-content bg-danger">
-                                                                     <form action="{{route('assets.destroy',$asset->id)}}" method="POST">
-                                                                         @csrf
-                                                                         @method('DELETE')
-                                                                         <div class="modal-header">
-                                                                             <h4 class="modal-title">Xác nhận xóa {{ $asset->name }}?</h4>
-                                                                             <button type="button" class="close" data-dismiss="modal"
-                                                                                 aria-label="Close">
-                                                                                 <span aria-hidden="true">&times;</span>
-                                                                             </button>
-                                                                         </div>
-                                                                         <div class="modal-footer justify-content-between">
-                                                                             <button type="button" class="btn btn-outline-light"
-                                                                                 data-dismiss="modal">Hủy</button>
-                                                                             <button type="submit" class="btn btn-outline-light">Xóa</button>
-                                                                         </div>
-                                                                     </form>
+                                                                 <div class="form-group col-sm-4">
+                                                                     <label for="assets">Tài sản</label>
+                                                                     <input type="text"
+                                                                         class="form-control"
+                                                                         id="assets"
+                                                                         value="{{ $repair_cost->asset_id}}"
+                                                                         disabled>
+                                                                     <input type="text"
+                                                                         name="assets"
+                                                                         class="form-control"
+                                                                         value="{{ $repair_cost->asset_id}}"
+                                                                         hidden>
                                                                  </div>
+                                                             <div class="form-group col-sm-4">
+                                                                 <label for="date">Ngày sửa</label>
+                                                                 <input type="date"
+                                                                     name="date"
+                                                                     class="form-control"
+                                                                     value="{{ $repair_cost->date }}"
+                                                                     placeholder="Ngày sửa"
+                                                                     required>
                                                              </div>
-                                                         </div> --}}
+                                                             <div class="form-group col-sm-4">
+                                                                 <label for="cost">Chi phí (nghìn vnđ)</label>
+                                                                 <input type="number"
+                                                                     name="cost"
+                                                                     class="form-control"
+                                                                     id="cost"
+                                                                     value="{{ $repair_cost->cost }}"
+                                                                     placeholder="Chi phí"
+                                                                     required>
+                                                             </div>
+                                                         </div>
+                                                         <div>
+                                                             <div class="form-group my-3">
+                                                                 <label>Chi tiết sửa chữa</label>
+                                                                 <textarea class="form-control"
+                                                                         name="details"
+                                                                         rows="4"
+                                                                         placeholder="Chi tiết sửa chữa ..." required>{{ $repair_cost->details }}</textarea>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                     <!-- /.card-body -->
+                                                     <div class="modal-footer justify-content-between">
+                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                         <button type="submit" class="btn btn-primary">Thêm</button>
+                                                     </div>
+                                                 </form>
+                                             </div>
+                                         </div>
+                                         <!-- /.modal-dialog -->
+                                     </div>
+                                     <div class="modal fade" id="deleteFee{{$repair_cost->id}}">
+                                         <div class="modal-dialog">
+                                             <div class="modal-content bg-danger">
+                                                 <form action="{{route('assets-repair.destroy',$repair_cost->id)}}" method="POST">
+                                                     @csrf
+                                                     @method('DELETE')
+                                                     <div class="modal-header">
+                                                         <h4 class="modal-title">Xác nhận xóa?</h4>
+                                                         <button type="button" class="close" data-dismiss="modal"
+                                                             aria-label="Close">
+                                                             <span aria-hidden="true">&times;</span>
+                                                         </button>
+                                                     </div>
+                                                     <div class="modal-footer justify-content-between">
+                                                         <button type="button" class="btn btn-outline-light"
+                                                             data-dismiss="modal">Hủy</button>
+                                                         <button type="submit" class="btn btn-outline-light">Xóa</button>
+                                                     </div>
+                                                 </form>
+                                             </div>
+                                         </div>
+                                     </div>
                                     @endforeach
 
                                 </tbody>

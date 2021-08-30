@@ -19,7 +19,6 @@ class CreateAssetsTable extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('usage_status');             // tình trạng sử dụng
-            $table->string('image')->nullable();
             $table->date('date_purchase');              // ngày mua
             $table->date('warranty_expires');           // hết hạn bảo hành
             $table->date('date_liquidation'); 

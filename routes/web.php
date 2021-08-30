@@ -107,7 +107,9 @@ Route::prefix('assets')->middleware(['auth'])->group(function () {
     Route::get('/', [AssetController::class,'index'])
     ->middleware(['permission:view_assets'])
     ->name('assets.index');
-    Route::get('/{id}', [AssetController::class,'show'])->middleware(['permission:view_assets'])->name('assets.show');
+    Route::get('/{id}', [AssetController::class,'show'])
+    ->middleware(['permission:view_assets'])
+    ->name('assets.show');
     Route::post('/', [AssetController::class,'store'])
     ->middleware(['permission:create_assets'])
     ->name('assets.store');
@@ -118,8 +120,45 @@ Route::prefix('assets')->middleware(['auth'])->group(function () {
     ->middleware(['permission:delete_assets'])
     ->name('assets.destroy');
 });
-Route::resource('/assets-details', AssetsDetailsController::class);
-Route::resource('/repair-cost', RepairCostController::class);
+ // Xử lý chi tiết tài sản
+Route::prefix('assets-detail')->middleware(['auth'])->group(function () {
+    Route::get('/', [AssetsDetailsController::class,'index'])
+    ->middleware(['permission:view_assets'])
+    ->name('assets-detail.index');
+    Route::get('/{id}', [AssetsDetailsController::class,'show'])
+    ->middleware(['permission:view_assets'])
+    ->name('assets-detail.show');
+    Route::post('/', [AssetsDetailsController::class,'store'])
+    ->middleware(['permission:create_assets'])
+    ->name('assets-detail.store');
+    Route::put('/{id}', [AssetsDetailsController::class,'update'])
+    ->middleware(['permission:update_assets'])
+    ->name('assets-detail.update');
+    Route::delete('/{id}', [AssetsDetailsController::class,'destroy'])
+    ->middleware(['permission:delete_assets'])
+    ->name('assets-detail.destroy');
+});
+
+Route::prefix('repair-fee')->middleware(['auth'])->group(function () {
+    // Xử lý sửa chữa bảo dưỡng
+    Route::get('/', [RepairCostController::class,'index'])
+    ->middleware(['permission:view_assets'])
+    ->name('assets-repair.index');
+    Route::get('/{id}', [RepairCostController::class,'show'])
+    ->middleware(['permission:view_assets'])
+    ->name('assets-repair.show');
+    Route::post('/', [RepairCostController::class,'store'])
+    ->middleware(['permission:create_assets'])
+    ->name('assets-repair.store');
+    Route::put('/{id}', [RepairCostController::class,'update'])
+    ->middleware(['permission:update_assets'])
+    ->name('assets-repair.update');
+    Route::delete('//{id}', [RepairCostController::class,'destroy'])
+    ->middleware(['permission:delete_assets'])
+    ->name('assets-repair.destroy');   
+});
+// Route::resource('/assets-details', AssetsDetailsController::class);
+// Route::resource('/repair-cost', RepairCostController::class);
 
 // 
 Route::get('/get-department/{id}', [DepartmentController::class, 'getDepartments']);

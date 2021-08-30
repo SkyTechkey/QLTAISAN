@@ -10,15 +10,21 @@ use App\Models\Property_group;
 use App\Models\Property_type;
 use App\Models\Provide;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 
 class AssetController extends Controller
 {
     public function index(Request $request)
-    {
-       
+    {  
+        if($request->user()->can('is-admin')){
             $assets = Asset::all();
+        }
+        else{
+            $department_id = Auth::user()->department_id;
+            $assets = Asset::where('department_id',$department_id)->get();
+        }
             $provides = Provide::all();
             $property_types = Property_type::all();
             $property_groups = Property_group::all();
@@ -67,7 +73,6 @@ class AssetController extends Controller
         $assets_details = Assets_details::where('asset_id', $id)->get();
         $repair_costs = Repair_cost::where('asset_id', $id)->get();
         return view('asset_details.index', compact('assets_details', 'asset_id', 'repair_costs'));
-        
     }
 
     public function update(Request $request,$id)

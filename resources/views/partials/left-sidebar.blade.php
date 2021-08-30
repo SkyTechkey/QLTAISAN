@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+        <img src="{{asset('/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
         <span class="brand-text font-weight-light">Asset Management </span>
     </a>
@@ -92,8 +92,8 @@
 
                 {{-- Quản lý tài sản --}}
                 @can('view_assets', User::class)
-                <li class="nav-item {{ Request::is('assets*') ? 'menu-is-opening menu-open' : '' }}">
-                    <a href="/assets" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('assets*') || Request::is('repair-fee*') ? 'menu-is-opening menu-open' : '' }}">
+                    <a href="/assets" class="nav-link {{ Request::is('assets*') ||  Request::is('repair-fee*') ? 'active' : '' }}">
                       <i class="nav-icon fas fa-suitcase-rolling"></i>
                       <p>
                         Quản lý tài sản
@@ -102,13 +102,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <a href="/assets" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                        <a href="{{ route('assets.index') }}" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Quản lý tài sản</p>
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a href="{{ route('repair-cost.index') }}" class="nav-link {{ Request::is('repair-cost*') ? 'active' : '' }}">
+                        <a href="{{ route('assets-repair.index') }}" class="nav-link {{ Request::is('repair-fee*') ? 'active' : '' }}">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Sửa chữa</p>
                         </a>
