@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\Assets_details;
+use App\Models\Repair_cost;
 use App\Models\Department;
 use App\Models\Property_group;
 use App\Models\Property_type;
 use App\Models\Provide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class AssetController extends Controller
 {
@@ -49,11 +52,24 @@ class AssetController extends Controller
         $assets->note = $request -> note;
         $save = $assets->save();
         if($save){
-            return redirect()->route('assets.index')->with('success','New Asset has been successfuly added to database');
+            $id_assets = Asset::orderBy('id', 'desc')->first()->id;
+            Session::put('id_assets', $id_assets);
+            return redirect()->route('assets-details.create')
+            ->with('success', 'New Asset has been successfuly added to database');
         }else{
             return redirect()->route('assets.index')->with('fail','Something went wrong, try again!');
         }
     }
+
+    public function show($id)
+    {
+        $asset_id = $id;
+        $assets_details = Assets_details::where('asset_id', $id)->get();
+        $repair_costs = Repair_cost::where('asset_id', $id)->get();
+        return view('asset_details.index', compact('assets_details', 'asset_id', 'repair_costs'));
+        
+    }
+
     public function update(Request $request,$id)
     {
       

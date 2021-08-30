@@ -29,4 +29,8 @@ class Asset extends Model
     {
         return $this->belongsTo('App\Models\Department');
     }
+    public function assets_details()
+    {
+        return $this->hasMany(Assets_details::class);
+    }
 }

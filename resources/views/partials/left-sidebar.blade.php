@@ -108,13 +108,7 @@
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a href="/assets/details" class="nav-link {{ Request::is('assets/details*') ? 'active' : '' }}">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>Chi tiết tài sản</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="/assets/edit" class="nav-link {{ Request::is('assets/edit*') ? 'active' : '' }}">
+                        <a href="{{ route('repair-cost.index') }}" class="nav-link {{ Request::is('repair-cost*') ? 'active' : '' }}">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Sửa chữa</p>
                         </a>

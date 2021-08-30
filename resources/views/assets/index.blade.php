@@ -82,7 +82,7 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Tên tài sản</label>
-                                <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Tên tài sản" required>
+                                <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Tên tài sản" >
                             </div>
                             <div class="col-sm-4">
                                 <label for="exampleInputEmail1">Phân loại</label>
@@ -140,21 +140,21 @@
                         <div class="row my-3">
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Giá trị ban đầu</label>
-                                <input type="number" name="first_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị ban đầu" required>
+                                <input type="number" name="first_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị ban đầu" >
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Tỉ lệ khấu hao hàng năm</label>
-                                <input type="number" name="depreciation_per_year" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm" required>
+                                <input type="number" name="depreciation_per_year" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm" >
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Giá trị khấu hao</label>
-                                <input type="number" name="depreciation" class="form-control" id="exampleInputEmail1" placeholder="Giá trị khấu hao" required>
+                                <input type="number" name="depreciation" class="form-control" id="exampleInputEmail1" placeholder="Giá trị khấu hao" >
                             </div>
                         </div>
                         <div class="row my-3">
                             <div class="form-group col-sm-4">
                                 <label for="exampleInputEmail1">Giá trị còn lại</label>
-                                <input type="number" name="residual_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị còn lại" required>
+                                <input type="number" name="residual_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị còn lại" >
                             </div>
                             <div class="col-sm-4">
                                 <label for="exampleInputEmail1">Phòng ban quản lý</label>
@@ -232,9 +232,8 @@
                                                     data-toggle="modal" data-target="#editAsset{{$asset->id}}">Sửa</button>
                                             @endcan
                                             @can('view_assets', User::class)
-                                                <button type="button" class="col-4 btn bg-gradient-primary btn-sm"
-                                                style="margin-left: 2px"
-                                                    data-toggle="modal" data-target="#viewAsset{{$asset->id}}">Xem</button>
+                                                <a type="button" class="col-4 btn bg-gradient-primary btn-sm"
+                                                style="margin-left: 2px" href="{{ route('assets.show', $asset->id) }}">Xem</a>
                                             @endcan
                                             @can('delete_assets', User::class)
                                                 <button type="button" class="col-4 btn bg-gradient-danger btn-sm"
@@ -270,7 +269,7 @@
                                                                 <div class="form-group col-sm-4">
                                                                     <label for="exampleInputEmail1">Tên tài sản</label>
                                                                     <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Tên tài sản"
-                                                                    value="{{$asset->name}}" required>
+                                                                    value="{{$asset->name}}" >
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <label for="exampleInputEmail1">Phân loại</label>
@@ -331,24 +330,24 @@
                                                                 <div class="form-group col-sm-4">
                                                                     <label for="exampleInputEmail1">Giá trị ban đầu</label>
                                                                     <input type="number" name="first_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị ban đầu"
-                                                                    value="{{$asset->first_value}}" required>
+                                                                    value="{{$asset->first_value}}" >
                                                                 </div>
                                                                 <div class="form-group col-sm-4">
                                                                     <label for="exampleInputEmail1">Tỉ lệ khấu hao hàng năm</label>
                                                                     <input type="number" name="depreciation_per_year" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm"
-                                                                    value="{{$asset->depreciation_per_year}}" required>
+                                                                    value="{{$asset->depreciation_per_year}}" >
                                                                 </div>
                                                                 <div class="form-group col-sm-4">
                                                                     <label for="exampleInputEmail1">Giá trị khấu hao</label>
                                                                     <input type="number" name="depreciation" class="form-control" id="exampleInputEmail1" placeholder="Giá trị khấu hao"
-                                                                    value="{{$asset->depreciation}}" required>
+                                                                    value="{{$asset->depreciation}}" >
                                                                 </div>
                                                             </div>
                                                             <div class="row my-3">
                                                                 <div class="form-group col-sm-4">
                                                                     <label for="exampleInputEmail1">Giá trị còn lại</label>
                                                                     <input type="number" name="residual_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị còn lại"
-                                                                    value="{{$asset->residual_value}}" required>
+                                                                    value="{{$asset->residual_value}}" >
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <label for="exampleInputEmail1">Phòng ban quản lý</label>

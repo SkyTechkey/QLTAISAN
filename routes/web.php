@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AssetsDetailsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DepartmentController;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProvideController;
 use App\Http\Controllers\PropertyGroupController;
 use App\Http\Controllers\PropertyTypeController;
+use App\Http\Controllers\RepairCostController;
 
 // kiểm tra đăng nhập
 Route::post('/login/check', [AuthController::class, 'onLogin'])->name('login.check');
@@ -116,10 +118,15 @@ Route::prefix('assets')->middleware(['auth'])->group(function () {
     ->middleware(['permission:delete_assets'])
     ->name('assets.destroy');
 });
+Route::resource('/assets-details', AssetsDetailsController::class);
+Route::resource('/repair-cost', RepairCostController::class);
 
 // 
 Route::get('/get-department/{id}', [DepartmentController::class, 'getDepartments']);
 Route::get('/get-user/{id}', [UserController::class, 'getUsers']);
+Route::get('/test', function() {
+    return view('asset_details.create');
+});
 
 // 
 
