@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Property_group;
-
+use Illuminate\Support\Str;
 class PropertyGroupController extends Controller
 {
     public function index(Request $request)
@@ -23,11 +23,13 @@ class PropertyGroupController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
+            'code' => 'required|max:4|unique:property_group',
             'note' => 'required',
         ]);
 
         $property_group = new Property_group();
-        $property_group->property_name = $request->name;
+        $property_group->code = Str::upper($request->code);
+        $property_group->name = $request->name;
         $property_group->note = $request->note;
         $save = $property_group->save();
 
@@ -48,10 +50,12 @@ class PropertyGroupController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'note' => 'required',
+            'code' => 'required|max:4',
            
         ]);
         $property_group = Property_group::find($id);
-        $property_group->property_name = $request->name;
+        $property_group->code = Str::upper($request->code);
+        $property_group->name = $request->name;
         $property_group->note = $request->note;
        
         $save = $property_group->save();

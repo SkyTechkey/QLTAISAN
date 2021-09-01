@@ -57,16 +57,22 @@ class AssetController extends Controller
 
     public function store(Request $request)
     {
-
-        // dd($request);
         $request->validate([
             'name' => 'required|max:255',
-            'code' => 'required|max:10|unique:assets',
+            'code' => 'max:10|unique:assets',
             'usage_status' => 'required',
+            'depreciation_per_year' => 'required|max:100'
         ]);
         $assets = new Asset();
         $assets->name = $request->name;
-        $assets->code = $request -> code;
+        if( $request->code == ''){
+            $count = Asset::where('property_group_id',$request -> property_group_id)->count();
+            $property_group = Property_group::find($request -> property_group_id);
+            $assets->code = $property_group -> code.$count;
+        }
+        else{
+            $assets->code = $request -> code;
+        }
         $assets->usage_status = $request -> usage_status;
         $assets->date_purchase = $request -> date_purchase;
         $assets->warranty_expires = $request -> warranty_expires;

@@ -225,10 +225,9 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Tài sản không cố định', 'note' => 'xai ok'],
         ]);
         DB::table('property_group')->insert([
-            ['name' => 'Dell', 'note' => 'xai ok'],
-            ['name' => 'Asus', 'note' => 'xai ok'],
-            ['name' => 'HP', 'note' => 'xai ok'],
-            ['name' => 'MacBook', 'note' => 'xai ok'],
+            ['name' => 'máy tính','code'=>'MT', 'note' => 'xai ok'],
+            ['name' => 'sinh hoạt','code'=>'SH', 'note' => 'xai ok'],
+            ['name' => 'học tập','code'=>'HT', 'note' => 'xai ok'],
         ]);
        
         // for($i = 0; $i<1000;$i++){

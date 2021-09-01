@@ -70,6 +70,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="inputName" class="col-sm-2 col-form-label">Mã nhóm tài sản <small>(3 - 4 kí tự)</small></label>
+                            <div class="col-sm-10">
+                                <input type="text" name="code" class="form-control" id="inputName"
+                                    placeholder="Mã nhóm tài sản">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="note" class="col-sm-2 col-form-label">Ghi chú</label>
                             <div class="col-sm-10">
                                 <input type="text" name="note" class="form-control" id="note" placeholder="Ghi chú">
@@ -91,16 +98,6 @@
     <!-- /.modal -->
 
     <div class="container-fluid">
-        @if (Session::get('success'))
-            <span class="d-block alert alert-success text-center">
-                {{ Session::get('success') }}
-            </span>
-        @endif
-        @if (Session::get('fail'))
-            <span class="d-block alert alert-danger text-center">
-                {{ Session::get('fail') }}
-            </span>
-        @endif
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -109,7 +106,8 @@
                         <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Nhóm sản phẩm</th>
+                                    <th>Mã nhóm Tài sản</th>
+                                    <th>Nhóm tài sản</th>
                                     <th>Ghi chú</th>
                                     <th>Chức năng</th>
                                 </tr>
@@ -117,7 +115,8 @@
                             <tbody>
                                 @foreach ($property_group as $group)
                                     <tr>
-                                        <td>{{ $group->property_name }}</td>
+                                        <td>{{ $group->code }}</td>
+                                        <td>{{ $group->name }}</td>
                                         <td>{{ $group->note }}</td>
                                         <td>
                                             <div class="row">
@@ -142,7 +141,7 @@
                                                     @method('delete')
                                                     @csrf
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title">Xác nhận xóa {{ $group->property_name }}?</h4>
+                                                        <h4 class="modal-title">Xác nhận xóa {{ $group->name }}?</h4>
                                                      
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
@@ -183,7 +182,15 @@
                                                             <div class="col-sm-10">
                                                                 <input type="text" name="name" class="form-control"
                                                                     id="inputName" placeholder="Nhóm sản phẩm"
-                                                                    value="{{$group->property_name }}">
+                                                                    value="{{$group->name }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="inputName" class="col-sm-2 col-form-label">Mã nhóm tài sản <small>(3 - 4 kí tự)</small></label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" name="code" class="form-control" id="inputName"
+                                                                value="{{$group->code }}"
+                                                                    placeholder="Mã nhóm tài sản">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
