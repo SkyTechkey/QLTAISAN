@@ -36,7 +36,7 @@ class DepartmentController extends Controller
         $department->note = $request->note;
         $save = $department -> save();
         if($save){
-           return redirect()->route('department.index')->with('success','New Branch has been successfuly added to database');
+           return redirect()->route('department.index')->with('success', 'Hành động thực hiện thành công');
         }else{
            return redirect()->route('department.index')->with('fail','Something went wrong, try again!');
         }
@@ -55,7 +55,7 @@ class DepartmentController extends Controller
         $department->note = $request->note;
         $save = $department -> save();
         if($save){
-           return redirect()->route('department.index')->with('success','New Branch has been successfuly added to database');
+           return redirect()->route('department.index')->with('success', 'Hành động thực hiện thành công');
         }else{
            return redirect()->route('department.index')->with('fail','Something went wrong, try again!');
         }

@@ -106,16 +106,6 @@
     <!-- /.modal -->
 
     <div class="container-fluid">
-        @if (Session::get('success'))
-            <span class="d-block alert alert-success text-center">
-                {{ Session::get('success') }}
-            </span>
-        @endif
-        @if (Session::get('fail'))
-            <span class="d-block alert alert-danger text-center">
-                {{ Session::get('fail') }}
-            </span>
-        @endif
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -272,6 +262,7 @@
     <script src={{ URL::asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}></script>
     <script src={{ URL::asset('plugins/datatables-buttons/js/buttons.print.min.js') }}></script>
     <script src={{ URL::asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}></script>
+
     <script src={{ URL::asset('plugins/jszip/jszip.min.js') }}></script>
     <script>
         $(function () {

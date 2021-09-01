@@ -31,7 +31,7 @@ class AssetsDetailsController extends Controller
         $save = $assets_details->save();
 
         if($save){
-            return back()->with('success', 'New details asset has been successfuly added to database');
+            return back()->with('success', 'Hành động thực hiện thành công');
         }else{
             return back()->with('fail','Something went wrong, try again!');
         }
@@ -53,7 +53,7 @@ class AssetsDetailsController extends Controller
         $save = $assets_details->save();
 
         if($save){
-            return back()->with('success', 'New details asset has been successfuly added to database');
+            return back()->with('success', 'Hành động thực hiện thành công');
         }else{
             return back()->with('fail','Something went wrong, try again!');
         }

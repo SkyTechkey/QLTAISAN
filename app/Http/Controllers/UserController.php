@@ -119,7 +119,7 @@ class UserController extends Controller
         }
       
         if($save){
-            return back()->with('success','New User has been successfuly updated to database');
+            return back()->with('success', 'Hành động thực hiện thành công');
         }else{
             return back()->with('fail','Something went wrong, try again!');
         }

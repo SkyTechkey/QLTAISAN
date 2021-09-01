@@ -34,7 +34,7 @@ class DetailDeliveryNoteController extends Controller
         $detail -> total = $request -> amount * $request -> unit_price;
         $detail -> note = $request -> note;
         $detail -> save();
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Hành động thực hiện thành công');
     }
     public function update(Request $request, $id)
     {
@@ -46,7 +46,7 @@ class DetailDeliveryNoteController extends Controller
         $detail -> total = $request -> amount * $request -> unit_price;
         $detail -> note = $request -> note;
         $detail -> save();
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Hành động thực hiện thành công');
     }
     public function destroy($id)
     {

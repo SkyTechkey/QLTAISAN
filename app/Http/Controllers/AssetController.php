@@ -70,10 +70,10 @@ class AssetController extends Controller
         $save = $assets->save();
         if($save){
             if($request -> detail_type == "receipt"){
-                return redirect()->route('detail-receipt-note.show',$request->detail_id);
+                return redirect()->route('detail-receipt-note.show',$request->detail_id)->with('success', 'Hành động thực hiện thành công');
             }
             else if($request -> detail_type == "delivery"){
-                return redirect()->route('detail-delivery-note.show',$request->detail_id);
+                return redirect()->route('detail-delivery-note.show',$request->detail_id)->with('success', 'Hành động thực hiện thành công');
             }
             else{
                 $id_assets = Asset::orderBy('id', 'desc')->first()->id;
@@ -123,7 +123,7 @@ class AssetController extends Controller
         $assets->note = $request -> note;
         $save = $assets->save();
         if($save){
-            return redirect()->route('assets.index')->with('success','New Asset has been successfuly added to database');
+            return redirect()->route('assets.index')->with('success', 'Hành động thực hiện thành công');
         }else{
             return redirect()->route('assets.index')->with('fail','Something went wrong, try again!');
         }

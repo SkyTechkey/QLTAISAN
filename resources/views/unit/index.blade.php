@@ -41,16 +41,7 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-    @if (Session::get('success'))
-    <span class="d-block alert alert-success text-center">
-        {{ Session::get('success') }}
-    </span>
-    @endif
-    @if (Session::has('fail'))
-        <span class="d-block alert alert-danger text-center">
-            {{ Session::get('fail')}}
-        </span>
-    @endif
+
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">

@@ -119,16 +119,7 @@
         </div>
     </section>
 
-    @if (Session::get('success'))
-        <span class="d-block alert alert-success text-center">
-            {{ Session::get('success') }}
-        </span>
-    @endif
-    @if (Session::has('fail'))
-        <span class="d-block alert alert-danger text-center">
-            {{ Session::get('fail') }}
-        </span>
-    @endif
+    
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">

@@ -37,7 +37,7 @@ class DeliveryNoteController extends Controller
         $save = $receipt_note->save();
         if($save){
             return redirect()->route('delivery-note.index')
-            ->with('success', 'New Asset has been successfuly added to database');
+            ->with('success', 'Hành động thực hiện thành công');
         }else{
             return redirect()->route('delivery-note.index')->with('fail','Something went wrong, try again!');
         }
@@ -55,7 +55,7 @@ class DeliveryNoteController extends Controller
         $save = $receipt_note->save();
         if($save){
             return redirect()->route('delivery-note.index')
-            ->with('success', 'New Asset has been successfuly added to database');
+            ->with('success', 'Hành động thực hiện thành công');
         }else{
             return redirect()->route('delivery-note.index')->with('fail','Something went wrong, try again!');
         }
@@ -64,7 +64,7 @@ class DeliveryNoteController extends Controller
         $receipt_note = Delivery_note::find($id)->delete();
         if($receipt_note){
             return redirect()->route('delivery-note.index')
-            ->with('success', 'New Asset has been successfuly added to database');
+            ->with('success', 'Hành động thực hiện thành công');
         }else{
             return redirect()->route('delivery-note.index')->with('fail','Something went wrong, try again!');
         }

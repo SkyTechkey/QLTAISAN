@@ -36,7 +36,7 @@ class ProvideController extends Controller
         $save = $provide->save();
 
         if($save){
-            return back()->with('success','New provide has been successfuly added to database');
+            return back()->with('success', 'Hành động thực hiện thành công');
         }else{
             return back()->with('fail','Something went wrong, try again!');
         }
@@ -64,7 +64,7 @@ class ProvideController extends Controller
         $save = $provide->save();
 
         if($save){
-            return back()->with('success','New provide has been successfuly added to database');
+            return back()->with('success', 'Hành động thực hiện thành công');
         }else{
             return back()->with('fail','Something went wrong, try again!');
         }

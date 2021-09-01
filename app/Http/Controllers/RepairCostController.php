@@ -37,7 +37,7 @@ class RepairCostController extends Controller
         $save = $repair_cost->save();
 
         if($save){
-            return back()->with('success', 'New Repair cost has been successfuly added to database');
+            return back()->with('success', 'Hành động thực hiện thành công');
         }else{
             return back()->with('fail','Something went wrong, try again!');
         }
@@ -67,7 +67,7 @@ class RepairCostController extends Controller
         $save = $repair_cost->save();
 
         if($save){
-            return back()->with('success', 'New Repair cost has been successfuly added to database');
+            return back()->with('success', 'Hành động thực hiện thành công');
         }else{
             return back()->with('fail','Something went wrong, try again!');
         }
@@ -76,9 +76,9 @@ class RepairCostController extends Controller
     {
         $repair_cost = Repair_cost::find($id)->delete();
         if($repair_cost){
-            return back()->with('success', 'Delete successful');
+            return back()->with('success', 'Xóa thành công');
         }else{
-            return back()->with('fail','Cannot delete!');
+            return back()->with('fail','Xóa không thành công');
         }
     }
 }
