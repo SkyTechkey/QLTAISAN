@@ -137,16 +137,6 @@
                                 <label for="exampleInputEmail1">Tỉ lệ khấu hao hàng năm</label>
                                 <input type="number" name="depreciation_per_year" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm" >
                             </div>
-                            <div class="form-group col-sm-4">
-                                <label for="exampleInputEmail1">Giá trị khấu hao</label>
-                                <input type="number" name="depreciation" class="form-control" id="exampleInputEmail1" placeholder="Giá trị khấu hao" >
-                            </div>
-                        </div>
-                        <div class="row my-3">
-                            <div class="form-group col-sm-4">
-                                <label for="exampleInputEmail1">Giá trị còn lại</label>
-                                <input type="number" name="residual_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị còn lại" >
-                            </div>
                             <div class="col-sm-4">
                                 <label for="exampleInputEmail1">Phòng ban quản lý</label>
                                 <select id="" name="department_id" class="form-control select2bs4" style="width: 100%;">
@@ -155,7 +145,16 @@
                                             <option value="{{$department->id}}">{{$department->name}}</option>
                                         @endforeach
                                 </select>
-                            </div>   
+                            </div>  
+                        </div>
+                        <div class="row my-3">
+                            <div class="form-group col-sm-4">
+                                <label for="customFile">Chọn files</label>
+                                <div class="custom-file">
+                                    <input type="file" name="files[]" class="custom-file-input" id="customFile" multiple="multiple">
+                                    <label class="custom-file-label" for="customFile">Chọn files</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group my-3">
                             <label>Ghi chú</label>
@@ -183,9 +182,9 @@
                             <div class="col-3">
                                 <select id="select_branch" class="form-control select2bs4" style="width: 100%;">
                                     <option value="0" selected="selected">Tất cả chi nhánh</option>
-                                    {{-- @foreach ($branches as $branch)
+                                    @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                    @endforeach --}}
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -429,6 +428,8 @@
     <script src={{ URL::asset('plugins/jszip/jszip.min.js') }}></script>
     <!-- Select2 -->
     <script src={{ URL::asset('plugins/select2/js/select2.full.min.js') }}></script>
+    <!-- bs-custom-file-input -->
+    <script src={{ URL::asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}></script>
     <script>
         $(function() {
             $("#example1").DataTable({
@@ -457,13 +458,14 @@
                 // Branch id
                 var id = $(this).val();
                 // Set Empty the table
-                $('#tbl_user').find('tr').remove();
+                $('#tbl_assets').find('tr').remove();
                 // AJAX request 
                 $.ajax({
-                    url: 'get-user/' + id,
+                    url: 'get-assets/' + id,
                     type: 'get',
                     dataType: 'json',
                     success: function(res) {
+                        console.log(res);
                         var len = 0;
                         if (res != null) {
                             len = res.length;
@@ -473,31 +475,41 @@
                             // Read data and create <tr>
                             for (var i = 0; i < len; i++) {
                                 var row = `<tr>
-                                        <td>${res[i].id}</td>
-                                        <td>${res[i].name}</td>
-                                        <td>${res[i].username}</td>
-                                        <td>${res[i].department_name}</td>
-                                        <td>${res[i].status ? "Active" : "Lock"}</td>
-                                        <td>${res[i].note ? res[i].id : ""}</td>
-                                        <td>
-                                            <div class="row">
-                                                @can('update_user', User::class)
-                                                    <a href="#" class="col-5 btn bg-gradient-success btn-sm" data-toggle="modal" data-target="#editUser${res[i].id}">Sửa</a>
-                                                @endcan
-
-                                                @can('delete_user', User::class)
-                                                    <a href="#" class="col-5 btn bg-gradient-danger btn-sm" style="margin-left: 10px" data-toggle="modal"
-                                                        data-target="#lockUser${res[i].id}">${res[i].status ? "Khóa" : "Mở khóa"}</a>
-                                                @endcan
-                                            </div>
-                                        </td>
-                                    </tr>`;
-                                $("#tbl_user").append(row);
+                                    <td>${res[i].code}</td>
+                                    <td>${res[i].name}</td>
+                                    <td>${res[i].property_type_name}</td>
+                                    <td>${res[i].property_group_name}</td>
+                                    <td>${res[i].usage_status}</td>
+                                    <td>${res[i].date_purchase}</td>
+                                    <td>${res[i].date_liquidation}</td>
+                                    <td>
+                                        <div class="row">
+                                            @can('update_assets', User::class)
+                                                <button type="button" class="col-3 btn bg-gradient-success btn-sm"
+                                                style="margin-left: 2px"
+                                                    data-toggle="modal" data-target="#editAsset${res[i].id}">Sửa</button>
+                                            @endcan
+                                            @can('view_assets', User::class)
+                                                <a type="button" class="col-4 btn bg-gradient-primary btn-sm"
+                                                style="margin-left: 2px" href="/assets/${res[i].id}">Xem</a>
+                                            @endcan
+                                            @can('delete_assets', User::class)
+                                                <button type="button" class="col-4 btn bg-gradient-danger btn-sm"
+                                                    style="margin-left: 2px" data-toggle="modal"
+                                                    data-target="#deleteAsset${res[i].id}">xóa</button>
+                                            @endcan
+                                        </div>
+                                    </td>
+                                </tr>`;
+                                $("#tbl_assets").append(row);
                             }
                         }
                     }
                 });
             });
+        });
+        $(function() {
+            bsCustomFileInput.init();
         });
     </script>
 @endpush

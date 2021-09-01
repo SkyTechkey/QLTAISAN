@@ -18,7 +18,7 @@ class CreateRepairCostsTable extends Migration
             $table->bigInteger('asset_id')->unsigned();
             $table->unsignedInteger('provide_id')->nullable();
             $table->date('date');
-            $table->decimal('cost', $precision = 19, $scale = 2);
+            $table->decimal('cost', 19, 2);
             $table->text('details')->nullable();
 
             $table->foreign('asset_id')

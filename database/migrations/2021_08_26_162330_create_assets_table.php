@@ -30,6 +30,7 @@ class CreateAssetsTable extends Migration
             // $table->float('repair_fee')->nullable();              // phí sửa chữa
             $table->boolean('access_status')->nullable();           // tình trạng nhập xuất
             $table->text('note')->nullable();
+            $table->longText('file')->nullable();
 
             $table->foreign('department_id')
             ->references('id')

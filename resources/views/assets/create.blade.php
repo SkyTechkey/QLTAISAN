@@ -44,7 +44,6 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-
     
     <div class="container-fluid">
         <div class="row">
@@ -130,16 +129,6 @@
                                         <label for="exampleInputEmail1">Tỉ lệ khấu hao hàng năm</label>
                                         <input type="number" name="depreciation_per_year" class="form-control" id="exampleInputEmail1" placeholder="Tỉ lệ khấu hao hàng năm" >
                                     </div>
-                                    <div class="form-group col-sm-4">
-                                        <label for="exampleInputEmail1">Giá trị khấu hao</label>
-                                        <input type="number" name="depreciation" class="form-control" id="exampleInputEmail1" placeholder="Giá trị khấu hao" >
-                                    </div>
-                                </div>
-                                <div class="row my-3">
-                                    <div class="form-group col-sm-4">
-                                        <label for="exampleInputEmail1">Giá trị còn lại</label>
-                                        <input type="number" name="residual_value" class="form-control" id="exampleInputEmail1" placeholder="Giá trị còn lại" >
-                                    </div>
                                     <div class="col-sm-4">
                                         <label for="exampleInputEmail1">Phòng ban quản lý</label>
                                         <select id="" name="department_id" class="form-control select2bs4" style="width: 100%;">
@@ -148,7 +137,16 @@
                                                     <option value="{{$department->id}}">{{$department->name}}</option>
                                                 @endforeach
                                         </select>
-                                    </div>   
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="form-group col-sm-4">
+                                        <label for="customFile">Chọn files</label>
+                                        <div class="custom-file">
+                                            <input type="file" name="files[]" class="custom-file-input" id="customFile" multiple="multiple">
+                                            <label class="custom-file-label" for="customFile">Chọn files</label>
+                                        </div>
+                                    </div> 
                                 </div>
                                 <div class="form-group my-3">
                                     <label>Ghi chú</label>
@@ -190,8 +188,11 @@
     <script src={{ URL::asset('plugins/jszip/jszip.min.js') }}></script>
     <!-- Select2 -->
     <script src={{ URL::asset('plugins/select2/js/select2.full.min.js') }}></script>
+    <!-- bs-custom-file-input -->
+    <script src={{ URL::asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}></script>
     <script>
         $(function() {
+            bsCustomFileInput.init();
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,

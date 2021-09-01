@@ -18,7 +18,7 @@ class CreateAssetsDetailsTable extends Migration
             $table->bigInteger('asset_id')->unsigned();
             // $table->unsignedInteger('user_id')->nullable();
             $table->string('accessory_name');
-            $table->decimal('value', $precision = 19, $scale = 2);            
+            $table->decimal('value', 19, 2);            
             $table->text('tech_info')->nullable();
 
             $table->foreign('asset_id')

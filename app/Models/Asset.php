@@ -41,4 +41,8 @@ class Asset extends Model
     {
         return $this->hasMany(Detail_delivery_note::class);
     }
+    public function file_upload()
+    {
+        return $this->hasMany(FileUpload::class);
+    }
 }

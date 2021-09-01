@@ -18,6 +18,7 @@ use App\Http\Controllers\PropertyGroupController;
 use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\ReceiptNoteController;
 use App\Http\Controllers\RepairCostController;
+use App\Http\Controllers\FileUploadController;
 
 // kiểm tra đăng nhập
 Route::post('/login/check', [AuthController::class, 'onLogin'])->name('login.check');
@@ -132,9 +133,9 @@ Route::prefix('assets-detail')->middleware(['auth'])->group(function () {
     Route::get('/', [AssetsDetailsController::class,'index'])
     ->middleware(['permission:view_assets'])
     ->name('assets-detail.index');
-    Route::get('/{id}', [AssetsDetailsController::class,'show'])
+    Route::get('/create', [AssetsDetailsController::class,'create'])
     ->middleware(['permission:view_assets'])
-    ->name('assets-detail.show');
+    ->name('assets-detail.create');
     Route::post('/', [AssetsDetailsController::class,'store'])
     ->middleware(['permission:create_assets'])
     ->name('assets-detail.store');
@@ -239,6 +240,8 @@ Route::prefix('detail-delivery-note')->middleware(['auth'])->group(function () {
 
 Route::get('/get-department/{id}', [DepartmentController::class, 'getDepartments']);
 Route::get('/get-user/{id}', [UserController::class, 'getUsers']);
+Route::get('/get-assets/{id}', [AssetController::class, 'getAssets'])->name('getAssets');
+Route::resource('/files-upload', FileUploadController::class);
 
 // 
 

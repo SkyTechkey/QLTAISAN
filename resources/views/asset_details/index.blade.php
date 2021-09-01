@@ -22,6 +22,12 @@
             margin: 0 5px;
         }
 
+        .custom-img-tbl {
+            height: 60px;
+            width: 60px;
+            object-fit: cover;
+        }
+
     </style>
 @endpush
 <!-- End Css -->
@@ -50,25 +56,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <label for="inputName"
-                                   class="col-1 col-form-label">Chi nhánh</label>
-                            <div class="col-3">
-                                <select id="select_branch"
-                                        class="form-control select2bs4"
-                                        style="width: 100%;">
-                                    <option value="0"
-                                            selected="selected">Tất cả chi nhánh</option>
-                                    {{-- @foreach ($branches as $branch)
-                                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                    @endforeach --}}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
                         <div class="card card-primary card-outline card-tabs">
                             <div class="card-header p-0 pt-1 border-bottom-0">
                                 <ul class="nav nav-tabs"
@@ -91,6 +78,15 @@
                                            role="tab"
                                            aria-controls="custom-tabs-three-messages"
                                            aria-selected="false">Sửa chữa</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           id="custom-tabs-three-messages-tab"
+                                           data-toggle="pill"
+                                           href="#files"
+                                           role="tab"
+                                           aria-controls="files"
+                                           aria-selected="false">Files</a>
                                     </li>
                                 </ul>
                             </div>
@@ -428,12 +424,140 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    {{-- File Start --}}
+                                    <div class="tab-pane fade"
+                                    id="files"
+                                    role="tabpanel"
+                                    aria-labelledby="files-tab">
+                                    <div>
+                                        <ol class="breadcrumb">
+                                            @can('create_assets', User::class)
+                                                <li class="btn-file-custom"><a href="#"
+                                                       class="btn bg-gradient-primary btn-sm">Thêm file Excel</a>
+                                                </li>
+
+                                                <li class="btn-file- "><a href="#"
+                                                    class="btn bg-gradient-success btn-sm"
+                                                    data-toggle="modal"
+                                                    data-target="#addFiles">Thêm mới</a></li>
+                                            @endcan
+                                        </ol>
+                                    </div>
+                                    <table id="example3"
+                                           class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Tài sản</th>
+                                                <th>Name</th>
+                                                <th>File</th>
+                                                <th>Chức năng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="">
+                                            @foreach ($files as $file)
+                                                <tr>
+                                                    <td> {{ $file->asset_id }}</td>
+                                                    <td>
+                                                        {{ $file->name }}
+                                                    </td>
+                                                    <td>
+                                                        <img src="{{ $file->path }}" alt="" class="custom-img-tbl">
+                                                    </td>
+                                                    <td>
+                                                           <div class="row">
+                                                               {{-- @can('update_assets', User::class)
+                                                                   <button type="button" class="col-4 btn bg-gradient-success btn-sm"
+                                                                   style="margin-left: 2px"
+                                                                       data-toggle="modal" data-target="#editFee{{$file->id}}">Sửa</button>
+                                                               @endcan --}}
+                                                            
+                                                               @can('delete_assets', User::class)
+                                                                   <button type="button" class="col-4 btn bg-gradient-danger btn-sm"
+                                                                       style="margin-left: 2px" data-toggle="modal"
+                                                                       data-target="#deleteFile{{$file->id}}">xóa</button>
+                                                               @endcan
+                                                           </div>
+                                                       </td>
+                                                </tr>
+
+                                                <div class="modal fade" id="deleteFile{{$file->id}}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content bg-danger">
+                                                            <form action="{{route('files-upload.destroy', $file->id)}}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Xác nhận xóa?</h4>
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-footer justify-content-between">
+                                                                    <button type="button" class="btn btn-outline-light"
+                                                                        data-dismiss="modal">Hủy</button>
+                                                                    <button type="submit" class="btn btn-outline-light">Xóa</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                               </div>
+                                    {{-- File End --}}
                                 </div>
                             </div>
                             <!-- /.card -->
                         </div>
+            </div>
+        </div>
 
+        <div class="modal fade" id="addFiles">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Thêm files</h4>
+                        <button type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                    <form method="POST" action={{route('files-upload.store')}} enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            <div class="row my-3">
+                                    <div class="form-group col-sm-6">
+                                        <label>Tài sản</label>
+                                        <input type="text"
+                                            class="form-control"
+                                            value="{{ $asset_id }}"
+                                            disabled>
+                                        <input type="text"
+                                            name="assets_id"
+                                            class="form-control"
+                                            value="{{ $asset_id }}"
+                                            hidden>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="customFile">Chọn files</label>
+                                        <div class="custom-file">
+                                            <input type="file" name="files[]" class="custom-file-input" id="customFile" multiple="multiple">
+                                            <label class="custom-file-label" for="customFile">Chọn files</label>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -585,6 +709,7 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
+        
     </div>
 
 @endsection
@@ -609,8 +734,11 @@
     <script src={{ URL::asset('plugins/jszip/jszip.min.js') }}></script>
     <!-- Select2 -->
     <script src={{ URL::asset('plugins/select2/js/select2.full.min.js') }}></script>
+    <!-- bs-custom-file-input -->
+    <script src={{ URL::asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}></script>
     <script>
         $(function() {
+            bsCustomFileInput.init();
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
@@ -618,6 +746,15 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+            $('#example3').DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,

@@ -63,7 +63,7 @@
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <form method="POST" action={{ route('assets-details.store') }} enctype="multipart/form-data">
+                        <form method="POST" action={{ route('assets-detail.store') }} enctype="multipart/form-data">
                             @csrf
                             <div class="row my-3">
                                 <div class="form-group col-sm-4">
