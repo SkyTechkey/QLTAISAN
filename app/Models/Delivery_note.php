@@ -11,4 +11,12 @@ class Delivery_note extends Model
     protected $table = 'delivery_notes';
     protected $primary_key = 'id';
     public $timestamps = false;
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+    public function detail()
+    {
+        return $this->hasMany(Detail_delivery_note::class);
+    }
 }

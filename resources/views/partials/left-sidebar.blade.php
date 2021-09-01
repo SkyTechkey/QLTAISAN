@@ -117,35 +117,23 @@
                 </li>
                 @endcan
                 {{-- Quản lý phiếu nhập xuất --}}
-                {{-- <li class="nav-item">
-                    <a href="/" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('*note*') ? 'menu-is-opening menu-open' : '' }}">
+                    <a href="/" class="nav-link {{ Request::is('*note*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file-invoice"></i>
                         <p>
-                        Phiếu bàn giao
+                            Quản lý nhập xuất
                         <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/" class="nav-link {{ Request::is('assets*') ? 'active' : '' }}">
+                            <a href={{route('receipt-note.index')}} class="nav-link {{ Request::is('*note*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Phiếu bàn giao</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/" class="nav-link {{ Request::is('assets/edit*') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Phiếu nhập</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/" class="nav-link {{ Request::is('assets/details*') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Chi tiết phiếu</p>
+                                <p>Quản lý nhập xuất</p>
                             </a>
                         </li>
                     </ul>
-                </li> --}}
+                </li>
                 {{-- Phần menu cho phòng ban --}}
                 @can('view_department', App\Models\User::class)
                     <li class="nav-item">

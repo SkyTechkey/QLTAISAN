@@ -4,7 +4,10 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssetsDetailsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\DeliveryNoteController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DetailDeliveryNoteController;
+use App\Http\Controllers\DetailReceiptNoteController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
@@ -13,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProvideController;
 use App\Http\Controllers\PropertyGroupController;
 use App\Http\Controllers\PropertyTypeController;
+use App\Http\Controllers\ReceiptNoteController;
 use App\Http\Controllers\RepairCostController;
 
 // kiểm tra đăng nhập
@@ -113,6 +117,9 @@ Route::prefix('assets')->middleware(['auth'])->group(function () {
     Route::post('/', [AssetController::class,'store'])
     ->middleware(['permission:create_assets'])
     ->name('assets.store');
+    Route::post('/create', [AssetController::class,'create'])
+    ->middleware(['permission:create_assets'])
+    ->name('assets.create');
     Route::put('/{id}', [AssetController::class,'update'])
     ->middleware(['permission:update_assets'])
     ->name('assets.update');
@@ -120,7 +127,7 @@ Route::prefix('assets')->middleware(['auth'])->group(function () {
     ->middleware(['permission:delete_assets'])
     ->name('assets.destroy');
 });
- // Xử lý chi tiết tài sản
+// Xử lý chi tiết tài sản
 Route::prefix('assets-detail')->middleware(['auth'])->group(function () {
     Route::get('/', [AssetsDetailsController::class,'index'])
     ->middleware(['permission:view_assets'])
@@ -138,9 +145,8 @@ Route::prefix('assets-detail')->middleware(['auth'])->group(function () {
     ->middleware(['permission:delete_assets'])
     ->name('assets-detail.destroy');
 });
-
+// Xử lý sửa chữa bảo dưỡng
 Route::prefix('repair-fee')->middleware(['auth'])->group(function () {
-    // Xử lý sửa chữa bảo dưỡng
     Route::get('/', [RepairCostController::class,'index'])
     ->middleware(['permission:view_assets'])
     ->name('assets-repair.index');
@@ -157,15 +163,82 @@ Route::prefix('repair-fee')->middleware(['auth'])->group(function () {
     ->middleware(['permission:delete_assets'])
     ->name('assets-repair.destroy');   
 });
-// Route::resource('/assets-details', AssetsDetailsController::class);
-// Route::resource('/repair-cost', RepairCostController::class);
 
-// 
+// Xử lý phiếu nhập
+Route::prefix('receipt-note')->middleware(['auth'])->group(function () {
+    Route::get('/', [ReceiptNoteController::class,'index'])
+    ->middleware(['permission:view_assets'])
+    ->name('receipt-note.index');
+    Route::get('/{id}', [ReceiptNoteController::class,'show'])
+    ->middleware(['permission:view_assets'])
+    ->name('receipt-note.show');
+    Route::post('/', [ReceiptNoteController::class,'store'])
+    ->middleware(['permission:create_assets'])
+    ->name('receipt-note.store');
+    Route::put('/{id}', [ReceiptNoteController::class,'update'])
+    ->middleware(['permission:update_assets'])
+    ->name('receipt-note.update');
+    Route::delete('//{id}', [ReceiptNoteController::class,'destroy'])
+    ->middleware(['permission:delete_assets'])
+    ->name('receipt-note.destroy');   
+});
+// Xử lý phiếu xuất
+Route::prefix('delivery-note')->middleware(['auth'])->group(function () {
+    Route::get('/', [DeliveryNoteController::class,'index'])
+    ->middleware(['permission:view_assets'])
+    ->name('delivery-note.index');
+    Route::get('/{id}', [DeliveryNoteController::class,'show'])
+    ->middleware(['permission:view_assets'])
+    ->name('delivery-note.show');
+    Route::post('/', [DeliveryNoteController::class,'store'])
+    ->middleware(['permission:create_assets'])
+    ->name('delivery-note.store');
+    Route::put('/{id}', [DeliveryNoteController::class,'update'])
+    ->middleware(['permission:update_assets'])
+    ->name('delivery-note.update');
+    Route::delete('//{id}', [DeliveryNoteController::class,'destroy'])
+    ->middleware(['permission:delete_assets'])
+    ->name('delivery-note.destroy');   
+});
+// Xử lý chi tiết phiếu nhập
+Route::prefix('detail-receipt-note')->middleware(['auth'])->group(function () {
+    Route::get('/', [DetailReceiptNoteController::class,'index'])
+    ->middleware(['permission:view_assets'])
+    ->name('detail-receipt-note.index');
+    Route::get('/{id}', [DetailReceiptNoteController::class,'show'])
+    ->middleware(['permission:view_assets'])
+    ->name('detail-receipt-note.show');
+    Route::post('/', [DetailReceiptNoteController::class,'store'])
+    ->middleware(['permission:create_assets'])
+    ->name('detail-receipt-note.store');
+    Route::put('/{id}', [DetailReceiptNoteController::class,'update'])
+    ->middleware(['permission:update_assets'])
+    ->name('detail-receipt-note.update');
+    Route::delete('//{id}', [DetailReceiptNoteController::class,'destroy'])
+    ->middleware(['permission:delete_assets'])
+    ->name('detail-receipt-note.destroy');   
+});
+// Xử lý chi tiết phiếu xuất
+Route::prefix('detail-delivery-note')->middleware(['auth'])->group(function () {
+    Route::get('/', [DetailDeliveryNoteController::class,'index'])
+    ->middleware(['permission:view_assets'])
+    ->name('detail-delivery-note.index');
+    Route::get('/{id}', [DetailDeliveryNoteController::class,'show'])
+    ->middleware(['permission:view_assets'])
+    ->name('detail-delivery-note.show');
+    Route::post('/', [DetailDeliveryNoteController::class,'store'])
+    ->middleware(['permission:create_assets'])
+    ->name('detail-delivery-note.store');
+    Route::put('/{id}', [DetailDeliveryNoteController::class,'update'])
+    ->middleware(['permission:update_assets'])
+    ->name('detail-delivery-note.update');
+    Route::delete('//{id}', [DetailDeliveryNoteController::class,'destroy'])
+    ->middleware(['permission:delete_assets'])
+    ->name('detail-delivery-note.destroy');   
+});
+
 Route::get('/get-department/{id}', [DepartmentController::class, 'getDepartments']);
 Route::get('/get-user/{id}', [UserController::class, 'getUsers']);
-Route::get('/test', function() {
-    return view('asset_details.create');
-});
 
 // 
 

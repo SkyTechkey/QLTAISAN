@@ -33,4 +33,12 @@ class Asset extends Model
     {
         return $this->hasMany(Assets_details::class);
     }
+    public function receipt_detail()
+    {
+        return $this->hasMany(Detail_receipt_note::class);
+    }
+    public function delivery_detail()
+    {
+        return $this->hasMany(Detail_delivery_note::class);
+    }
 }

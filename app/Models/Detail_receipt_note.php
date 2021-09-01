@@ -11,4 +11,12 @@ class Detail_receipt_note extends Model
     protected $table = 'detail_receipt_notes';
     protected $primary_key = 'id';
     public $timestamps = false;
+    public function receipt_note()
+    {
+        return $this->belongsTo('App\Models\Receipt_note');
+    }
+    public function asset()
+    {
+        return $this->belongsTo('App\Models\Asset');
+    }
 }

@@ -251,5 +251,105 @@ class DatabaseSeeder extends Seeder
                 ],
         ]);
     //   }
+            DB::table('receipt_notes')->insert([
+                [
+                    'code'=>'note1',
+                    'deliver'=>'Nguyễn Quân',
+                    'position'=>'quản lý kho',
+                    'location'=>'Đà nẵng',
+                    'user_id' => 1,
+                    'date'=> "2021-01-01",
+                    'note' => 'đây là ghi chú'                        
+                ],
+            ]);
+            DB::table('delivery_notes')->insert([
+                [
+                    'code'=>'note1',
+                    'receiver'=>'Đình Kha',
+                    'position'=>'quản lý kho',
+                    'location'=>'Đà nẵng',
+                    'user_id' => 2,
+                    'date'=> "2021-01-01",
+                    'note' => 'đây là ghi chú'                        
+                ],
+        ]);
+        DB::table('assets_details')->insert([
+            [
+                'asset_id'=> 1,
+                'accessory_name'=>'thành phần 1',
+                'value'=>1000000,
+                'tech_info'=>'kĩ thuật cao',                     
+            ],
+            [
+                'asset_id'=> 1,
+                'accessory_name'=>'thành phần 2',
+                'value'=>2000000,
+                'tech_info'=>'kĩ thuật cao',                     
+            ],
+            [
+                'asset_id'=> 1,
+                'accessory_name'=>'thành phần 3',
+                'value'=>3000000,
+                'tech_info'=>'kĩ thuật cao',                     
+            ],
+        ]);
+
+        DB::table('repair_costs')->insert([
+            [
+                'asset_id'=> 1,
+                'provide_id'=> 1,
+                'cost'=>1000000,
+                'date'=>"2021-01-01",
+                'details'=>'sửa thành phần 2',                     
+            ],
+            [
+                'asset_id'=> 1,
+                'provide_id'=> 1,
+                'cost'=>330000,
+                'date'=>"2021-01-01",
+                'details'=>'sửa thành phần 1',                     
+            ],
+            [
+                'asset_id'=> 1,
+                'provide_id'=> 1,
+                'cost'=>200000,
+                'date'=>"2021-01-01",
+                'details'=>'sửa thành phần 3',                     
+            ],
+        ]);
+        DB::table('detail_delivery_notes')->insert([
+            [
+                'asset_id'=> 1,
+                'PX_id'=>1,
+                'amount'=> 1,
+                'unit_price'=>1000000,
+                'total'=>1000000,                   
+            ],
+            [
+                'asset_id'=> 1,
+                'PX_id'=>1,
+                'amount'=> 2,
+                'unit_price'=>1000000,
+                'total'=>2000000,                   
+            ],
+           
+        ]);
+        DB::table('detail_receipt_notes')->insert([
+            [
+                'asset_id'=> 1,
+                'PN_id'=>1,
+                'amount'=> 1,
+                'unit_price'=>1000000,
+                'total'=>1000000,                   
+            ],
+            [
+                'asset_id'=> 1,
+                'PN_id'=>1,
+                'amount'=> 2,
+                'unit_price'=>1000000,
+                'total'=>2000000,                   
+            ],
+           
+        ]);
     }
 }

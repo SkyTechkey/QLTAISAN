@@ -31,9 +31,20 @@ class AssetController extends Controller
             $departments = Department::all();
             return view('assets.index',compact('assets','provides','property_types','property_groups','departments'));
     }
+    public function create(Request $request)
+    {  
+       
+        $detail_id = $request -> detail_id;
+        $detail_type = $request -> detail_type;
+        $assets = Asset::all();
+        $provides = Provide::all();
+        $property_types = Property_type::all();
+        $property_groups = Property_group::all();
+        $departments = Department::all();
+        return view('assets.create',compact('detail_id','detail_type','assets','provides','property_types','property_groups','departments'));
+    }
     public function store(Request $request)
     {
-      
         $request->validate([
             'name' => 'required|max:255',
             'code' => 'required|max:10|unique:assets',
@@ -58,10 +69,19 @@ class AssetController extends Controller
         $assets->note = $request -> note;
         $save = $assets->save();
         if($save){
-            $id_assets = Asset::orderBy('id', 'desc')->first()->id;
-            Session::put('id_assets', $id_assets);
-            return redirect()->route('assets-details.create')
-            ->with('success', 'New Asset has been successfuly added to database');
+            if($request -> detail_type == "receipt"){
+                return redirect()->route('detail-receipt-note.show',$request->detail_id);
+            }
+            else if($request -> detail_type == "delivery"){
+                return redirect()->route('detail-delivery-note.show',$request->detail_id);
+            }
+            else{
+                $id_assets = Asset::orderBy('id', 'desc')->first()->id;
+                Session::put('id_assets', $id_assets);
+                return redirect()->route('assets-details.create')
+                ->with('success', 'New Asset has been successfuly added to database');
+            }
+           
         }else{
             return redirect()->route('assets.index')->with('fail','Something went wrong, try again!');
         }

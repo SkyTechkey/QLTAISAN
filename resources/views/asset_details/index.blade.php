@@ -90,16 +90,7 @@
                                            href="#custom-tabs-three-home"
                                            role="tab"
                                            aria-controls="custom-tabs-three-home"
-                                           aria-selected="true">Tài sản</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link"
-                                           id="custom-tabs-three-profile-tab"
-                                           data-toggle="pill"
-                                           href="#custom-tabs-three-profile"
-                                           role="tab"
-                                           aria-controls="custom-tabs-three-profile"
-                                           aria-selected="false">Phiếu</a>
+                                           aria-selected="true">Chi tiết Tài sản</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link"

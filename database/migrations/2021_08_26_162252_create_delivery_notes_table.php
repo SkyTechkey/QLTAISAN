@@ -19,11 +19,11 @@ class CreateDeliveryNotesTable extends Migration
             $table->string('receiver')->nullable();
             $table->string('position')->nullable();
             $table->string('location')->nullable();
-            $table->integer('id_user')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->date('date')->nullable();
             $table->text('note')->nullable();
 
-            $table->foreign('id_user')
+            $table->foreign('user_id')
             ->references('id')
             ->on('users')
             ->onUpdate('cascade')

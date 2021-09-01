@@ -162,7 +162,7 @@
                                         <th>Nhà cung cấp</th>
                                         <th>Chi phí (nghìn vnđ)</th>
                                         <th>Chi tiết</th>
-                                        {{-- <th>Chức năng</th> --}}
+                                        <th>Chức năng</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbl_assets">

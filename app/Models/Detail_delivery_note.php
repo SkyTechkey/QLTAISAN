@@ -11,4 +11,12 @@ class Detail_delivery_note extends Model
     protected $table = 'detail_delivery_notes';
     protected $primary_key = 'id';
     public $timestamps = false;
+    public function delivery_note()
+    {
+        return $this->belongsTo('App\Models\Delivery_note');
+    }
+    public function asset()
+    {
+        return $this->belongsTo('App\Models\Asset');
+    }
 }

@@ -11,20 +11,20 @@ class CreateDetailReceiptNotesTable extends Migration
     {
         Schema::create('detail_receipt_notes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('id_PN')->unsigned();
-            $table->bigInteger('id_asset')->unsigned();
+            $table->bigInteger('PN_id')->unsigned();
+            $table->bigInteger('asset_id')->unsigned();
             $table->bigInteger('amount');
             $table->bigInteger('unit_price');
-            $table->decimal('total');
+            $table->decimal('total',19,2);
             $table->text('note')->nullable();
 
-            $table->foreign('id_PN')
+            $table->foreign('PN_id')
             ->references('id')
             ->on('receipt_notes')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
-            $table->foreign('id_asset')
+            $table->foreign('asset_id')
             ->references('id')
             ->on('assets')
             ->onUpdate('cascade')
